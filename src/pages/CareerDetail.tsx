@@ -111,7 +111,7 @@ const careersData = {
 export default function CareerDetail() {
   const { id } = useParams<{ id: string }>();
   
-  // Si no tenemos data para esta carrera (ej: si entra a /carrera/datos), mostramos un placeholder genérico
+  // Si no tenemos data para esta carrera, mostramos un placeholder genérico
   const data = id && careersData[id as keyof typeof careersData] 
     ? careersData[id as keyof typeof careersData] 
     : {
@@ -125,6 +125,10 @@ export default function CareerDetail() {
         planUrl: "#",
         subjects: []
       };
+
+  React.useEffect(() => {
+    document.title = `${data.title} | Centro Regional Chivilcoy - UNLu`;
+  }, [data.title]);
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white font-sans selection:bg-primary/30">
