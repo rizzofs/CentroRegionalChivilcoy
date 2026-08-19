@@ -86,11 +86,11 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-zinc-100 text-center">
             <div className="px-4">
               <div className="text-4xl font-bold text-primary mb-2">6</div>
-              <div className="text-sm font-medium text-zinc-500 uppercase tracking-wide">Carreras Activas</div>
+              <div className="text-sm font-medium text-zinc-500 uppercase tracking-wide">Carreras Actuales</div>
             </div>
             <div className="px-4">
               <div className="text-4xl font-bold text-primary mb-2">A Confirmar</div>
-              <div className="text-sm font-medium text-zinc-500 uppercase tracking-wide">Estudiantes</div>
+              <div className="text-sm font-medium text-zinc-500 uppercase tracking-wide">Estudiantes Regulares</div>
             </div>
             <div className="px-4">
               <div className="text-4xl font-bold text-primary mb-2">1</div>
@@ -160,7 +160,10 @@ export default function Home() {
 
           <div className="mb-12 bg-zinc-900 rounded-2xl p-8 text-center max-w-2xl mx-auto border border-zinc-800 shadow-xl">
             <h3 className="text-zinc-400 text-sm uppercase tracking-wider font-semibold mb-2">Director del Centro Regional</h3>
-            <p className="text-2xl font-bold text-white">Jorge Guelffi</p>
+            <p className="text-2xl font-bold text-white mb-6">Lic. Jorge Guelffi</p>
+            
+            <h3 className="text-zinc-400 text-sm uppercase tracking-wider font-semibold mb-2">Director Administrativo</h3>
+            <p className="text-2xl font-bold text-white">Maximiliano Lucci</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -179,9 +182,9 @@ export default function Home() {
             <div className="bg-zinc-50 rounded-xl p-6 border border-zinc-200">
               <h3 className="font-bold text-zinc-900 mb-4 text-lg border-b border-zinc-200 pb-2">Departamento Administrativo</h3>
               <ul className="space-y-3 text-sm text-zinc-600">
-                <li><strong className="text-zinc-900">Jefe:</strong><br />Maximiliano Lucci</li>
-                <li><strong className="text-zinc-900">Interno:</strong> 3314</li>
-                <li><strong className="text-zinc-900">Email:</strong><br /><a href="mailto:mlucci@unlu.edu.ar" className="text-primary hover:underline">mlucci@unlu.edu.ar</a></li>
+                <li><strong className="text-zinc-900">SUEP:</strong><br />Alberto Sergio Raele</li>
+                <li><strong className="text-zinc-900">Atención:</strong><br />Lorena Pissaco</li>
+                <li><strong className="text-zinc-900">Interno:</strong> 1787</li>
               </ul>
             </div>
 
@@ -189,10 +192,8 @@ export default function Home() {
             <div className="bg-zinc-50 rounded-xl p-6 border border-zinc-200">
               <h3 className="font-bold text-zinc-900 mb-4 text-lg border-b border-zinc-200 pb-2">Biblioteca</h3>
               <ul className="space-y-3 text-sm text-zinc-600">
-                <li><strong className="text-zinc-900">Responsable:</strong><br />Maria Alejandra Canepa</li>
                 <li><strong className="text-zinc-900">Horario:</strong><br />Lun. a Vie. 14:00 a 21:00 hs.</li>
                 <li><strong className="text-zinc-900">Interno:</strong> 3303</li>
-                <li><strong className="text-zinc-900">Email:</strong><br /><a href="mailto:mcanepa@unlu.edu.ar" className="text-primary hover:underline">mcanepa@unlu.edu.ar</a></li>
               </ul>
             </div>
 
@@ -365,13 +366,38 @@ export default function Home() {
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
             ¿Querés ser parte de la UNLu en Chivilcoy?
           </h2>
-          <p className="text-green-100 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
-            Mantenete informado sobre las fechas de inscripción, requisitos de ingreso y charlas informativas para futuros estudiantes.
-          </p>
-          <a href="https://www.unlu.edu.ar/inscripcion-periodo.html" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl text-primary bg-white hover:bg-zinc-100 transition-colors shadow-xl hover:shadow-2xl transform hover:-translate-y-1 cursor-pointer">
-            Requisitos de Ingreso
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </a>
+          <div className="text-left bg-white/10 rounded-2xl p-6 sm:p-10 mb-8 text-white max-w-4xl mx-auto border border-white/20 shadow-xl">
+            <h3 className="text-2xl font-bold mb-4 text-white">Requisitos Generales</h3>
+            <ul className="list-disc list-inside space-y-2 mb-8 text-green-50 text-lg">
+              <li>Realizar la preinscripción web</li>
+              <li>Cumplir con la entrega o envío digital de todos los requisitos documentarios</li>
+            </ul>
+
+            <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">Requisitos documentarios y condiciones de admisión</h3>
+            <p className="text-green-50 mb-4 text-lg">Para formalizar la preinscripción para el ingreso a la Universidad, los aspirantes deberán haber cumplido con el envío de los siguientes requisitos documentarios:</p>
+            <ul className="list-disc list-inside space-y-3 mb-6 text-green-50 text-lg">
+              <li>DNI vigente o páginas identificatorias del pasaporte en caso de extranjeros.</li>
+              <li>
+                Acreditación de estudios del nivel anterior:
+                <ul className="list-[circle] list-inside ml-6 sm:ml-8 mt-2 space-y-2 text-base">
+                  <li>Título (*) o;</li>
+                  <li>Constancia de título en trámite o;</li>
+                  <li>Constancia que acredite su condición de estudiante regular del último año del nivel educativo correspondiente, en establecimientos reconocidos por la autoridad educativa gubernamental competente en cada jurisdicción.</li>
+                </ul>
+              </li>
+            </ul>
+            <p className="text-sm text-green-100 mb-4">(*) Egresados hasta 2009 el título deberá estar legalizado por el Ministerio del Interior (solicitar turno en <a href="https://www.argentina.gob.ar/interior" target="_blank" rel="noopener noreferrer" className="underline hover:text-white font-medium">www.argentina.gob.ar/interior</a>)</p>
+            <div className="bg-white/10 p-4 rounded-xl border border-white/20 mb-8">
+              <p className="text-sm text-white font-semibold">En todos los casos la constancia deberá contar con el número de CUE (Código Único del Establecimiento educativo que extendió la constancia)</p>
+            </div>
+            
+            <div className="text-center mt-2">
+              <a href="https://www.unlu.edu.ar/inscripcion-requis.html" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl text-primary bg-white hover:bg-zinc-100 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                Más Info
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 

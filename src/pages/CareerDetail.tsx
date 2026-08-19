@@ -210,7 +210,7 @@ export default function CareerDetail() {
                 <div>
                   <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                     <FileText className="h-6 w-6 text-primary" />
-                    Plan de Estudios Resumido
+                    Plan de Estudios
                   </h2>
                   <div className="space-y-4">
                     {data.subjects.map((year, idx) => (
