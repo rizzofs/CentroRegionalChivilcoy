@@ -169,7 +169,7 @@ export default function Home() {
               <h3 className="font-bold text-zinc-900 mb-4 text-lg border-b border-zinc-200 pb-2">Administración de Servicios Académicos</h3>
               <ul className="space-y-3 text-sm text-zinc-600">
                 <li><strong className="text-zinc-900">Jefe:</strong><br />C.P.N. María Luján Cialdo</li>
-                <li><strong className="text-zinc-900">Atención:</strong><br />A.S. Adolfo Ortiz, Ariadna Canepa</li>
+                <li><strong className="text-zinc-900">Atención:</strong><br />Ariadna Canepa</li>
                 <li><strong className="text-zinc-900">Internos:</strong> 3301 - 3302</li>
                 <li><strong className="text-zinc-900">Email:</strong><br /><a href="mailto:academicach@unlu.edu.ar" className="text-primary hover:underline">academicach@unlu.edu.ar</a></li>
               </ul>
