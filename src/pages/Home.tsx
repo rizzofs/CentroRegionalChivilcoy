@@ -85,7 +85,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-zinc-100 text-center">
             <div className="px-4">
-              <div className="text-4xl font-bold text-primary mb-2">7</div>
+              <div className="text-4xl font-bold text-primary mb-2">6</div>
               <div className="text-sm font-medium text-zinc-500 uppercase tracking-wide">Carreras Activas</div>
             </div>
             <div className="px-4">
