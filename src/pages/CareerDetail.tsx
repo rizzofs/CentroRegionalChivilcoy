@@ -1,6 +1,6 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Clock, BookOpen, GraduationCap, Building2, Calendar, FileText, Download } from 'lucide-react';
+import { ArrowLeft, BookOpen, GraduationCap, Building2, Calendar, FileText, Download } from 'lucide-react';
 
 // Esta data debería venir de una base de datos o un archivo de configuración, pero por ahora lo hardcodeamos para la prueba
 const careersData = {
@@ -126,7 +126,7 @@ export default function CareerDetail() {
         subjects: []
       };
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.title = `${data.title} | Centro Regional Chivilcoy - UNLu`;
   }, [data.title]);
 

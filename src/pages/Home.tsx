@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BookOpen, Users, MapPin, ChevronRight, GraduationCap, Building2, Mail, Phone, Clock, FileText, ArrowRight, Menu, X } from 'lucide-react';
+import { useState } from 'react';
+import { BookOpen, Users, MapPin, ChevronRight, Building2, Mail, Phone, Clock, FileText, ArrowRight, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
@@ -483,20 +483,6 @@ export default function Home() {
   );
 }
 
-function Card({ icon, title, description, link }: { icon: React.ReactNode, title: string, description: string, link: string }) {
-  return (
-    <div className="bg-white rounded-xl p-8 border border-zinc-200 shadow-sm hover:shadow-lg transition-all duration-300 group flex flex-col h-full cursor-pointer hover:-translate-y-1">
-      <div className="h-14 w-14 rounded-xl bg-green-50 border border-green-100 flex items-center justify-center mb-6">
-        {icon}
-      </div>
-      <h3 className="text-xl font-bold text-zinc-900 mb-3">{title}</h3>
-      <p className="text-zinc-500 mb-8 flex-grow leading-relaxed">{description}</p>
-      <div className="mt-auto flex items-center text-primary font-semibold text-sm">
-        {link}
-        <ChevronRight className="ml-1 h-4 w-4 group-hover:translate-x-1.5 transition-transform" />
-      </div>
-    </div>
-  );
-}
+
 
 
