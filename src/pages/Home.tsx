@@ -465,9 +465,8 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-12">
             {/* 1. Institucional UNLu */}
             <div className="col-span-1 lg:col-span-1">
-              <div className="flex items-center gap-3 mb-6 text-white">
+              <div className="mb-6">
                 <img src="/UNLU.svg" alt="Logo UNLu" className="h-10 w-auto" />
-                <span className="font-bold text-xl tracking-tight">UNLu</span>
               </div>
               <div className="text-sm leading-relaxed mb-6 space-y-4">
                 <div>
