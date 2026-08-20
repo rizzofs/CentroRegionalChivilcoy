@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BookOpen, Users, MapPin, ChevronRight, Building2, Mail, Phone, Clock, FileText, ArrowRight, Menu, X } from 'lucide-react';
+import { BookOpen, Users, MapPin, ChevronRight, Building2, Mail, Phone, Clock, FileText, ArrowRight, Menu, X, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
@@ -7,15 +7,39 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-zinc-900 font-sans">
+      {/* Super Header Institucional */}
+      <div className="bg-zinc-900 text-zinc-300 py-1.5 text-xs hidden sm:block">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+          <div className="flex items-center gap-4 font-medium">
+            <a href="https://www.unlu.edu.ar/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Portal UNLu</a>
+            <a href="https://rectorado.unlu.edu.ar/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Rectorado</a>
+          </div>
+          <div className="flex items-center gap-4">
+            <a href="https://webmail.unlu.edu.ar" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Webmail</a>
+            <a href="https://www.unlu.edu.ar/acceso-aulas-virtuales.html" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Aulas Virtuales</a>
+            <a href="https://www.biblioteca.unlu.edu.ar/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Biblioteca</a>
+          </div>
+        </div>
+      </div>
+
       {/* Header (Navegación) */}
       <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-zinc-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
-            <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <img src="/escudo.svg" alt="Escudo UNLu" className="h-12 w-auto" />
-              <div className="flex flex-col">
-                <span className="font-bold text-lg leading-tight tracking-tight text-zinc-900">Centro Regional Chivilcoy</span>
-                <span className="text-xs text-zinc-500 font-medium">Universidad Nacional de Luján</span>
+            <div className="flex items-center gap-4 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <div className="flex items-center gap-3">
+                <img src="/escudo.svg" alt="UNLu" className="h-12 sm:h-14 w-auto" />
+                <div className="hidden lg:flex flex-col">
+                  <span className="font-bold text-sm leading-tight text-zinc-900 uppercase tracking-wide">Universidad</span>
+                  <span className="font-bold text-sm leading-tight text-zinc-900 uppercase tracking-wide">Nacional de Luján</span>
+                </div>
+              </div>
+              
+              <div className="h-10 w-px bg-zinc-300 hidden sm:block"></div>
+              
+              <div className="flex flex-col justify-center">
+                <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Centro Regional</span>
+                <span className="font-bold text-lg sm:text-xl leading-tight text-zinc-900">Chivilcoy</span>
               </div>
             </div>
             <div className="hidden md:flex items-center space-x-8">
@@ -438,39 +462,61 @@ export default function Home() {
       {/* Footer (Pie de página) */}
       <footer id="contacto" className="bg-zinc-900 text-zinc-400 py-16 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-            <div className="col-span-1 md:col-span-1">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-12">
+            {/* 1. Institucional UNLu */}
+            <div className="col-span-1 lg:col-span-1">
               <div className="flex items-center gap-3 mb-6 text-white">
                 <img src="/UNLU.svg" alt="Logo UNLu" className="h-10 w-auto" />
-                <span className="font-bold text-xl tracking-tight">UNLu Chivilcoy</span>
+                <span className="font-bold text-xl tracking-tight">UNLu</span>
               </div>
-              <p className="text-sm leading-relaxed mb-6">
-                Universidad Nacional de Luján.<br />
-                Centro Regional Chivilcoy.<br />
-                Educación pública, gratuita y de calidad.
-              </p>
+              <div className="text-sm leading-relaxed mb-6 space-y-4">
+                <div>
+                  <p className="text-zinc-400 font-medium uppercase tracking-wider text-xs mb-1">Rector</p>
+                  <p className="text-white">Walter Fabián Panessi</p>
+                  <a href="mailto:rector@mail.unlu.edu.ar" className="hover:text-white transition-colors block mt-0.5">rector@mail.unlu.edu.ar</a>
+                </div>
+                <div>
+                  <p className="text-zinc-400 font-medium uppercase tracking-wider text-xs mb-1">Vicerrector</p>
+                  <p className="text-white">Miguel Ángel Nuñez</p>
+                  <a href="mailto:vcrector@mail.unlu.edu.ar" className="hover:text-white transition-colors block mt-0.5">vcrector@mail.unlu.edu.ar</a>
+                </div>
+              </div>
             </div>
             
+            {/* 2. Sede Central Contacto */}
             <div>
-              <h3 className="text-white font-semibold mb-4 uppercase text-sm tracking-wider">Secciones</h3>
-              <ul className="space-y-3 text-sm">
-                <li><a href="#institucion" className="hover:text-white transition-colors">La Institución</a></li>
-                <li><a href="#oferta" className="hover:text-white transition-colors">Oferta Académica</a></li>
-                <li><a href="#contacto" className="hover:text-white transition-colors">Contacto</a></li>
+              <h3 className="text-white font-semibold mb-4 uppercase text-sm tracking-wider">Sede Central (Luján)</h3>
+              <ul className="space-y-4 text-sm">
+                <li className="flex items-start">
+                  <Globe className="h-5 w-5 mr-3 text-zinc-500 shrink-0" />
+                  <a href="https://rectorado.unlu.edu.ar" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors break-all">rectorado.unlu.edu.ar</a>
+                </li>
+                <li className="flex items-start">
+                  <Mail className="h-5 w-5 mr-3 text-zinc-500 shrink-0" />
+                  <a href="mailto:sprivada@unlu.edu.ar" className="hover:text-white transition-colors block">sprivada@unlu.edu.ar</a>
+                </li>
+                <li className="flex items-start">
+                  <Phone className="h-5 w-5 mr-3 text-zinc-500 shrink-0" />
+                  <span>+54 (02323) 445100</span>
+                </li>
               </ul>
             </div>
 
+            {/* 3. Enlaces Útiles y Secciones */}
             <div>
               <h3 className="text-white font-semibold mb-4 uppercase text-sm tracking-wider">Enlaces Útiles</h3>
-              <ul className="space-y-3 text-sm">
+              <ul className="space-y-3 text-sm mb-6">
+                <li><a href="#institucion" className="hover:text-white transition-colors">La Institución</a></li>
+                <li><a href="#oferta" className="hover:text-white transition-colors">Oferta Académica</a></li>
                 <li><a href="https://www.unlu.edu.ar/calendario.html" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Calendario Académico</a></li>
                 <li><a href="https://www.biblioteca.unlu.edu.ar/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Biblioteca</a></li>
-                <li><a href="https://becas.unlu.edu.ar/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Becas</a></li>
+                <li><a href="https://becas.unlu.edu.ar/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Becas UNLu</a></li>
               </ul>
             </div>
 
+            {/* 4. Sede Chivilcoy Contacto */}
             <div>
-              <h3 className="text-white font-semibold mb-4 uppercase text-sm tracking-wider">Contacto y Atención</h3>
+              <h3 className="text-white font-semibold mb-4 uppercase text-sm tracking-wider">Sede Chivilcoy</h3>
               <ul className="space-y-4 text-sm">
                 <li className="flex items-start">
                   <MapPin className="h-5 w-5 mr-3 text-zinc-500 shrink-0" />
