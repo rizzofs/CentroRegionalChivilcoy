@@ -45,6 +45,7 @@ export default function Home() {
             <div className="hidden md:flex items-center space-x-8">
               <a href="#institucion" className="text-sm font-medium text-zinc-600 hover:text-primary transition-colors">La Institución</a>
               <a href="#oferta" className="text-sm font-medium text-zinc-600 hover:text-primary transition-colors">Oferta Académica</a>
+              <Link to="/vida-universitaria" className="text-sm font-medium text-zinc-600 hover:text-primary transition-colors">Vida Universitaria</Link>
               <a href="#contacto" className="text-sm font-medium text-zinc-600 hover:text-primary transition-colors">Contacto</a>
             </div>
             <div className="md:hidden">
@@ -64,6 +65,7 @@ export default function Home() {
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <a href="#institucion" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-zinc-600 hover:text-primary hover:bg-zinc-50 rounded-md">La Institución</a>
               <a href="#oferta" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-zinc-600 hover:text-primary hover:bg-zinc-50 rounded-md">Oferta Académica</a>
+              <Link to="/vida-universitaria" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-zinc-600 hover:text-primary hover:bg-zinc-50 rounded-md">Vida Universitaria</Link>
               <a href="#contacto" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-zinc-600 hover:text-primary hover:bg-zinc-50 rounded-md">Contacto</a>
             </div>
           </div>
@@ -92,13 +94,17 @@ export default function Home() {
           <p className="text-lg sm:text-xl text-zinc-200 mb-10 leading-relaxed max-w-2xl mx-auto font-light">
             Centro Regional Chivilcoy. Acercando la Universidad Nacional de Luján a tu ciudad con carreras de pregrado, grado y posgrado.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 flex-wrap">
             <a href="#oferta" className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-semibold rounded-lg text-white bg-primary hover:bg-green-800 transition-colors shadow-lg">
               Conocer Oferta Académica
               <ChevronRight className="ml-2 h-5 w-5" />
             </a>
             <a href="https://www.unlu.edu.ar/inscripcion-periodo.html" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-6 py-3 border-2 border-white/30 text-base font-semibold rounded-lg text-white bg-transparent hover:bg-white/10 transition-colors backdrop-blur-sm">
               Ingreso 2027
+            </a>
+            <a href="https://wa.me/5492323208888" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-bold rounded-lg text-white bg-green-600 hover:bg-green-700 transition-all shadow-lg hover:shadow-xl hover:scale-105">
+              <img src="/fotos/logo%20whatsapp.jpg" alt="WhatsApp" className="mr-2 h-6 w-6 rounded-full object-cover" />
+              Consultas
             </a>
           </div>
         </div>
@@ -118,7 +124,7 @@ export default function Home() {
             </div>
             <div className="px-4">
               <div className="text-4xl font-bold text-primary mb-2">1</div>
-              <div className="text-sm font-medium text-zinc-500 uppercase tracking-wide">Laboratorio de Informática</div>
+              <div className="text-sm font-medium text-zinc-500 uppercase tracking-wide">Laboratorio</div>
             </div>
             <div className="px-4">
               <div className="text-4xl font-bold text-primary mb-2">1974</div>
@@ -196,7 +202,7 @@ export default function Home() {
               <h3 className="font-bold text-zinc-900 mb-4 text-lg border-b border-zinc-200 pb-2">Administración de Servicios Académicos</h3>
               <ul className="space-y-3 text-sm text-zinc-600">
                 <li><strong className="text-zinc-900">Jefe:</strong><br />C.P.N. María Luján Cialdo</li>
-                <li><strong className="text-zinc-900">Atención:</strong><br />Ariadna Canepa</li>
+                <li><strong className="text-zinc-900">Atención:</strong><br />Lic. Ariadna Canepa</li>
                 <li><strong className="text-zinc-900">Internos:</strong> 3301 - 3302</li>
                 <li><strong className="text-zinc-900">Email:</strong><br /><a href="mailto:academicach@unlu.edu.ar" className="text-primary hover:underline">academicach@unlu.edu.ar</a></li>
               </ul>
@@ -383,6 +389,102 @@ export default function Home() {
       </section>
 
 
+      {/* Testimonios (Prueba Social) */}
+      <section className="py-20 bg-zinc-50 border-t border-zinc-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-zinc-900 mb-4 tracking-tight">Voces de nuestros estudiantes</h2>
+            <p className="text-zinc-500 max-w-2xl mx-auto text-lg leading-relaxed">
+              Conocé la experiencia de quienes eligieron formarse en su ciudad.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
+              <p className="text-zinc-600 italic mb-6">"Pude recibirme de Contador Público sin tener que mudarme. Las instalaciones y el nivel académico son excelentes, y el trato es muy personalizado."</p>
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500 font-bold text-lg">M</div>
+                <div>
+                  <h4 className="font-bold text-zinc-900">Martín</h4>
+                  <p className="text-sm text-zinc-500">Graduado en Contador Público</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
+              <p className="text-zinc-600 italic mb-6">"Estudio la Licenciatura en Sistemas. Al principio no sabía si iba a poder porque trabajo, pero los horarios me permitieron acomodarme perfectamente."</p>
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500 font-bold text-lg">C</div>
+                <div>
+                  <h4 className="font-bold text-zinc-900">Carolina</h4>
+                  <p className="text-sm text-zinc-500">Estudiante de Sistemas</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
+              <p className="text-zinc-600 italic mb-6">"El ambiente en el Centro Regional es único. Todos nos conocemos, los profes siempre están dispuestos a ayudar y la biblioteca es mi lugar preferido para estudiar."</p>
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500 font-bold text-lg">L</div>
+                <div>
+                  <h4 className="font-bold text-zinc-900">Lucía</h4>
+                  <p className="text-sm text-zinc-500">Estudiante de Trabajo Social</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ (Preguntas Frecuentes) */}
+      <section className="py-20 bg-white border-t border-zinc-200">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-zinc-900 mb-4 tracking-tight">Preguntas Frecuentes</h2>
+            <p className="text-zinc-500 text-lg">Todo lo que necesitás saber antes de inscribirte.</p>
+          </div>
+          <div className="space-y-4">
+            <details className="group border border-zinc-200 rounded-xl bg-zinc-50 [&_summary::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-zinc-900 font-semibold">
+                ¿La universidad es arancelada o gratuita?
+                <span className="shrink-0 rounded-full bg-white p-1.5 text-zinc-900 sm:p-3 shadow-sm border border-zinc-200 group-open:-rotate-180 transition-transform">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="size-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </span>
+              </summary>
+              <p className="px-6 pb-6 text-zinc-600 leading-relaxed">
+                La Universidad Nacional de Luján es pública y 100% gratuita. No se cobra matrícula ni cuota mensual para las carreras de grado y pregrado.
+              </p>
+            </details>
+
+            <details className="group border border-zinc-200 rounded-xl bg-zinc-50 [&_summary::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-zinc-900 font-semibold">
+                ¿Qué pasa si trabajo y quiero estudiar?
+                <span className="shrink-0 rounded-full bg-white p-1.5 text-zinc-900 sm:p-3 shadow-sm border border-zinc-200 group-open:-rotate-180 transition-transform">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="size-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </span>
+              </summary>
+              <p className="px-6 pb-6 text-zinc-600 leading-relaxed">
+                Nuestros horarios y comisiones están pensados para acompañar a quienes trabajan. Además, existen certificados de examen para que puedas presentar en tu empleo y justificar tu ausencia los días que debas rendir.
+              </p>
+            </details>
+
+            <details className="group border border-zinc-200 rounded-xl bg-zinc-50 [&_summary::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-zinc-900 font-semibold">
+                ¿Debo rendir examen de ingreso eliminatorio?
+                <span className="shrink-0 rounded-full bg-white p-1.5 text-zinc-900 sm:p-3 shadow-sm border border-zinc-200 group-open:-rotate-180 transition-transform">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="size-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </span>
+              </summary>
+              <p className="px-6 pb-6 text-zinc-600 leading-relaxed">
+                No, el ingreso es directo y no cuenta con exámenes eliminatorios. Somos una institución comprometida con el acceso irrestricto a la educación superior.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
 
       {/* Call to Action (Llamado a la acción final) */}
       <section className="py-20 bg-primary">
