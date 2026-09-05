@@ -256,8 +256,11 @@ export default function CareerDetail() {
       </section>
       
       {/* Footer Minimalista */}
-      <footer className="py-8 text-center text-zinc-600 text-sm border-t border-white/5 mt-20">
+      <footer className="py-8 text-center text-zinc-600 text-sm border-t border-white/5 mt-20 flex flex-col items-center gap-4">
         <p>Centro Regional Chivilcoy - Universidad Nacional de Luján</p>
+        <Link to="/dashboard" className="px-3 py-1.5 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white rounded-md transition-colors text-xs font-medium">
+          Acceso
+        </Link>
       </footer>
     </div>
   );

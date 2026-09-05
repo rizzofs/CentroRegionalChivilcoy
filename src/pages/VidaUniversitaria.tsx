@@ -48,7 +48,7 @@ export default function VidaUniversitaria() {
             <p className="text-zinc-600 mb-4 leading-relaxed">
               La UNLu cuenta con un sistema de becas para garantizar la igualdad de oportunidades. Podés acceder a becas de ayuda económica, becas de apuntes y de transporte para que nada frene tus estudios.
             </p>
-            <a href="https://www.unlu.edu.ar/becas.html" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold hover:underline inline-flex items-center">
+            <a href="https://becas.unlu.edu.ar/" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold hover:underline inline-flex items-center">
               Más información sobre becas <ArrowLeft className="ml-1 h-4 w-4 rotate-180" />
             </a>
           </div>
@@ -66,6 +66,9 @@ export default function VidaUniversitaria() {
               <li>• Catálogo online disponible</li>
               <li>• Sala de lectura silenciosa</li>
             </ul>
+            <a href="https://www.biblioteca.unlu.edu.ar/" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold hover:underline inline-flex items-center">
+              Ir a la Biblioteca <ArrowLeft className="ml-1 h-4 w-4 rotate-180" />
+            </a>
           </div>
 
           {/* Card Deportes */}

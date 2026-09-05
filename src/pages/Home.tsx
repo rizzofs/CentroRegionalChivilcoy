@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [testimonialTab, setTestimonialTab] = useState<'estudiantes' | 'docentes'>('estudiantes');
 
   return (
     <div className="min-h-screen bg-background text-zinc-900 font-sans">
@@ -389,47 +390,172 @@ export default function Home() {
       </section>
 
 
-      {/* Testimonios (Prueba Social) */}
+      {/* Testimonios (Prueba Social con Pestañas) */}
       <section className="py-20 bg-zinc-50 border-t border-zinc-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-zinc-900 mb-4 tracking-tight">Voces de nuestros estudiantes</h2>
-            <p className="text-zinc-500 max-w-2xl mx-auto text-lg leading-relaxed">
-              Conocé la experiencia de quienes eligieron formarse en su ciudad.
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-zinc-900 mb-4 tracking-tight">Voces de nuestra Comunidad</h2>
+            <p className="text-zinc-500 max-w-2xl mx-auto text-lg leading-relaxed mb-8">
+              Conocé la experiencia de quienes forman y dan vida al Centro Regional Chivilcoy.
             </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
-              <p className="text-zinc-600 italic mb-6">"Pude recibirme de Contador Público sin tener que mudarme. Las instalaciones y el nivel académico son excelentes, y el trato es muy personalizado."</p>
-              <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500 font-bold text-lg">M</div>
-                <div>
-                  <h4 className="font-bold text-zinc-900">Martín</h4>
-                  <p className="text-sm text-zinc-500">Graduado en Contador Público</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
-              <p className="text-zinc-600 italic mb-6">"Estudio la Licenciatura en Sistemas. Al principio no sabía si iba a poder porque trabajo, pero los horarios me permitieron acomodarme perfectamente."</p>
-              <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500 font-bold text-lg">C</div>
-                <div>
-                  <h4 className="font-bold text-zinc-900">Carolina</h4>
-                  <p className="text-sm text-zinc-500">Estudiante de Sistemas</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
-              <p className="text-zinc-600 italic mb-6">"El ambiente en el Centro Regional es único. Todos nos conocemos, los profes siempre están dispuestos a ayudar y la biblioteca es mi lugar preferido para estudiar."</p>
-              <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500 font-bold text-lg">L</div>
-                <div>
-                  <h4 className="font-bold text-zinc-900">Lucía</h4>
-                  <p className="text-sm text-zinc-500">Estudiante de Trabajo Social</p>
-                </div>
-              </div>
+
+            {/* Selector de Pestañas */}
+            <div className="inline-flex p-1.5 bg-zinc-200/80 rounded-xl">
+              <button
+                type="button"
+                onClick={() => setTestimonialTab('estudiantes')}
+                className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+                  testimonialTab === 'estudiantes'
+                    ? 'bg-white text-zinc-900 shadow-sm'
+                    : 'text-zinc-600 hover:text-zinc-900'
+                }`}
+              >
+                Estudiantes y Graduados
+              </button>
+              <button
+                type="button"
+                onClick={() => setTestimonialTab('docentes')}
+                className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+                  testimonialTab === 'docentes'
+                    ? 'bg-white text-primary shadow-sm'
+                    : 'text-zinc-600 hover:text-zinc-900'
+                }`}
+              >
+                Cuerpo Docente
+              </button>
             </div>
           </div>
+
+          {/* Testimonios Estudiantes */}
+          {testimonialTab === 'estudiantes' && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 transition-all">
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
+                <p className="text-zinc-600 italic mb-6">"Pude recibirme de Contador Público sin tener que mudarme. Las instalaciones y el nivel académico son excelentes, y el trato es muy personalizado."</p>
+                <div className="flex items-center gap-4">
+                  <div className="h-12 w-12 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500 font-bold text-lg">M</div>
+                  <div>
+                    <h4 className="font-bold text-zinc-900">Martín</h4>
+                    <p className="text-sm text-zinc-500">Graduado en Contador Público</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
+                <p className="text-zinc-600 italic mb-6">"Estudio la Licenciatura en Sistemas. Al principio no sabía si iba a poder porque trabajo, pero los horarios me permitieron acomodarme perfectamente."</p>
+                <div className="flex items-center gap-4">
+                  <div className="h-12 w-12 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500 font-bold text-lg">C</div>
+                  <div>
+                    <h4 className="font-bold text-zinc-900">Carolina</h4>
+                    <p className="text-sm text-zinc-500">Estudiante de Sistemas</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
+                <p className="text-zinc-600 italic mb-6">"El ambiente en el Centro Regional es único. Todos nos conocemos, los profes siempre están dispuestos a ayudar y la biblioteca es mi lugar preferido para estudiar."</p>
+                <div className="flex items-center gap-4">
+                  <div className="h-12 w-12 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500 font-bold text-lg">L</div>
+                  <div>
+                    <h4 className="font-bold text-zinc-900">Lucía</h4>
+                    <p className="text-sm text-zinc-500">Estudiante de Trabajo Social</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
+                <p className="text-zinc-600 italic mb-6">"Elegí la Licenciatura en Administración por su enfoque práctico y la posibilidad de emprender. Los docentes tienen mucha experiencia en el campo laboral real."</p>
+                <div className="flex items-center gap-4">
+                  <div className="h-12 w-12 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500 font-bold text-lg">J</div>
+                  <div>
+                    <h4 className="font-bold text-zinc-900">Juan</h4>
+                    <p className="text-sm text-zinc-500">Estudiante de Administración</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
+                <p className="text-zinc-600 italic mb-6">"La carrera de Enfermería superó mis expectativas. Realizamos prácticas desde los primeros años en centros de salud de la zona, lo cual te prepara muchísimo."</p>
+                <div className="flex items-center gap-4">
+                  <div className="h-12 w-12 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500 font-bold text-lg">C</div>
+                  <div>
+                    <h4 className="font-bold text-zinc-900">Camila</h4>
+                    <p className="text-sm text-zinc-500">Graduada en Enfermería</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
+                <p className="text-zinc-600 italic mb-6">"Poder estudiar Ciencias de Datos en mi ciudad es increíble. Es una carrera súper actual y la universidad nos brinda todas las herramientas necesarias para destacar en este nuevo rubro."</p>
+                <div className="flex items-center gap-4">
+                  <div className="h-12 w-12 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-500 font-bold text-lg">T</div>
+                  <div>
+                    <h4 className="font-bold text-zinc-900">Tomás</h4>
+                    <p className="text-sm text-zinc-500">Estudiante de Ciencias de Datos</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Testimonios Docentes */}
+          {testimonialTab === 'docentes' && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 transition-all">
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200 flex flex-col justify-between">
+                <div>
+                  <div className="inline-block px-2.5 py-1 rounded-md bg-green-50 text-primary text-xs font-semibold uppercase tracking-wider mb-4 border border-green-200/50">
+                    Docencia & Acompañamiento
+                  </div>
+                  <p className="text-zinc-600 italic mb-6">
+                    "La cercanía con los estudiantes en Chivilcoy permite un seguimiento pedagógico que no se encuentra en sedes multitudinarias. Conocemos sus nombres, sus inquietudes y los vemos crecer profesionalmente paso a paso."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-4 border-t border-zinc-100">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-lg border border-primary/20">
+                    P
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-zinc-900">Prof. Lic. en Sistemas</h4>
+                    <p className="text-sm text-zinc-500">Docente del Departamento de Ciencias Básicas</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200 flex flex-col justify-between">
+                <div>
+                  <div className="inline-block px-2.5 py-1 rounded-md bg-green-50 text-primary text-xs font-semibold uppercase tracking-wider mb-4 border border-green-200/50">
+                    Impacto Territorial
+                  </div>
+                  <p className="text-zinc-600 italic mb-6">
+                    "Formar profesionales en Administración y Contabilidad que luego aplican sus conocimientos en PyMEs e instituciones locales es el verdadero sentido de la universidad pública en la región."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-4 border-t border-zinc-100">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-lg border border-primary/20">
+                    D
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-zinc-900">Docente de Administración</h4>
+                    <p className="text-sm text-zinc-500">Departamento de Ciencias Sociales</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-200 flex flex-col justify-between">
+                <div>
+                  <div className="inline-block px-2.5 py-1 rounded-md bg-green-50 text-primary text-xs font-semibold uppercase tracking-wider mb-4 border border-green-200/50">
+                    Práctica y Vocación
+                  </div>
+                  <p className="text-zinc-600 italic mb-6">
+                    "En carreras como Enfermería y Trabajo Social, la vocación de servicio y el contacto con la comunidad desde el primer año forjan egresados con una sensibilidad social y técnica excepcional."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-4 border-t border-zinc-100">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-lg border border-primary/20">
+                    E
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-zinc-900">Docente de Salud / Social</h4>
+                    <p className="text-sm text-zinc-500">Equipo de Prácticas Profesionales</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -536,17 +662,25 @@ export default function Home() {
               <p className="text-zinc-600 mb-6 leading-relaxed">
                 El Centro Regional Chivilcoy cuenta con instalaciones modernas preparadas para brindar la mejor experiencia universitaria.
               </p>
-              <div className="flex items-start mb-4">
+              <div className="flex items-start mb-6">
                 <MapPin className="h-6 w-6 mr-3 text-primary shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-semibold text-zinc-900">Nuestra Sede</h4>
                   <p className="text-zinc-600 text-sm">Calle 110 (El Grito de Alcorta) Nº 110<br />Chivilcoy, Provincia de Buenos Aires</p>
                 </div>
               </div>
+              <a 
+                href="https://maps.google.com/?q=-34.908333,-60.016667" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center text-sm font-semibold text-primary hover:text-green-800 transition-colors"
+              >
+                Abrir en Google Maps &rarr;
+              </a>
             </div>
             <div className="w-full md:w-2/3 h-[400px] rounded-2xl overflow-hidden shadow-lg border border-zinc-200 relative">
               <iframe 
-                src="https://maps.google.com/maps?q=Universidad%20Nacional%20de%20Luj%C3%A1n%20Centro%20Regional%20Chivilcoy&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                src="https://www.google.com/maps?q=-34.908333,-60.016667+(UNLu+-+Centro+Regional+Chivilcoy)&hl=es;z=16&output=embed" 
                 width="100%" 
                 height="100%" 
                 style={{ border: 0 }} 
@@ -644,10 +778,15 @@ export default function Home() {
           
           <div className="border-t border-zinc-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
             <p>© {new Date().getFullYear()} Universidad Nacional de Luján · Centro Regional Chivilcoy.</p>
-            <div className="flex gap-4 mt-4 md:mt-0">
-              <a href="http://www.youtube.com/user/unluvideos" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors" aria-label="Canal de YouTube de la UNLu">YouTube</a>
-              <a href="https://www.facebook.com/pages/Universidad-Nacional-de-Luj%C3%A1n-Centro-Regional-Chivilcoy/110151985834252" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors" aria-label="Página de Facebook del Centro Regional Chivilcoy">Facebook</a>
-              <a href="https://twitter.com/unlucrch" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors" aria-label="Perfil de Twitter del Centro Regional Chivilcoy">Twitter</a>
+            <div className="flex items-center gap-6 mt-4 md:mt-0">
+              <div className="flex gap-4">
+                <a href="http://www.youtube.com/user/unluvideos" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors" aria-label="Canal de YouTube de la UNLu">YouTube</a>
+                <a href="https://www.facebook.com/pages/Universidad-Nacional-de-Luj%C3%A1n-Centro-Regional-Chivilcoy/110151985834252" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors" aria-label="Página de Facebook del Centro Regional Chivilcoy">Facebook</a>
+                <a href="https://twitter.com/unlucrch" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors" aria-label="Perfil de Twitter del Centro Regional Chivilcoy">Twitter</a>
+              </div>
+              <Link to="/dashboard" className="px-3 py-1.5 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white rounded-md transition-colors text-xs font-medium">
+                Acceso
+              </Link>
             </div>
           </div>
         </div>

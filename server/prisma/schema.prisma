@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id             String   @id @default(uuid())
+  nombreCompleto String
+  email          String   @unique
+  passwordHash   String
+  rol            String   @default("EDITOR") // Puede ser "ADMIN" o "EDITOR"
+  estado         Boolean  @default(true)
+  fechaCreacion  DateTime @default(now())
+
+  @@map("usuarios")
+}
+
+model Autoridad {
+  id      String  @id @default(uuid())
+  nombre  String
+  cargo   String
+  email   String?
+  estado  Boolean @default(true)
+
+  @@map("autoridades")
+}
+
+model AreaGestion {
+  id          String  @id @default(uuid())
+  nombreArea  String
+  responsable String
+  telefono    String?
+  email       String?
+  estado      Boolean @default(true)
+
+  @@map("areas_gestion")
+}
+
+model Carrera {
+  id               String   @id @default(uuid())
+  slug             String   @unique
+  titulo           String
+  tipo             String
+  duracion         String
+  tituloIntermedio String?
+  perfilEgresado   String?
+  campoAccion      String?
+  urlPlanEstudios  String?
+  colorUi          String   @default("primary")
+  estado           Boolean  @default(true)
+
+  materias         Materia[]
+  voces            VozEstudiante[]
+
+  @@map("carreras")
+}
+
+model Materia {
+  id            String  @id @default(uuid())
+  carreraId     String
+  añoCursada    String
+  nombreMateria String
+
+  carrera       Carrera @relation(fields: [carreraId], references: [id], onDelete: Cascade)
+
+  @@map("materias")
+}
+
+model VozEstudiante {
+  id               String  @id @default(uuid())
+  nombreEstudiante String
+  carreraId        String
+  testimonio       String
+  urlFoto          String?
+  estado           String  @default("PENDIENTE") // "PENDIENTE", "APROBADO", "RECHAZADO"
+
+  carrera          Carrera @relation(fields: [carreraId], references: [id], onDelete: Cascade)
+
+  @@map("voces_estudiantes")
+}
+
+model FAQ {
+  id        String  @id @default(uuid())
+  pregunta  String
+  respuesta String
+  categoria String
+  orden     Int     @default(0)
+  estado    Boolean @default(true)
+
+  @@map("faq")
+}
