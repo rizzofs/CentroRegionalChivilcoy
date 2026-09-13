@@ -3,7 +3,8 @@ import {
   MapPin, ChevronRight, ArrowRight, Menu, X, ExternalLink,
   Bus, Train, Car, Navigation, CreditCard, Clock, Compass,
   Calendar, Sparkles, Building2, Newspaper, BookOpen, GraduationCap,
-  HelpCircle, Phone, Quote, Users
+  HelpCircle, Phone, Quote, Users, CheckCircle2, ListChecks,
+  RotateCcw, Lightbulb, CheckSquare, Check
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -13,6 +14,169 @@ export default function Home() {
   const [testimonialTab, setTestimonialTab] = useState<'estudiantes' | 'docentes'>('estudiantes');
   const [selectedNoticiaCat, setSelectedNoticiaCat] = useState<string>('todas');
   const [selectedNoticiaModal, setSelectedNoticiaModal] = useState<any | null>(null);
+
+  // Checklist del Ingresante 2027 State
+  const [checklistCompleted, setChecklistCompleted] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('crch_checklist_ingreso_2027');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const checklistItems = [
+    {
+      id: 'preinscripcion',
+      titulo: '1. Preinscripción Online en SIU Guaraní',
+      descripcion: 'Ingresá al portal oficial de preinscripción de la UNLu, completá tu ficha censal y seleccioná Centro Regional Chivilcoy como sede.',
+      obligatorio: true,
+      enlace: 'https://www.unlu.edu.ar/inscripcion-periodo.html',
+      enlaceTexto: 'Ir a SIU Preinscripción ↗'
+    },
+    {
+      id: 'dni',
+      titulo: '2. DNI Original y Fotocopia',
+      descripcion: 'Documento Nacional de Identidad argentino (o pasaporte con radicación legal vigente), fotocopia nítida y legible de anverso y reverso.',
+      obligatorio: true
+    },
+    {
+      id: 'titulo_secundario',
+      titulo: '3. Certificado Secundario o Constancia de Título en Trámite',
+      descripcion: 'Original y fotocopia del Certificado Analítico de Nivel Medio, o Constancia original de Título en Trámite (sin adeudar materias), o Constancia de Alumno Regular si estás cursando el último año.',
+      obligatorio: true
+    },
+    {
+      id: 'fotos_folio',
+      titulo: '4. Dos Fotos Carnet 4x4 y Folio Plástico',
+      descripcion: 'Dos fotografías color actualizadas formato 4x4 (tipo carnet) y 1 folio plástico transparente tamaño oficio para la conformación de tu legajo estudiantil.',
+      obligatorio: true
+    },
+    {
+      id: 'presentacion_sede',
+      titulo: '5. Presentación de Documentación en Sede Chivilcoy',
+      descripcion: 'Acercate a la ventanilla de Sección Alumnos en Calle 110 (Grito de Alcorta) Nº 110 con toda la carpeta de papeles para validar tu legajo oficial.',
+      obligatorio: true,
+      enlace: '#contacto',
+      enlaceTexto: 'Ver Horarios de Atención'
+    },
+    {
+      id: 'tieu',
+      titulo: '6. Taller de Introducción a los Estudios Universitarios (TIEU)',
+      descripcion: 'Espacio de ambientación universitaria no eliminatorio. Te permite conocer las dinámicas de estudio, campus virtual y el cuerpo docente.',
+      obligatorio: false
+    }
+  ];
+
+  const toggleChecklistItem = (id: string) => {
+    setChecklistCompleted(prev => {
+      const updated = prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id];
+      try {
+        localStorage.setItem('crch_checklist_ingreso_2027', JSON.stringify(updated));
+      } catch (e) {
+        console.error(e);
+      }
+      return updated;
+    });
+  };
+
+  const markAllChecklist = () => {
+    const allIds = checklistItems.map(i => i.id);
+    setChecklistCompleted(allIds);
+    try {
+      localStorage.setItem('crch_checklist_ingreso_2027', JSON.stringify(allIds));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const resetChecklist = () => {
+    setChecklistCompleted([]);
+    try {
+      localStorage.removeItem('crch_checklist_ingreso_2027');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // Orientador Vocacional Rápido State
+  const [sovInterest, setSovInterest] = useState<string>('');
+  const [sovWorkplace, setSovWorkplace] = useState<string>('');
+  const [sovDuration, setSovDuration] = useState<string>('');
+  const [sovCareerResult, setSovCareerResult] = useState<any | null>(null);
+
+  const calculateSovRecommendation = () => {
+    if (!sovInterest || !sovWorkplace) return;
+
+    if (sovInterest === 'tech' || sovInterest === 'datos') {
+      if (sovDuration === 'corta' || sovInterest === 'datos') {
+        setSovCareerResult({
+          nombre: 'Tecnicatura Universitaria en Ciencia de Datos',
+          tipo: 'Pregrado Universitario · 3 Años',
+          descripcion: 'Ideal para quienes disfrutan el análisis cuantitativo, la inteligencia artificial, bases de datos y la resolución de problemas lógicos aplicados a negocios e investigación.',
+          enlace: '/carrera/cienciadatos',
+          color: 'from-blue-600 to-indigo-800'
+        });
+      } else {
+        setSovCareerResult({
+          nombre: 'Licenciatura en Sistemas de Información',
+          tipo: 'Grado Universitario · 5 Años',
+          descripcion: 'Diseñada para liderar proyectos de software, arquitectura tecnológica, transformación digital y gestión de sistemas complejos en organizaciones globales.',
+          enlace: '/carrera/sistemas',
+          color: 'from-[#008541] to-[#005a2b]'
+        });
+      }
+      return;
+    }
+
+    if (sovInterest === 'salud') {
+      setSovCareerResult({
+        nombre: 'Licenciatura en Enfermería',
+        tipo: 'Grado Universitario · 5 Años (con título intermedio)',
+        descripcion: 'Formación de excelencia con profunda vocación de cuidado humano, gestión de servicios sanitarios y prácticas clínicas integradas desde el inicio en hospitales de la región.',
+        enlace: '/carrera/enfermeria',
+        color: 'from-teal-600 to-emerald-800'
+      });
+      return;
+    }
+
+    if (sovInterest === 'social') {
+      setSovCareerResult({
+        nombre: 'Licenciatura en Trabajo Social',
+        tipo: 'Grado Universitario · 5 Años',
+        descripcion: 'Enfocada en la defensa de derechos humanos, diseño de políticas públicas, intervención territorial y fortalecimiento de instituciones comunitarias.',
+        enlace: '/carrera/trabajosocial',
+        color: 'from-purple-600 to-indigo-900'
+      });
+      return;
+    }
+
+    if (sovWorkplace === 'empresa' || sovInterest === 'gestion') {
+      setSovCareerResult({
+        nombre: 'Licenciatura en Administración',
+        tipo: 'Grado Universitario · 5 Años',
+        descripcion: 'Para perfiles con liderazgo estratégico, interés en crear empresas, gestionar organizaciones públicas y privadas, y liderar equipos multidisciplinarios.',
+        enlace: '/carrera/administracion',
+        color: 'from-amber-600 to-amber-800'
+      });
+      return;
+    }
+
+    setSovCareerResult({
+      nombre: 'Contador Público',
+      tipo: 'Grado Universitario · 5 Años',
+      descripcion: 'Formación integral en tributación, auditoría, consultoría contable y finanzas, con altísima demanda y habilitación profesional plena en toda la región.',
+      enlace: '/carrera/contadorpublico',
+      color: 'from-emerald-700 to-slate-900'
+    });
+  };
+
+  const resetSovTest = () => {
+    setSovInterest('');
+    setSovWorkplace('');
+    setSovDuration('');
+    setSovCareerResult(null);
+  };
 
   const [noticiasList, setNoticiasList] = useState([
     {
@@ -243,6 +407,24 @@ export default function Home() {
                 </a>
 
                 <a 
+                  href="#ingreso-2027" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-slate-700 hover:text-[#008541] hover:bg-slate-50 font-semibold text-sm transition-all"
+                >
+                  <ListChecks className="w-4 h-4 text-[#008541]" />
+                  <span>Checklist Ingresante 2027</span>
+                </a>
+
+                <a 
+                  href="#orientacion-vocacional" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-slate-700 hover:text-[#008541] hover:bg-slate-50 font-semibold text-sm transition-all"
+                >
+                  <Compass className="w-4 h-4 text-[#008541]" />
+                  <span>Orientación Vocacional (SOV)</span>
+                </a>
+
+                <a 
                   href="#oferta" 
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-slate-700 hover:text-[#008541] hover:bg-slate-50 font-semibold text-sm transition-all"
@@ -366,21 +548,27 @@ export default function Home() {
 
               <div className="flex flex-wrap items-center gap-3.5">
                 <a 
-                  href="#oferta" 
+                  href="#ingreso-2027" 
                   className="inline-flex items-center gap-2 bg-[#f9c540] hover:bg-yellow-400 text-slate-950 font-bold px-6 py-3.5 rounded-xl shadow-lg transition-transform active:scale-95 text-sm"
                 >
-                  <span>Conocer Carreras 2027</span>
-                  <ChevronRight className="w-4 h-4 text-slate-900" />
+                  <ListChecks className="w-4 h-4 text-slate-900" />
+                  <span>Guía y Checklist Ingreso 2027</span>
                 </a>
 
                 <a 
-                  href="https://www.unlu.edu.ar/inscripcion-periodo.html" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                  href="#orientacion-vocacional" 
                   className="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 text-white font-semibold px-6 py-3.5 rounded-xl backdrop-blur-md border border-white/20 transition-colors text-sm"
                 >
-                  <span>Guía de Ingreso</span>
-                  <ExternalLink className="w-4 h-4 text-emerald-200" />
+                  <Compass className="w-4 h-4 text-[#f9c540]" />
+                  <span>Orientación Vocacional (SOV)</span>
+                </a>
+
+                <a 
+                  href="#oferta" 
+                  className="inline-flex items-center gap-2 bg-emerald-800/80 hover:bg-emerald-800 text-white font-semibold px-5 py-3.5 rounded-xl border border-emerald-600/40 transition-colors text-sm"
+                >
+                  <BookOpen className="w-4 h-4 text-emerald-200" />
+                  <span>Ver Carreras</span>
                 </a>
 
                 <a 
@@ -624,6 +812,438 @@ export default function Home() {
                   </div>
                 </article>
               ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* Guía y Checklist Interactivo del Ingresante 2027 */}
+      <section id="ingreso-2027" className="py-24 bg-gradient-to-b from-slate-50 to-white border-b border-slate-200 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200 text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+              <span>Inscripciones Abiertas · Ciclo Lectivo 2027</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 font-serif">
+              Guía y Checklist del Ingresante 2027
+            </h2>
+            <div className="h-1 w-20 bg-gradient-to-r from-[#008541] via-[#f9c540] to-[#c0392b] rounded-full mx-auto my-4"></div>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              Seguí el paso a paso para formalizar tu inscripción y asegurar tu vacante en la Universidad Nacional de Luján - Centro Regional Chivilcoy. Recordá que el trámite y la cursada son <strong>100% gratuitos y sin examen eliminatorio</strong>.
+            </p>
+          </div>
+
+          {/* Tarjeta de Progreso del Aspirante */}
+          <div className="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200/90 shadow-md p-6 sm:p-8 mb-10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <span className="text-xs font-bold text-[#008541] uppercase tracking-wider block mb-0.5">Tu Progreso de Inscripción</span>
+                <h3 className="text-xl font-bold text-slate-900 font-serif">
+                  {checklistCompleted.length} de {checklistItems.length} requisitos completados
+                </h3>
+              </div>
+
+              <div className="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={markAllChecklist}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
+                >
+                  <CheckSquare className="w-3.5 h-3.5 text-[#008541]" />
+                  <span>Marcar Todo</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={resetChecklist}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
+                >
+                  <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
+                  <span>Reiniciar</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Barra de Progreso */}
+            <div className="w-full bg-slate-100 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-200 mb-2">
+              <div 
+                className="bg-gradient-to-r from-[#008541] via-emerald-500 to-[#f9c540] h-full rounded-full transition-all duration-500 ease-out"
+                style={{ width: `${Math.round((checklistCompleted.length / checklistItems.length) * 100)}%` }}
+              ></div>
+            </div>
+            <div className="flex justify-between items-center text-xs text-slate-500 font-medium px-1">
+              <span>{Math.round((checklistCompleted.length / checklistItems.length) * 100)}% completado</span>
+              {checklistCompleted.length === checklistItems.length ? (
+                <span className="text-[#008541] font-bold flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5" /> ¡Excelente! Ya tenés todo listo para comenzar
+                </span>
+              ) : (
+                <span>Tildá cada ítem conforme lo vayas preparando</span>
+              )}
+            </div>
+          </div>
+
+          {/* Listado Interactivo de Pasos */}
+          <div className="max-w-4xl mx-auto space-y-4">
+            {checklistItems.map((item) => {
+              const isChecked = checklistCompleted.includes(item.id);
+              return (
+                <div 
+                  key={item.id}
+                  onClick={() => toggleChecklistItem(item.id)}
+                  className={`p-5 sm:p-6 rounded-2xl border transition-all cursor-pointer select-none flex items-start gap-4 ${
+                    isChecked 
+                      ? 'bg-emerald-50/50 border-emerald-300 shadow-xs' 
+                      : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-xs'
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleChecklistItem(item.id);
+                    }}
+                    className={`shrink-0 mt-0.5 w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${
+                      isChecked
+                        ? 'bg-[#008541] text-white'
+                        : 'border-2 border-slate-300 text-transparent hover:border-[#008541]'
+                    }`}
+                    aria-label={isChecked ? "Marcar como pendiente" : "Marcar como completado"}
+                  >
+                    <Check className="w-4 h-4 stroke-[3]" />
+                  </button>
+
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <h4 className={`text-base font-bold font-serif ${isChecked ? 'text-emerald-950 line-through opacity-80' : 'text-slate-900'}`}>
+                        {item.titulo}
+                      </h4>
+                      {item.obligatorio ? (
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-rose-100 text-rose-800">
+                          Obligatorio
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-100 text-blue-800">
+                          Recomendado
+                        </span>
+                      )}
+                    </div>
+                    
+                    <p className={`text-xs sm:text-sm leading-relaxed ${isChecked ? 'text-slate-500' : 'text-slate-600'}`}>
+                      {item.descripcion}
+                    </p>
+
+                    {item.enlace && (
+                      <div className="mt-2.5">
+                        <a 
+                          href={item.enlace}
+                          target={item.enlace.startsWith('http') ? '_blank' : undefined}
+                          rel={item.enlace.startsWith('http') ? 'noopener noreferrer' : undefined}
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#008541] hover:underline"
+                        >
+                          <span>{item.enlaceTexto || 'Ver más información'}</span>
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Banner Informativo de Ayuda al Ingresante */}
+          <div className="max-w-4xl mx-auto mt-10 p-6 rounded-2xl bg-amber-50/70 border border-amber-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3.5">
+              <div className="p-2 bg-amber-100 rounded-xl text-amber-800 shrink-0 mt-0.5">
+                <Lightbulb className="w-5 h-5 text-amber-700" />
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900 text-sm font-serif">¿Tenés dudas sobre tu trámite o documentación extranjera?</h4>
+                <p className="text-xs text-slate-600 mt-0.5">
+                  El Departamento de Alumnos del Centro Regional Chivilcoy te asesora de lunes a viernes en Calle 110 Nº 110.
+                </p>
+              </div>
+            </div>
+            <a 
+              href="https://wa.me/5492323208888" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="shrink-0 bg-[#008541] hover:bg-[#005a2b] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-xs"
+            >
+              Consultar por WhatsApp
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Servicio de Orientación Vocacional (SOV) & Orientador Interactivo */}
+      <section id="orientacion-vocacional" className="py-24 bg-white border-b border-slate-200 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Header de Sección SOV */}
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 text-[#008541] border border-emerald-100 text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
+              <Compass className="w-3.5 h-3.5 text-[#008541]" />
+              <span>Acompañamiento Vocacional Oficial UNLu</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 font-serif">
+              Servicio de Orientación Vocacional (SOV)
+            </h2>
+            <div className="h-1 w-20 bg-gradient-to-r from-[#008541] via-[#f9c540] to-[#c0392b] rounded-full mx-auto my-4"></div>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              ¿Tenés dudas sobre qué estudiar o querés redefinir tu vocación? La Universidad Nacional de Luján cuenta con un equipo especializado de profesionales que brinda orientación gratuita y personalizada para toda la comunidad.
+            </p>
+          </div>
+
+          {/* Grid de 2 Columnas: Info Institucional SOV + Test Interactivo */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            
+            {/* Columna Izquierda: Información del SOV Oficial */}
+            <div className="lg:col-span-6 space-y-6">
+              
+              <div className="bg-slate-50 p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-2xl bg-[#008541] text-white flex items-center justify-center font-bold shadow-sm">
+                    <Compass className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-900 font-serif">SOV · UNLu</h3>
+                    <p className="text-xs text-[#008541] font-semibold">Servicio Público, Libre y Gratuito</p>
+                  </div>
+                </div>
+
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  El <strong>Servicio de Orientación Vocacional (SOV)</strong> de la UNLu acompaña a estudiantes del nivel secundario, personas que desean iniciar o retomar estudios superiores y alumnos que buscan redefinir su trayecto formativo.
+                </p>
+
+                <div className="space-y-3.5 pt-2 border-t border-slate-200">
+                  <div className="flex items-start gap-3">
+                    <div className="p-1 rounded-md bg-emerald-100 text-[#008541] shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs text-slate-900 uppercase tracking-wide">Talleres Grupales Vocacionales</h4>
+                      <p className="text-xs text-slate-600">Espacios de reflexión, dinámicas y autoconocimiento para explorar intereses y proyectos de vida.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="p-1 rounded-md bg-emerald-100 text-[#008541] shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs text-slate-900 uppercase tracking-wide">Entrevistas y Consultas Individuales</h4>
+                      <p className="text-xs text-slate-600">Atención personalizada con profesionales de la psicología y la psicopedagogía.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="p-1 rounded-md bg-emerald-100 text-[#008541] shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs text-slate-900 uppercase tracking-wide">La UNLu Abre sus Puertas</h4>
+                      <p className="text-xs text-slate-600">Jornadas abiertas, visitas a laboratorios, biblioteca y diálogo directo con docentes y graduados.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-200 flex flex-wrap items-center gap-3">
+                  <a 
+                    href="https://www.sov.unlu.edu.ar/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-[#008541] hover:bg-[#005a2b] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-xs"
+                  >
+                    <span>Sitio Oficial SOV UNLu</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+
+                  <a 
+                    href="mailto:orientacionvocacional@unlu.edu.ar" 
+                    className="inline-flex items-center gap-1.5 bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold px-4 py-2.5 rounded-xl border border-slate-200 transition-colors"
+                  >
+                    <span>orientacionvocacional@unlu.edu.ar</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Columna Derecha: Orientador Rápido Interactivo ("¿Qué estudiar en Chivilcoy?") */}
+            <div className="lg:col-span-6">
+              <div className="bg-slate-50 p-8 rounded-3xl border border-slate-200/90 shadow-md">
+                
+                <div className="flex items-center justify-between gap-4 mb-6">
+                  <div>
+                    <span className="text-xs font-bold text-[#008541] uppercase tracking-wider block mb-0.5">Test Vocacional Express</span>
+                    <h3 className="text-xl font-bold text-slate-900 font-serif">Descubrí tu Carrera en Chivilcoy</h3>
+                  </div>
+                  {sovCareerResult && (
+                    <button
+                      type="button"
+                      onClick={resetSovTest}
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-200/70 hover:bg-slate-300 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
+                    >
+                      <RotateCcw className="w-3 h-3" />
+                      <span>Rehacer</span>
+                    </button>
+                  )}
+                </div>
+
+                {!sovCareerResult ? (
+                  <div className="space-y-6">
+                    
+                    {/* Pregunta 1 */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2.5">
+                        1. ¿Qué área de conocimiento te apasiona más?
+                      </label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        {[
+                          { key: 'tech', label: '💻 Software, Tecnología y Redes' },
+                          { key: 'datos', label: '📊 Ciencia de Datos e Inteligencia Artificial' },
+                          { key: 'salud', label: '🩺 Salud Humana y Cuidados Clínicos' },
+                          { key: 'social', label: '🤝 Derechos, Comunidad y Trabajo Social' },
+                          { key: 'gestion', label: '📈 Administración, Negocios y Finanzas' },
+                          { key: 'contable', label: '⚖️ Contabilidad, Tributación y Auditoría' }
+                        ].map((opt) => (
+                          <button
+                            key={opt.key}
+                            type="button"
+                            onClick={() => setSovInterest(opt.key)}
+                            className={`p-3 rounded-xl text-left font-medium transition-all cursor-pointer border ${
+                              sovInterest === opt.key 
+                                ? 'bg-[#008541] text-white border-[#008541] shadow-xs' 
+                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Pregunta 2 */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2.5">
+                        2. ¿En qué entorno te gustaría desempeñarte?
+                      </label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        {[
+                          { key: 'tech_office', label: '🏢 Empresas tecnológicas / Remoto global' },
+                          { key: 'salud_hosp', label: '🏥 Hospitales y centros sanitarios' },
+                          { key: 'empresa', label: '🏭 PyMEs, industrias y corporaciones' },
+                          { key: 'territorio', label: '🏛️ Organismos públicos y territorio' }
+                        ].map((opt) => (
+                          <button
+                            key={opt.key}
+                            type="button"
+                            onClick={() => setSovWorkplace(opt.key)}
+                            className={`p-3 rounded-xl text-left font-medium transition-all cursor-pointer border ${
+                              sovWorkplace === opt.key 
+                                ? 'bg-[#008541] text-white border-[#008541] shadow-xs' 
+                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Pregunta 3 */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2.5">
+                        3. ¿Qué duración de carrera preferís inicialmente?
+                      </label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        {[
+                          { key: 'grado', label: '🎓 Carrera de Grado (5 años completa)' },
+                          { key: 'corta', label: '⚡ Pregrado / Tecnicatura (3 años rápida salida)' }
+                        ].map((opt) => (
+                          <button
+                            key={opt.key}
+                            type="button"
+                            onClick={() => setSovDuration(opt.key)}
+                            className={`p-3 rounded-xl text-left font-medium transition-all cursor-pointer border ${
+                              sovDuration === opt.key 
+                                ? 'bg-[#008541] text-white border-[#008541] shadow-xs' 
+                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Botón de Enviar */}
+                    <button
+                      type="button"
+                      disabled={!sovInterest || !sovWorkplace}
+                      onClick={calculateSovRecommendation}
+                      className={`w-full py-3.5 px-6 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer ${
+                        sovInterest && sovWorkplace
+                          ? 'bg-[#008541] hover:bg-[#005a2b] text-white active:scale-98'
+                          : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                      }`}
+                    >
+                      <Sparkles className="w-4 h-4 text-[#f9c540]" />
+                      <span>Ver mi Carrera Recomendada</span>
+                    </button>
+
+                  </div>
+                ) : (
+                  /* Resultado de la Carrera */
+                  <div className="animate-in fade-in zoom-in-95 duration-300">
+                    <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-xl relative overflow-hidden mb-6">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"></div>
+                      
+                      <div className="inline-block px-3 py-1 rounded-md bg-[#f9c540] text-slate-950 font-extrabold text-[10px] uppercase tracking-wider mb-3">
+                        Propuesta Recomendada para Vos
+                      </div>
+
+                      <h4 className="text-2xl font-bold font-serif leading-tight mb-1">
+                        {sovCareerResult.nombre}
+                      </h4>
+                      <p className="text-xs text-emerald-300 font-semibold mb-4">
+                        {sovCareerResult.tipo}
+                      </p>
+
+                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
+                        {sovCareerResult.descripcion}
+                      </p>
+
+                      <div className="flex flex-wrap items-center gap-3">
+                        <Link
+                          to={sovCareerResult.enlace}
+                          className="inline-flex items-center gap-2 bg-[#008541] hover:bg-[#005a2b] text-white font-bold text-xs px-5 py-3 rounded-xl transition-all shadow-md"
+                        >
+                          <span>Ver Plan de Estudios y Materias</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
+
+                        <button
+                          type="button"
+                          onClick={resetSovTest}
+                          className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white font-semibold px-3 py-2 transition-colors cursor-pointer"
+                        >
+                          <RotateCcw className="w-3.5 h-3.5" />
+                          <span>Probar otras opciones</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+              </div>
+            </div>
+
           </div>
 
         </div>
