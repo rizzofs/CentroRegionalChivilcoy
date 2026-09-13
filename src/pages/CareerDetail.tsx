@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, BookOpen, GraduationCap, Building2, Calendar, FileText, Download } from 'lucide-react';
+import { 
+  ArrowLeft, GraduationCap, Calendar, 
+  Download, CheckCircle2, ArrowRight
+} from 'lucide-react';
+import Breadcrumbs from '../components/Breadcrumbs';
 
-// Esta data debería venir de una base de datos o un archivo de configuración, pero por ahora lo hardcodeamos para la prueba
 const careersData = {
   sistemas: {
     title: "Licenciatura en Sistemas de Información",
@@ -59,15 +62,15 @@ const careersData = {
     title: "Contador Público",
     type: "Carrera de Grado",
     duration: "5 Años",
-    intermediateTitle: "Técnico Universitario en Contabilidad - 3 Años",
-    profile: "El Contador Público posee conocimientos técnicos de excelencia y rige su accionar con compromiso ético. Sus actividades exclusivas incluyen el diseño e implementación de sistemas contables, la auditoría contable e impositiva, y la sindicatura en concursos y quiebras.",
-    field: "Estudios contables, asesoramiento impositivo y laboral, análisis económico-financiero empresarial, peritajes en la justicia, liquidación de siniestros, y dirección de procesos de auditoría.",
+    intermediateTitle: "N/A",
+    profile: "Forma profesionales con sólida preparación en contabilidad, auditoría, finanzas, tributación y derecho empresarial. Capacitado para emitir dictámenes sobre estados contables, diseñar sistemas de costos y asesorar en planificación fiscal.",
+    field: "Estudios contables, asesoría tributaria independiente, dirección financiera de empresas, peritajes contables en el poder judicial y sindicaturas concursales.",
     color: "primary",
     planUrl: "https://www.unlu.edu.ar/carg-contador-pre.html",
     subjects: [
       { year: "Primer Año", list: ["Introducción a la Contabilidad", "Introducción a la Matemática", "Introducción a la Administración", "Análisis Socioeconómico", "Contabilidad Básica", "Derecho Privado"] },
       { year: "Segundo Año", list: ["Contabilidad Intermedia", "Matemática I y II", "Derecho Comercial", "Análisis de Estados Contables", "Entidades Financieras y de Seguros", "Derecho Administrativo"] },
-      { year: "Tercer Año (Título: Técnico)", list: ["Contabilidad de Costos", "Economía I y II", "Matemática Financiera", "Derecho del Trabajo", "Costos de Gestión", "Recursos Humanos y Marketing", "Taller de Práctica Laboral"] },
+      { year: "Tercer Año", list: ["Contabilidad de Costos", "Economía I y II", "Matemática Financiera", "Derecho del Trabajo", "Costos de Gestión", "Recursos Humanos y Marketing", "Taller de Práctica Laboral"] },
       { year: "Cuarto Año", list: ["Contabilidad Superior", "Administración Económico Financiera", "Derecho Societario y Concursal", "Tributación I y II", "Auditoría I", "Taller de Sistemas de Gestión Contable"] },
       { year: "Quinto Año", list: ["Auditoría II", "Tributación III", "Contabilidad Pública", "Taller de Liquidación de Impuestos", "Taller de Práctica Profesional Contador Público"] }
     ]
@@ -108,12 +111,9 @@ const careersData = {
   }
 };
 
-import Breadcrumbs from '../components/Breadcrumbs';
-
 export default function CareerDetail() {
   const { id } = useParams<{ id: string }>();
   
-  // Si no tenemos data para esta carrera, mostramos un placeholder genérico
   const data = id && careersData[id as keyof typeof careersData] 
     ? careersData[id as keyof typeof careersData] 
     : {
@@ -133,100 +133,131 @@ export default function CareerDetail() {
   }, [data.title]);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white font-sans selection:bg-primary/30">
-      {/* Navbar Minimalista */}
-      <nav className="fixed w-full z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased">
+      
+      {/* Navbar Superior */}
+      <nav className="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <ArrowLeft className="h-5 w-5 text-primary" />
-            <span className="font-semibold text-zinc-300">Volver al inicio</span>
+          <Link to="/" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">
+            <ArrowLeft className="h-4 w-4 text-[#008541]" />
+            <span>Volver a Inicio</span>
           </Link>
           <div className="flex items-center gap-3">
-            <img src="/UNLU.svg" alt="Logo UNLu" className="h-8 w-auto opacity-80" />
+            <img src="/escudo.svg" alt="Escudo UNLu" className="h-10 w-auto" />
+            <div className="hidden sm:flex flex-col">
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest leading-tight">Universidad Nacional de Luján</span>
+              <span className="text-xs font-bold text-[#008541] font-serif leading-tight">CR Chivilcoy</span>
+            </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Header */}
-      <header className="pt-40 pb-20 relative overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/20 blur-[100px] rounded-full pointer-events-none"></div>
+      {/* Hero Header Institucional Verde UNLu */}
+      <header className="bg-gradient-to-br from-[#008541] via-[#006834] to-[#005a2b] text-white pt-10 pb-14 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-5 pointer-events-none">
+          <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full border-[40px] border-white"></div>
+          <img src="/escudo.svg" alt="" className="absolute right-10 bottom-0 w-80 h-80 invert opacity-10" />
+        </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          
           <div className="mb-4">
             <Breadcrumbs items={[{ label: 'Oferta Académica', path: '/#oferta' }, { label: data.title }]} />
           </div>
 
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10 text-xs font-medium text-primary-300 mb-6 uppercase tracking-widest">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full border border-white/20 text-xs font-bold text-[#f9c540] uppercase tracking-widest mb-4">
             {data.type}
           </div>
-          <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight leading-tight mb-6 max-w-4xl">
+
+          <h1 className="text-3xl sm:text-5xl font-bold font-serif text-white tracking-tight leading-tight mb-6 max-w-4xl">
             {data.title}
           </h1>
           
-          <div className="flex flex-wrap gap-4 mt-8">
-            <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-3 rounded-xl">
-              <Calendar className="h-5 w-5 text-primary" />
+          <div className="flex flex-wrap gap-4">
+            <div className="flex items-center gap-2.5 bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2.5 rounded-xl">
+              <Calendar className="h-5 w-5 text-[#f9c540]" />
               <div className="flex flex-col">
-                <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Duración</span>
-                <span className="text-sm font-semibold">{data.duration}</span>
+                <span className="text-[10px] text-emerald-200 uppercase font-bold tracking-wider">Duración</span>
+                <span className="text-xs font-bold text-white">{data.duration}</span>
               </div>
             </div>
+
             {data.intermediateTitle !== "N/A" && (
-              <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-3 rounded-xl">
-                <GraduationCap className="h-5 w-5 text-primary" />
+              <div className="flex items-center gap-2.5 bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2.5 rounded-xl">
+                <GraduationCap className="h-5 w-5 text-[#f9c540]" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Título Intermedio</span>
-                  <span className="text-sm font-semibold">{data.intermediateTitle}</span>
+                  <span className="text-[10px] text-emerald-200 uppercase font-bold tracking-wider">Título Intermedio</span>
+                  <span className="text-xs font-bold text-white">{data.intermediateTitle}</span>
                 </div>
               </div>
             )}
           </div>
+
         </div>
       </header>
 
-      {/* Content Grid */}
-      <section className="py-12 border-t border-white/5">
+      {/* Grid de Contenido Principal */}
+      <section className="py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             
-            {/* Columna Principal */}
-            <div className="lg:col-span-2 space-y-12">
-              <div>
-                <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                  <BookOpen className="h-6 w-6 text-primary" />
-                  Perfil del Egresado
-                </h2>
-                <p className="text-zinc-400 leading-relaxed text-lg">
+            {/* Columna Principal (2 columnas) */}
+            <div className="lg:col-span-2 space-y-8">
+              
+              {/* Perfil del Egresado */}
+              <div className="bg-white rounded-2xl p-7 border border-slate-200/80 shadow-xs">
+                <div className="flex items-center gap-2.5 mb-3">
+                  <span className="w-8 h-8 rounded-lg bg-emerald-50 text-[#008541] flex items-center justify-center font-bold">
+                    🎓
+                  </span>
+                  <h2 className="text-xl font-bold text-slate-900 font-serif">Perfil del Egresado</h2>
+                </div>
+                <div className="h-0.5 w-16 bg-[#008541] rounded mb-4"></div>
+                <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
                   {data.profile}
                 </p>
               </div>
 
-              <div>
-                <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                  <Building2 className="h-6 w-6 text-primary" />
-                  Salida Laboral
-                </h2>
-                <p className="text-zinc-400 leading-relaxed text-lg">
+              {/* Salida Laboral */}
+              <div className="bg-white rounded-2xl p-7 border border-slate-200/80 shadow-xs">
+                <div className="flex items-center gap-2.5 mb-3">
+                  <span className="w-8 h-8 rounded-lg bg-emerald-50 text-[#008541] flex items-center justify-center font-bold">
+                    💼
+                  </span>
+                  <h2 className="text-xl font-bold text-slate-900 font-serif">Alcances y Salida Laboral</h2>
+                </div>
+                <div className="h-0.5 w-16 bg-[#008541] rounded mb-4"></div>
+                <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
                   {data.field}
                 </p>
               </div>
 
+              {/* Plan de Estudios */}
               {data.subjects.length > 0 && (
-                <div>
-                  <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                    <FileText className="h-6 w-6 text-primary" />
-                    Plan de Estudios
-                  </h2>
+                <div className="bg-white rounded-2xl p-7 border border-slate-200/80 shadow-xs space-y-6">
+                  <div>
+                    <div className="flex items-center gap-2.5 mb-2">
+                      <span className="w-8 h-8 rounded-lg bg-emerald-50 text-[#008541] flex items-center justify-center font-bold">
+                        📋
+                      </span>
+                      <h2 className="text-xl font-bold text-slate-900 font-serif">Estructura del Plan de Estudios</h2>
+                    </div>
+                    <div className="h-0.5 w-16 bg-[#008541] rounded mb-2"></div>
+                    <p className="text-xs text-slate-500">Asignaturas organizadas correlativamente por año de cursada.</p>
+                  </div>
+
                   <div className="space-y-4">
                     {data.subjects.map((year, idx) => (
-                      <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                        <h3 className="font-bold text-lg text-primary-300 mb-4">{year.year}</h3>
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div key={idx} className="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                        <h3 className="font-bold text-sm text-[#008541] font-serif mb-3 flex items-center gap-2">
+                          <span>📅</span>
+                          <span>{year.year}</span>
+                        </h3>
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                           {year.list.map((subject, sIdx) => (
-                            <li key={sIdx} className="flex items-center gap-2 text-zinc-300 text-sm">
-                              <div className="w-1.5 h-1.5 rounded-full bg-primary/50"></div>
-                              {subject}
+                            <li key={sIdx} className="flex items-center gap-2 text-slate-700 text-xs font-medium">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-[#008541] shrink-0" />
+                              <span>{subject}</span>
                             </li>
                           ))}
                         </ul>
@@ -235,24 +266,45 @@ export default function CareerDetail() {
                   </div>
                 </div>
               )}
+
             </div>
 
-            {/* Columna Lateral (Sidebar CTA) */}
+            {/* Sidebar Lateral */}
             <div className="space-y-6">
-              <div className="bg-gradient-to-br from-primary/20 to-zinc-900 border border-primary/30 rounded-3xl p-8 sticky top-32">
-                <h3 className="text-xl font-bold mb-2">¿Te interesa esta carrera?</h3>
-                <p className="text-zinc-400 text-sm mb-8">
-                  Inscribite ahora para el ciclo lectivo 2027 o descargá el plan de estudios completo en PDF.
-                </p>
+              <div className="bg-white border border-slate-200 rounded-3xl p-7 shadow-sm sticky top-28 space-y-5">
+                <div>
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#008541] block mb-1">Inscripciones Abiertas</span>
+                  <h3 className="text-lg font-bold text-slate-900 font-serif">¿Querés cursar esta carrera?</h3>
+                  <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                    La Universidad Nacional de Luján es 100% gratuita. Conocé los requisitos de admisión y el calendario de inscripción oficial.
+                  </p>
+                </div>
                 
-                <div className="space-y-3">
-                  <a href="https://www.unlu.edu.ar/inscripcion-periodo.html" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full px-5 py-4 bg-primary text-white font-bold rounded-xl hover:bg-primary-600 transition-colors shadow-lg">
-                    Inscribirme (Ingreso 2027)
+                <div className="space-y-2.5 pt-2">
+                  <a 
+                    href="https://www.unlu.edu.ar/inscripcion-periodo.html" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-center justify-center w-full px-5 py-3.5 bg-[#008541] hover:bg-[#005a2b] text-white font-bold rounded-xl transition-all shadow-md text-xs"
+                  >
+                    <span>Inscribirme en la UNLu</span>
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </a>
-                  <a href={data.planUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full px-5 py-4 bg-white/5 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors border border-white/10 gap-2">
-                    <Download className="h-4 w-4" />
-                    Ver Plan de Estudios
+
+                  <a 
+                    href={data.planUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-center justify-center w-full px-5 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl transition-colors text-xs gap-2 border border-slate-200"
+                  >
+                    <Download className="h-4 w-4 text-slate-600" />
+                    <span>Descargar Resolución / PDF</span>
                   </a>
+                </div>
+
+                <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-[11px] text-emerald-900 space-y-1">
+                  <strong className="block font-bold">¿Dudas o consultas de equivalencia?</strong>
+                  <p>Escribinos a <a href="mailto:alumnoscrch@unlu.edu.ar" className="underline font-semibold">alumnoscrch@unlu.edu.ar</a> o llamá al Int. 102.</p>
                 </div>
               </div>
             </div>
@@ -261,13 +313,16 @@ export default function CareerDetail() {
         </div>
       </section>
       
-      {/* Footer Minimalista */}
-      <footer className="py-8 text-center text-zinc-600 text-sm border-t border-white/5 mt-20 flex flex-col items-center gap-4">
-        <p>Centro Regional Chivilcoy - Universidad Nacional de Luján</p>
-        <Link to="/dashboard" className="px-3 py-1.5 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white rounded-md transition-colors text-xs font-medium">
-          Acceso
-        </Link>
+      {/* Footer */}
+      <footer className="bg-slate-900 text-slate-400 py-10 border-t border-slate-800 text-xs text-center">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p>© {new Date().getFullYear()} Centro Regional Chivilcoy · Universidad Nacional de Luján.</p>
+          <Link to="/" className="text-slate-300 hover:text-white font-bold">
+            ← Volver a la página principal
+          </Link>
+        </div>
       </footer>
+
     </div>
   );
 }

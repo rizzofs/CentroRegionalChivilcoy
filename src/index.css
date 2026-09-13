@@ -2,29 +2,44 @@
 @import url('https://fonts.cdnfonts.com/css/opendyslexic');
 
 @theme {
+  --color-unlu-green: #008541;
+  --color-unlu-green-dark: #005a2b;
+  --color-unlu-green-light: #00a852;
+  --color-unlu-gold: #f9c540;
+  --color-unlu-gold-light: #fde047;
+  --color-unlu-gold-dark: #d4a017;
+  --color-unlu-red: #c0392b;
+  --color-unlu-blue: #1e40af;
+
+  --color-primary: #008541;
+  --color-primary-dark: #005a2b;
+  --color-primary-light: #00a852;
   --color-primary-50: #f0fdf4;
   --color-primary-100: #dcfce7;
   --color-primary-200: #bbf7d0;
   --color-primary-300: #86efac;
   --color-primary-400: #4ade80;
-  --color-primary-500: #22c55e;
-  --color-primary-600: #16a34a;
-  --color-primary-700: #15803d;
-  --color-primary: #15803d; /* green-700 */
-  --color-primary-800: #166534;
-  --color-primary-900: #14532d;
-  --color-primary-950: #052e16;
-  --color-secondary: #0f766e; /* teal-700 */
-  --color-accent: #22c55e; /* green-500 */
-  --color-background: #fafafa; /* zinc-50 */
+  --color-primary-500: #008541;
+  --color-primary-600: #007237;
+  --color-primary-700: #005a2b;
+  --color-primary-800: #004521;
+  --color-primary-900: #003318;
+  --color-primary-950: #001f0e;
+  --color-secondary: #0f766e;
+  --color-accent: #f9c540;
+  --color-background: #f8fafc;
 }
 
 @layer base {
   body {
     background-color: var(--color-background);
     color: #0f172a;
-    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  h1, h2, h3, .font-serif {
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
   }
 }
 
@@ -68,7 +83,9 @@ html.high-contrast body {
 
 html.high-contrast .bg-white,
 html.high-contrast .bg-zinc-50,
-html.high-contrast .bg-zinc-100 {
+html.high-contrast .bg-zinc-100,
+html.high-contrast .bg-slate-50,
+html.high-contrast .bg-slate-100 {
   background-color: #121212 !important;
   color: #ffffff !important;
   border-color: #333333 !important;
@@ -77,12 +94,17 @@ html.high-contrast .bg-zinc-100 {
 html.high-contrast .text-zinc-900,
 html.high-contrast .text-zinc-800,
 html.high-contrast .text-zinc-700,
-html.high-contrast .text-zinc-600 {
+html.high-contrast .text-zinc-600,
+html.high-contrast .text-slate-900,
+html.high-contrast .text-slate-800,
+html.high-contrast .text-slate-700 {
   color: #f4f4f5 !important;
 }
 
 html.high-contrast .text-zinc-500,
-html.high-contrast .text-zinc-400 {
+html.high-contrast .text-zinc-400,
+html.high-contrast .text-slate-500,
+html.high-contrast .text-slate-400 {
   color: #d4d4d8 !important;
 }
 
