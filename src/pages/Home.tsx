@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { 
-  MapPin, ChevronRight, ArrowRight, Menu, X, ExternalLink
+  MapPin, ChevronRight, ArrowRight, Menu, X, ExternalLink,
+  Bus, Train, Car, Navigation, CreditCard, Clock, Compass
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [transportTab, setTransportTab] = useState<'locales' | 'aledanias' | 'tren'>('locales');
 
   const [faqList, setFaqList] = useState([
     {
@@ -98,6 +100,7 @@ export default function Home() {
               <a href="#institucion" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">La Institución</a>
               <a href="#oferta" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Oferta Académica</a>
               <Link to="/vida-universitaria" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Vida Universitaria</Link>
+              <a href="#como-llegar" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Cómo Llegar</a>
               <a href="#contacto" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Contacto</a>
               
               <a 
@@ -129,6 +132,7 @@ export default function Home() {
             <a href="#institucion" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">La Institución</a>
             <a href="#oferta" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Oferta Académica</a>
             <Link to="/vida-universitaria" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Vida Universitaria</Link>
+            <a href="#como-llegar" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Cómo Llegar</a>
             <a href="#contacto" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Contacto</a>
             <a 
               href="https://www.unlu.edu.ar/inscripcion-periodo.html" 
@@ -604,48 +608,388 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Mapa de Ubicación */}
-      <section className="bg-white py-16 border-b border-slate-200">
+      {/* Cómo Llegar y Medios de Transporte */}
+      <section id="como-llegar" className="bg-white py-20 border-b border-slate-200 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row gap-10 items-center">
-            <div className="w-full md:w-1/3">
-              <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#008541] block mb-1">Localización</span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 font-serif mb-3">Cómo Llegar</h2>
-              <div className="h-1 w-16 bg-gradient-to-r from-[#008541] to-[#f9c540] rounded-full mb-4"></div>
+          
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#008541] block mb-2">
+              ACCESIBILIDAD, RUTAS Y TRANSPORTE
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 font-serif mb-3">
+              Cómo Llegar al Centro Regional Chivilcoy
+            </h2>
+            <div className="h-1 w-20 bg-gradient-to-r from-[#008541] via-[#f9c540] to-[#c0392b] rounded-full mx-auto mb-4"></div>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              Ubicado estratégicamente sobre <strong className="text-slate-800">Calle 110 (El Grito de Alcorta) Nº 110</strong>, con conexión fluida a la Ruta Nacional 5, Rutas Provinciales 30 y 51, y transporte público urbano e interurbano.
+            </p>
+          </div>
+
+          {/* Pestañas de Modos de Transporte */}
+          <div className="flex justify-center mb-10">
+            <div className="inline-flex p-1.5 bg-slate-100 rounded-2xl border border-slate-200/80 shadow-xs max-w-full overflow-x-auto">
+              <button
+                onClick={() => setTransportTab('locales')}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                  transportTab === 'locales'
+                    ? 'bg-[#008541] text-white shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                }`}
+              >
+                <Bus className="w-4 h-4" />
+                <span>Colectivos Locales (EMTUPSE)</span>
+              </button>
+
+              <button
+                onClick={() => setTransportTab('aledanias')}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                  transportTab === 'aledanias'
+                    ? 'bg-[#008541] text-white shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                }`}
+              >
+                <Navigation className="w-4 h-4" />
+                <span>Ciudades Aledañas y Media Distancia</span>
+              </button>
+
+              <button
+                onClick={() => setTransportTab('tren')}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                  transportTab === 'tren'
+                    ? 'bg-[#008541] text-white shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                }`}
+              >
+                <Train className="w-4 h-4" />
+                <span>Tren y Accesos en Auto</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Contenido de la Pestaña Activa */}
+          <div className="mb-14">
+            {transportTab === 'locales' && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fadeIn">
+                
+                {/* 1. Líneas Urbanas EMTUPSE */}
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-100 text-[#008541] flex items-center justify-center font-bold">
+                        <Bus className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold text-slate-900 font-serif">Líneas Urbanas (EMTUPSE)</h3>
+                        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Transporte Municipal</span>
+                      </div>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                      El servicio municipal de colectivos conecta la <strong className="text-slate-800">Plaza 25 de Mayo (Centro)</strong>, la <strong className="text-slate-800">Terminal de Ómnibus</strong> y los principales barrios con paradas próximas a la sede UNLu.
+                    </p>
+                    <ul className="text-xs text-slate-600 space-y-2 bg-white p-3.5 rounded-xl border border-slate-200">
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[#008541]"></span>
+                        <span><strong>Línea 1:</strong> Plaza Principal ↔ Av. Mitre ↔ B° Glaxo</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[#f9c540]"></span>
+                        <span><strong>Línea 2:</strong> Plaza 25 de Mayo ↔ Terminal de Ómnibus</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
+                        <span><strong>Línea 3:</strong> Av. Suárez ↔ Parque Industrial</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="mt-5 pt-4 border-t border-slate-200">
+                    <a 
+                      href="https://chivilcoy.gov.ar/colectivos-locales/" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="inline-flex items-center justify-between w-full bg-[#008541] hover:bg-[#006834] text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-xs transition-colors"
+                    >
+                      <span>Ver Horarios y Recorridos Oficiales</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </div>
+
+                {/* 2. Boleto Estudiantil Gratuito */}
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
+                        <CreditCard className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold text-slate-900 font-serif">Boleto Estudiantil</h3>
+                        <span className="text-[11px] font-semibold text-amber-700 uppercase tracking-wider">100% Gratuito</span>
+                      </div>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                      Los estudiantes regulares de la UNLu en Chivilcoy acceden al boleto gratuito para el transporte urbano de pasajeros mediante tarjeta SUBE.
+                    </p>
+                    <div className="bg-white p-3.5 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                      <p className="font-bold text-slate-800 mb-1">Requisitos de tramitación:</p>
+                      <p>✓ Certificado de Alumno Regular UNLu</p>
+                      <p>✓ DNI con domicilio actualizado</p>
+                      <p>✓ Tarjeta SUBE registrada a nombre del titular</p>
+                    </div>
+                  </div>
+                  <div className="mt-5 pt-4 border-t border-slate-200">
+                    <span className="text-xs text-slate-500 font-medium">Gestionable en la Dirección de Tránsito / Terminal</span>
+                  </div>
+                </div>
+
+                {/* 3. Conexión Terminal ↔ Sede UNLu */}
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold">
+                        <Clock className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold text-slate-900 font-serif">Terminal de Ómnibus</h3>
+                        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Enlace Rápido</span>
+                      </div>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                      La Terminal de Ómnibus de Chivilcoy se encuentra ubicada sobre la Av. De Tomaso y calle 8. Podés combinar directamente con colectivos urbanos o llegar en pocos minutos en taxi / remis.
+                    </p>
+                    <div className="bg-white p-3.5 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                      <p className="font-bold text-slate-800">Distancia al Centro Regional:</p>
+                      <p>• En Colectivo EMTUPSE: ~15 minutos</p>
+                      <p>• En Auto / Remis: ~7 minutos</p>
+                      <p>• En Bicicleta / Caminata: ~25 minutos</p>
+                    </div>
+                  </div>
+                  <div className="mt-5 pt-4 border-t border-slate-200">
+                    <span className="text-xs text-slate-500 font-medium">Parada de remis y taxis disponible 24 hs en Terminal</span>
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            {transportTab === 'aledanias' && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fadeIn">
+                
+                {/* 1. Corredor Ruta Nacional 5 */}
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-100 text-[#008541] flex items-center justify-center font-bold">
+                      <Navigation className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-slate-900 font-serif">Corredor RN 5</h3>
+                      <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Luján · Mercedes · Alberti · Bragado</span>
+                    </div>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
+                    Conexión directa y fluida con todas las localidades situadas sobre la Ruta Nacional 5.
+                  </p>
+                  <div className="bg-white p-3.5 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-2">
+                    <p className="font-bold text-slate-800">Empresas de Ómnibus:</p>
+                    <p>• <strong>Chevallier / Pullman Gral. Belgrano:</strong> Frecuencias diarias desde CABA, Luján, Mercedes, Suipacha, Alberti, Bragado y 9 de Julio.</p>
+                    <p>• <strong>Transportes San José:</strong> Servicios diarios interurbanos entre Chivilcoy y localidades vecinas.</p>
+                  </div>
+                </div>
+
+                {/* 2. Corredor Ruta Provincial 30 y 51 */}
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
+                      <Compass className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-slate-900 font-serif">Rutas RP 30 y RP 51</h3>
+                      <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Chacabuco · Salto · 25 de Mayo</span>
+                    </div>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
+                    Accesos rápidos desde el norte y sur provincial que vinculan a decenas de estudiantes que viajan diariamente.
+                  </p>
+                  <div className="bg-white p-3.5 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-2">
+                    <p className="font-bold text-slate-800">Servicios disponibles:</p>
+                    <p>• <strong>Desde Chacabuco y Salto:</strong> Micros interurbanos y servicios de combis universitarias directas.</p>
+                    <p>• <strong>Desde 25 de Mayo y Moquehuá:</strong> Servicios de transporte de pasajeros por RP 51.</p>
+                  </div>
+                </div>
+
+                {/* 3. Conexión La Plata y GBA */}
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center font-bold">
+                      <Bus className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-slate-900 font-serif">La Plata y AMBA</h3>
+                      <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">TALP (El Costero)</span>
+                    </div>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
+                    Vinculación interuniversitaria con la capital provincial y el conurbano bonaerense.
+                  </p>
+                  <div className="bg-white p-3.5 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-2">
+                    <p className="font-bold text-slate-800">Servicios y combinación:</p>
+                    <p>• <strong>Empresa TALP:</strong> Línea 338 / Media Distancia conecta La Plata, Cañuelas, Navarro y Chivilcoy.</p>
+                    <p>• <strong>Conexión con Sede Central Luján:</strong> Servicios inter-sedes y combinación fluida de transporte.</p>
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            {transportTab === 'tren' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
+                
+                {/* 1. Ferrocarril Sarmiento */}
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold">
+                        <Train className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold text-slate-900 font-serif">Trenes Argentinos (Línea Sarmiento)</h3>
+                        <span className="text-[11px] font-semibold text-blue-700 uppercase tracking-wider">Estación Chivilcoy Sud</span>
+                      </div>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                      El servicio de pasajeros de larga distancia de Trenes Argentinos une la estación de <strong className="text-slate-800">Once (CABA)</strong> con <strong className="text-slate-800">Bragado y Pehuajó</strong>, con parada intermedia obligatoria en la <strong>Estación Chivilcoy Sud</strong>.
+                    </p>
+                    <div className="bg-white p-4 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-2">
+                      <p className="font-bold text-slate-800">Puntos Clave del Servicio:</p>
+                      <p>✓ Estación: Calle Suipacha y Av. Bernardo de Irigoyen</p>
+                      <p>✓ Paradas intermedias: Mercedes, Suipacha, Chivilcoy Sud, Vaccarezza, Alberti, Bragado</p>
+                      <p>✓ Tarifas altamente accesibles y venta anticipada web</p>
+                    </div>
+                  </div>
+                  <div className="mt-5 pt-4 border-t border-slate-200">
+                    <a 
+                      href="https://webventas.sofse.gob.ar/" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="inline-flex items-center gap-2 text-xs font-bold text-[#008541] hover:underline"
+                    >
+                      <span>Venta de Pasajes Online (Trenes Argentinos)</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </div>
+
+                {/* 2. Accesos en Auto Particular y Estacionamiento */}
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-slate-200 text-slate-800 flex items-center justify-center font-bold">
+                        <Car className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold text-slate-900 font-serif">Accesos en Vehículo Particular</h3>
+                        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Rutas Nacionales y Provinciales</span>
+                      </div>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                      El Centro Regional cuenta con fácil acceso desde las avenidas de circunvalación y señalización vial clara desde los ingresos a la ciudad.
+                    </p>
+                    <div className="bg-white p-4 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-2">
+                      <p className="font-bold text-slate-800">Instrucciones de llegada:</p>
+                      <p>• <strong>Desde RN 5:</strong> Ingresar por Av. Mitre o Av. Bernardo de Irigoyen hasta intersección con Calle 110.</p>
+                      <p>• <strong>Desde RP 30:</strong> Acceso por Av. De Tomaso hacia el anillo céntrico.</p>
+                      <p>• <strong>Estacionamiento:</strong> Espacio de aparcamiento perimetral libre y gratuito para autos, motos y bicicletas.</p>
+                    </div>
+                  </div>
+                  <div className="mt-5 pt-4 border-t border-slate-200">
+                    <a 
+                      href="https://maps.google.com/?q=-34.908333,-60.016667" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="inline-flex items-center gap-2 text-xs font-bold text-[#008541] hover:underline"
+                    >
+                      <span>Navegar con GPS (Google Maps)</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            )}
+          </div>
+
+          {/* Mapa Interactivo y Ficha de Localización */}
+          <div className="bg-slate-50 rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               
-              <div className="flex items-start gap-3 mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                <MapPin className="h-5 w-5 text-[#008541] shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Sede Centro Regional Chivilcoy</h4>
-                  <p className="text-slate-600 text-xs mt-0.5">Calle 110 (El Grito de Alcorta) Nº 110<br />Chivilcoy, Provincia de Buenos Aires</p>
+              {/* Información y Datos de la Sede */}
+              <div className="lg:col-span-4">
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#008541] block mb-2">
+                  SEDE ACADÉMICA CHIVILCOY
+                </span>
+                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 font-serif mb-4">
+                  Centro Regional Chivilcoy · UNLu
+                </h3>
+                
+                <div className="space-y-4 mb-6 text-xs sm:text-sm text-slate-600">
+                  <div className="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200">
+                    <MapPin className="h-5 w-5 text-[#008541] shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-slate-900 block">Dirección Oficial:</strong>
+                      <span>Calle 110 (El Grito de Alcorta) Nº 110</span>
+                      <span className="block text-slate-500 text-xs">B6620 Chivilcoy, Pcia. de Buenos Aires</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200">
+                    <Clock className="h-5 w-5 text-[#008541] shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-slate-900 block">Horarios de Actividad:</strong>
+                      <span>Lunes a viernes de 8:00 a 21:00 hs.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3">
+                  <a 
+                    href="https://maps.google.com/?q=-34.908333,-60.016667" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="inline-flex items-center gap-2 bg-[#008541] hover:bg-[#006834] text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-xs transition-transform active:scale-95"
+                  >
+                    <Navigation className="w-3.5 h-3.5" />
+                    <span>Abrir en Google Maps</span>
+                  </a>
+
+                  <a 
+                    href="https://chivilcoy.gov.ar/colectivos-locales/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#008541] bg-emerald-50 hover:bg-emerald-100 px-3.5 py-2.5 rounded-xl border border-emerald-200 transition-colors"
+                  >
+                    <span>Colectivos Locales</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
                 </div>
               </div>
 
-              <a 
-                href="https://maps.google.com/?q=-34.908333,-60.016667" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#008541] hover:underline"
-              >
-                <span>Abrir en Google Maps</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-            </div>
+              {/* Mapa Embebido */}
+              <div className="lg:col-span-8 h-[380px] sm:h-[420px] rounded-2xl overflow-hidden shadow-md border border-slate-200 relative">
+                <iframe 
+                  src="https://www.google.com/maps?q=-34.908333,-60.016667+(UNLu+-+Centro+Regional+Chivilcoy)&hl=es;z=16&output=embed" 
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0 }} 
+                  allowFullScreen={false} 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Mapa de Ubicación del Centro Regional Chivilcoy - UNLu"
+                  className="absolute inset-0"
+                ></iframe>
+              </div>
 
-            <div className="w-full md:w-2/3 h-[380px] rounded-3xl overflow-hidden shadow-md border border-slate-200 relative">
-              <iframe 
-                src="https://www.google.com/maps?q=-34.908333,-60.016667+(UNLu+-+Centro+Regional+Chivilcoy)&hl=es;z=16&output=embed" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen={false} 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Mapa del Centro Regional Chivilcoy"
-                className="absolute inset-0"
-              ></iframe>
             </div>
           </div>
+
         </div>
       </section>
 
