@@ -750,21 +750,30 @@ export default function Home() {
                       </div>
                       <div>
                         <h3 className="text-base font-bold text-slate-900 font-serif">Terminal de Ómnibus</h3>
-                        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Enlace Rápido</span>
+                        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Pueyrredón 501 (Esq. Humberto Primo)</span>
                       </div>
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                      La Terminal de Ómnibus de Chivilcoy se encuentra ubicada sobre la Av. De Tomaso y calle 8. Podés combinar directamente con colectivos urbanos o llegar en pocos minutos en taxi / remis.
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
+                      Principal nodo de llegada y salida de micros de media y larga distancia de Chivilcoy con conexión directa al Centro Regional.
                     </p>
-                    <div className="bg-white p-3.5 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
-                      <p className="font-bold text-slate-800">Distancia al Centro Regional:</p>
-                      <p>• En Colectivo EMTUPSE: ~15 minutos</p>
-                      <p>• En Auto / Remis: ~7 minutos</p>
-                      <p>• En Bicicleta / Caminata: ~25 minutos</p>
+                    <div className="bg-white p-3.5 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-1.5 mb-3">
+                      <p className="font-bold text-slate-800">Información Útil:</p>
+                      <p>• <strong>Dirección:</strong> Pueyrredón 501 (esq. Humberto Primo)</p>
+                      <p>• <strong>Teléfono:</strong> +54 (02346) 42-9888</p>
+                      <p>• <strong>Empresas:</strong> Chevallier, Plusmar, Vía Bariloche, Pullman Gral. Belgrano, Sol Bus, TALP y Costera Criolla</p>
+                      <p>• <strong>Servicios:</strong> Boleterías, kioscos, locales y parada de taxis 24 hs</p>
                     </div>
                   </div>
-                  <div className="mt-5 pt-4 border-t border-slate-200">
-                    <span className="text-xs text-slate-500 font-medium">Parada de remis y taxis disponible 24 hs en Terminal</span>
+                  <div className="mt-2 pt-3 border-t border-slate-200">
+                    <a 
+                      href="https://www.plataforma10.com.ar/terminales-de-omnibus/terminal-de-chivilcoy" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="inline-flex items-center justify-between w-full text-xs font-bold text-[#008541] hover:underline"
+                    >
+                      <span>Consultar Rutas en Plataforma 10</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
                   </div>
                 </div>
 
@@ -789,9 +798,9 @@ export default function Home() {
                     Conexión directa y fluida con todas las localidades situadas sobre la Ruta Nacional 5.
                   </p>
                   <div className="bg-white p-3.5 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-2">
-                    <p className="font-bold text-slate-800">Empresas de Ómnibus:</p>
-                    <p>• <strong>Chevallier / Pullman Gral. Belgrano:</strong> Frecuencias diarias desde CABA, Luján, Mercedes, Suipacha, Alberti, Bragado y 9 de Julio.</p>
-                    <p>• <strong>Transportes San José:</strong> Servicios diarios interurbanos entre Chivilcoy y localidades vecinas.</p>
+                    <p className="font-bold text-slate-800">Empresas de Ómnibus de Media y Larga Distancia:</p>
+                    <p>• <strong>Chevallier, Plusmar, Pullman Gral. Belgrano, Vía Bariloche, Sol Bus, Costera Criolla:</strong> Frecuencias diarias conectando CABA, Luján, Mercedes, Suipacha, Alberti, Bragado y 9 de Julio.</p>
+                    <p>• <strong>Transportes San José:</strong> Servicios diarios interurbanos entre Chivilcoy y localidades de la región.</p>
                   </div>
                 </div>
 
