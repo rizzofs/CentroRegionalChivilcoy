@@ -1,13 +1,58 @@
 import { useState, useEffect } from 'react';
 import { 
   MapPin, ChevronRight, ArrowRight, Menu, X, ExternalLink,
-  Bus, Train, Car, Navigation, CreditCard, Clock, Compass
+  Bus, Train, Car, Navigation, CreditCard, Clock, Compass,
+  Calendar, Sparkles
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [transportTab, setTransportTab] = useState<'locales' | 'aledanias' | 'tren'>('locales');
+  const [selectedNoticiaCat, setSelectedNoticiaCat] = useState<string>('todas');
+  const [selectedNoticiaModal, setSelectedNoticiaModal] = useState<any | null>(null);
+
+  const [noticiasList, setNoticiasList] = useState([
+    {
+      id: 'noticia-1',
+      titulo: 'Apertura de Inscripciones para el Ciclo Lectivo 2027 en Chivilcoy',
+      fecha: '15 de Octubre de 2026',
+      categoria: 'Ingreso',
+      resumen: 'Comienza el período oficial de preinscripción web para todas las carreras de grado y pregrado dictadas en el Centro Regional.',
+      contenido: 'La Universidad Nacional de Luján abre el período oficial de preinscripción web para el ciclo lectivo 2027. Los aspirantes podrán postularse a carreras como la Licenciatura en Sistemas de Información, Contador Público, Licenciatura en Administración, Licenciatura en Enfermería, Licenciatura en Trabajo Social y la Tecnicatura Universitaria en Ciencia de Datos. Toda la documentación se tramita de forma pública y 100% gratuita.',
+      lugar: 'Sede Chivilcoy / Portal Web UNLu',
+      destacada: true,
+      imagen: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&auto=format&fit=crop&q=80',
+      enlace: 'https://www.unlu.edu.ar/inscripcion-periodo.html',
+      enlaceTexto: 'Guía de Inscripción Oficial'
+    },
+    {
+      id: 'noticia-2',
+      titulo: 'Jornadas de Innovación y Tecnología en el Centro Regional',
+      fecha: '28 de Noviembre de 2026',
+      categoria: 'Académico',
+      resumen: 'Encuentro con especialistas en Inteligencia Artificial, Ciencia de Datos y Desarrollo de Software para estudiantes y profesionales de la región.',
+      contenido: 'Organizado conjuntamente por el Departamento de Ciencias Básicas y docentes de la Licenciatura en Sistemas de Información, se llevarán a cabo charlas magistrales, talleres prácticos y paneles sobre el impacto de la IA en la industria productiva regional. La actividad es libre y gratuita para toda la comunidad.',
+      lugar: 'Aula Magna CRCH · 18:00 hs',
+      destacada: true,
+      imagen: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&auto=format&fit=crop&q=80',
+      enlace: 'https://www.unlu.edu.ar',
+      enlaceTexto: 'Ver Cronograma'
+    },
+    {
+      id: 'noticia-3',
+      titulo: 'Taller de Orientación Vocacional y Ocupacional para Estudiantes Secundarios',
+      fecha: '10 de Diciembre de 2026',
+      categoria: 'Extensión',
+      resumen: 'Espacio de asesoramiento y acompañamiento para jóvenes que finalizan la escuela secundaria en Chivilcoy y distritos vecinos.',
+      contenido: 'El equipo de Bienestar Universitario y Extensión del Centro Regional brindará talleres grupales de orientación vocacional gratuitos destinados a estudiantes del último año de nivel medio, recorriendo planes de estudio, perfil profesional y campos laborales de las carreras UNLu.',
+      lugar: 'Sala de Conferencias · 16:30 hs',
+      destacada: false,
+      imagen: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&auto=format&fit=crop&q=80',
+      enlace: '',
+      enlaceTexto: ''
+    }
+  ]);
 
   const [faqList, setFaqList] = useState([
     {
@@ -45,6 +90,7 @@ export default function Home() {
           const parsed = JSON.parse(saved);
           if (parsed.faq && parsed.faq.length > 0) setFaqList(parsed.faq);
           if (parsed.contacto?.internos && parsed.contacto.internos.length > 0) setInternosList(parsed.contacto.internos);
+          if (parsed.noticias && parsed.noticias.length > 0) setNoticiasList(parsed.noticias);
         }
       } catch (e) {
         console.error(e);
@@ -96,8 +142,9 @@ export default function Home() {
             </div>
 
             {/* Links de Navegación Desktop */}
-            <div className="hidden md:flex items-center space-x-7">
+            <div className="hidden md:flex items-center space-x-6">
               <a href="#institucion" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">La Institución</a>
+              <a href="#noticias" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Noticias</a>
               <a href="#oferta" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Oferta Académica</a>
               <Link to="/vida-universitaria" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Vida Universitaria</Link>
               <a href="#como-llegar" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Cómo Llegar</a>
@@ -130,6 +177,7 @@ export default function Home() {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
             <a href="#institucion" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">La Institución</a>
+            <a href="#noticias" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Noticias y Eventos</a>
             <a href="#oferta" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Oferta Académica</a>
             <Link to="/vida-universitaria" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Vida Universitaria</Link>
             <a href="#como-llegar" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Cómo Llegar</a>
@@ -321,8 +369,134 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Noticias y Eventos del Centro Regional */}
+      <section id="noticias" className="py-20 bg-white border-b border-slate-200 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#008541] block mb-2">
+                ACTUALIDAD Y COMUNIDAD UNIVERSITARIA
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 font-serif">
+                Noticias y Eventos en Chivilcoy
+              </h2>
+              <div className="h-1 w-20 bg-gradient-to-r from-[#008541] via-[#f9c540] to-[#c0392b] rounded-full my-3"></div>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl">
+                Conocé las novedades académicas, jornadas de extensión, talleres y avisos oficiales que ocurren en nuestra sede.
+              </p>
+            </div>
+
+            {/* Filtros de Categorías */}
+            <div className="flex flex-wrap items-center gap-2">
+              {['todas', 'Ingreso', 'Académico', 'Extensión', 'Institucional'].map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setSelectedNoticiaCat(cat)}
+                  className={`text-xs font-bold px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+                    selectedNoticiaCat === cat
+                      ? 'bg-[#008541] text-white shadow-xs'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                >
+                  {cat === 'todas' ? 'Todas' : cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Grid de Noticias */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+            {noticiasList
+              .filter(n => selectedNoticiaCat === 'todas' || n.categoria.toLowerCase() === selectedNoticiaCat.toLowerCase())
+              .map((item) => (
+                <article 
+                  key={item.id} 
+                  className="bg-slate-50 rounded-2xl overflow-hidden border border-slate-200/90 shadow-xs hover:border-[#008541] hover:shadow-lg transition-all flex flex-col justify-between group"
+                >
+                  <div>
+                    {/* Imagen con badge */}
+                    <div className="h-48 w-full bg-slate-200 overflow-hidden relative">
+                      <img 
+                        src={item.imagen || '/escudo.svg'} 
+                        alt={item.titulo} 
+                        className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${!item.imagen ? 'p-8 object-contain opacity-30 bg-slate-100' : ''}`}
+                      />
+                      <div className="absolute top-3 left-3 flex items-center gap-2">
+                        <span className={`text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm ${
+                          item.categoria === 'Ingreso' ? 'bg-[#f9c540] text-slate-950 font-extrabold' :
+                          item.categoria === 'Académico' ? 'bg-[#008541] text-white' :
+                          item.categoria === 'Extensión' ? 'bg-purple-700 text-white' :
+                          'bg-slate-900 text-white'
+                        }`}>
+                          {item.categoria}
+                        </span>
+                        {item.destacada && (
+                          <span className="bg-amber-400 text-slate-950 text-[10px] font-bold px-2 py-1 rounded-full shadow-xs flex items-center gap-1">
+                            <Sparkles className="w-3 h-3" />
+                            <span>Destacada</span>
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Contenido de la tarjeta */}
+                    <div className="p-6">
+                      <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
+                        <span className="flex items-center gap-1 font-medium">
+                          <Calendar className="w-3.5 h-3.5 text-[#008541]" />
+                          {item.fecha}
+                        </span>
+                        {item.lugar && (
+                          <span className="flex items-center gap-1 truncate text-slate-500">
+                            <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                            <span className="truncate">{item.lugar}</span>
+                          </span>
+                        )}
+                      </div>
+
+                      <h3 className="text-lg font-bold text-slate-900 font-serif leading-snug group-hover:text-[#008541] transition-colors mb-2.5">
+                        {item.titulo}
+                      </h3>
+
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3 mb-4">
+                        {item.resumen}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="px-6 pb-6 pt-2 border-t border-slate-200/60 flex items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedNoticiaModal(item)}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#008541] hover:underline cursor-pointer"
+                    >
+                      <span>Leer Noticia Completa</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+
+                    {item.enlace && (
+                      <a 
+                        href={item.enlace} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 hover:text-slate-800 bg-white px-2.5 py-1 rounded-lg border border-slate-200 transition-colors"
+                      >
+                        <span>{item.enlaceTexto || 'Enlace'}</span>
+                        <ExternalLink className="w-3 h-3 text-[#008541]" />
+                      </a>
+                    )}
+                  </div>
+                </article>
+              ))}
+          </div>
+
+        </div>
+      </section>
+
       {/* Oferta Académica (Tarjetas de Carreras) */}
-      <section id="oferta" className="py-20 bg-white border-b border-slate-200 scroll-mt-20">
+      <section id="oferta" className="py-20 bg-slate-50 border-b border-slate-200 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
@@ -1068,6 +1242,98 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Modal de Detalle de Noticia / Evento */}
+      {selectedNoticiaModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 max-h-[90vh] flex flex-col">
+            
+            {/* Header / Imagen del Modal */}
+            <div className="relative h-48 sm:h-64 bg-slate-900 shrink-0">
+              {selectedNoticiaModal.imagen ? (
+                <img 
+                  src={selectedNoticiaModal.imagen} 
+                  alt={selectedNoticiaModal.titulo}
+                  className="w-full h-full object-cover" 
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#008541] to-[#005a2b]">
+                  <img src="/escudo.svg" alt="UNLu" className="h-24 w-24 opacity-30 invert" />
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+              
+              <button 
+                type="button" 
+                onClick={() => setSelectedNoticiaModal(null)}
+                className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-md transition-colors cursor-pointer text-sm font-bold"
+                aria-label="Cerrar modal"
+              >
+                ✕
+              </button>
+
+              <div className="absolute bottom-4 left-6 right-6 text-white">
+                <span className={`text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block ${
+                  selectedNoticiaModal.categoria === 'Ingreso' ? 'bg-[#f9c540] text-slate-950 font-bold' :
+                  selectedNoticiaModal.categoria === 'Académico' ? 'bg-[#008541] text-white' :
+                  'bg-purple-700 text-white'
+                }`}>
+                  {selectedNoticiaModal.categoria}
+                </span>
+                <h3 className="text-xl sm:text-2xl font-bold font-serif leading-tight">
+                  {selectedNoticiaModal.titulo}
+                </h3>
+              </div>
+            </div>
+
+            {/* Cuerpo del Modal */}
+            <div className="p-6 sm:p-8 overflow-y-auto space-y-4">
+              <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 pb-3 border-b border-slate-100">
+                <span className="flex items-center gap-1.5 font-medium text-slate-700">
+                  <Calendar className="w-4 h-4 text-[#008541]" />
+                  {selectedNoticiaModal.fecha}
+                </span>
+                {selectedNoticiaModal.lugar && (
+                  <span className="flex items-center gap-1.5 text-slate-700">
+                    <MapPin className="w-4 h-4 text-[#008541]" />
+                    {selectedNoticiaModal.lugar}
+                  </span>
+                )}
+              </div>
+
+              <div className="text-slate-700 text-sm leading-relaxed whitespace-pre-line">
+                {selectedNoticiaModal.contenido || selectedNoticiaModal.resumen}
+              </div>
+
+              {selectedNoticiaModal.enlace && (
+                <div className="pt-4 border-t border-slate-100">
+                  <a 
+                    href={selectedNoticiaModal.enlace} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="inline-flex items-center gap-2 bg-[#008541] hover:bg-[#006834] text-white text-xs font-bold px-5 py-3 rounded-xl shadow-md transition-transform active:scale-95"
+                  >
+                    <span>{selectedNoticiaModal.enlaceTexto || 'Acceder al Enlace Oficial'}</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              )}
+            </div>
+
+            {/* Footer Modal */}
+            <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 flex justify-end shrink-0">
+              <button
+                type="button"
+                onClick={() => setSelectedNoticiaModal(null)}
+                className="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold rounded-xl transition-colors cursor-pointer"
+              >
+                Cerrar
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
 
     </div>
   );

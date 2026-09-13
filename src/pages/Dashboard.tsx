@@ -1,9 +1,24 @@
 import { useState, useEffect } from 'react';
 import { 
   Users, BookOpen, HelpCircle, Plus, Edit2, Trash2, 
-  Megaphone, Phone, CheckCircle2, Save, ArrowLeft
+  Megaphone, Phone, CheckCircle2, Save, ArrowLeft,
+  Newspaper, Calendar, ExternalLink, Star, MapPin
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+export interface NoticiaItem {
+  id: string | number;
+  titulo: string;
+  fecha: string;
+  categoria: string;
+  resumen: string;
+  contenido: string;
+  lugar?: string;
+  destacada?: boolean;
+  imagen?: string;
+  enlace?: string;
+  enlaceTexto?: string;
+}
 
 const DEFAULT_DYNAMIC_DATA = {
   banner: {
@@ -25,6 +40,47 @@ const DEFAULT_DYNAMIC_DATA = {
       { id: 'int-4', area: 'Mesa General de Entradas', interno: 'Int. 100', responsable: 'Recepción y trámites', email: 'mesacrch@unlu.edu.ar' }
     ]
   },
+  noticias: [
+    {
+      id: 'noticia-1',
+      titulo: 'Apertura de Inscripciones para el Ciclo Lectivo 2027 en Chivilcoy',
+      fecha: '15 de Octubre de 2026',
+      categoria: 'Ingreso',
+      resumen: 'Comienza el período oficial de preinscripción web para todas las carreras de grado y pregrado dictadas en el Centro Regional.',
+      contenido: 'La Universidad Nacional de Luján abre el período oficial de preinscripción web para el ciclo lectivo 2027. Los aspirantes podrán postularse a carreras como la Licenciatura en Sistemas de Información, Contador Público, Licenciatura en Administración, Licenciatura en Enfermería, Licenciatura en Trabajo Social y la Tecnicatura Universitaria en Ciencia de Datos. Toda la documentación se tramita de forma pública y 100% gratuita.',
+      lugar: 'Sede Chivilcoy / Portal Web UNLu',
+      destacada: true,
+      imagen: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&auto=format&fit=crop&q=80',
+      enlace: 'https://www.unlu.edu.ar/inscripcion-periodo.html',
+      enlaceTexto: 'Guía de Inscripción Oficial'
+    },
+    {
+      id: 'noticia-2',
+      titulo: 'Jornadas de Innovación y Tecnología en el Centro Regional',
+      fecha: '28 de Noviembre de 2026',
+      categoria: 'Académico',
+      resumen: 'Encuentro con especialistas en Inteligencia Artificial, Ciencia de Datos y Desarrollo de Software para estudiantes y profesionales de la región.',
+      contenido: 'Organizado conjuntamente por el Departamento de Ciencias Básicas y docentes de la Licenciatura en Sistemas de Información, se llevarán a cabo charlas magistrales, talleres prácticos y paneles sobre el impacto de la IA en la industria productiva regional. La actividad es libre y gratuita para toda la comunidad.',
+      lugar: 'Aula Magna CRCH · 18:00 hs',
+      destacada: true,
+      imagen: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&auto=format&fit=crop&q=80',
+      enlace: 'https://www.unlu.edu.ar',
+      enlaceTexto: 'Ver Cronograma'
+    },
+    {
+      id: 'noticia-3',
+      titulo: 'Taller de Orientación Vocacional y Ocupacional para Estudiantes Secundarios',
+      fecha: '10 de Diciembre de 2026',
+      categoria: 'Extensión',
+      resumen: 'Espacio de asesoramiento y acompañamiento para jóvenes que finalizan la escuela secundaria en Chivilcoy y distritos vecinos.',
+      contenido: 'El equipo de Bienestar Universitario y Extensión del Centro Regional brindará talleres grupales de orientación vocacional gratuitos destinados a estudiantes del último año de nivel medio, recorriendo planes de estudio, perfil profesional y campos laborales de las carreras UNLu.',
+      lugar: 'Sala de Conferencias · 16:30 hs',
+      destacada: false,
+      imagen: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&auto=format&fit=crop&q=80',
+      enlace: '',
+      enlaceTexto: ''
+    }
+  ] as NoticiaItem[],
   faq: [
     {
       id: 1,
@@ -41,7 +97,7 @@ const DEFAULT_DYNAMIC_DATA = {
     {
       id: 3,
       pregunta: '¿Cómo tramito las Becas Universitarias y el Boleto Estudiantil?',
-      respuesta: 'Podés postularte a las becas de ayuda económica y apuntes a través de becas.unlu.edu.ar y gestionar el boleto universitario provincial con tu constancia de alumno regular.',
+      respuesta: 'Podés postularte a las becas de ayuda económica y apuntes a través de becas.unlu.edu.ar y gestionar el boleto universitario municipal gratuito en Chivilcoy con tu constancia de alumno regular.',
       categoria: 'Bienestar'
     }
   ],
@@ -60,7 +116,7 @@ const DEFAULT_DYNAMIC_DATA = {
 };
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState<'banner' | 'faq' | 'contacto' | 'carreras' | 'autoridades'>('banner');
+  const [activeTab, setActiveTab] = useState<'banner' | 'noticias' | 'faq' | 'contacto' | 'carreras' | 'autoridades'>('noticias');
   const [dynamicData, setDynamicData] = useState(DEFAULT_DYNAMIC_DATA);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -70,12 +126,32 @@ export default function Dashboard() {
     pregunta: '', respuesta: '', categoria: 'Ingreso'
   });
 
+  const [isNoticiaModalOpen, setIsNoticiaModalOpen] = useState(false);
+  const [editingNoticia, setEditingNoticia] = useState<NoticiaItem>({
+    id: '',
+    titulo: '',
+    fecha: '',
+    categoria: 'Académico',
+    resumen: '',
+    contenido: '',
+    lugar: '',
+    destacada: false,
+    imagen: '',
+    enlace: '',
+    enlaceTexto: ''
+  });
+
   // Cargar de localStorage
   useEffect(() => {
     try {
       const saved = localStorage.getItem('crch_dynamic_content');
       if (saved) {
-        setDynamicData(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        setDynamicData({
+          ...DEFAULT_DYNAMIC_DATA,
+          ...parsed,
+          noticias: parsed.noticias && parsed.noticias.length > 0 ? parsed.noticias : DEFAULT_DYNAMIC_DATA.noticias
+        });
       }
     } catch (e) {
       console.error("Error al cargar dynamic data", e);
@@ -110,6 +186,70 @@ export default function Dashboard() {
   const handleSaveBanner = (e: React.FormEvent) => {
     e.preventDefault();
     saveData(dynamicData);
+  };
+
+  // Manejadores de Noticias
+  const handleOpenNewNoticia = () => {
+    const today = new Date().toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+    setEditingNoticia({
+      id: '',
+      titulo: '',
+      fecha: today,
+      categoria: 'Académico',
+      resumen: '',
+      contenido: '',
+      lugar: 'Sede CR Chivilcoy',
+      destacada: false,
+      imagen: '',
+      enlace: '',
+      enlaceTexto: ''
+    });
+    setIsNoticiaModalOpen(true);
+  };
+
+  const handleEditNoticia = (noticia: NoticiaItem) => {
+    setEditingNoticia(noticia);
+    setIsNoticiaModalOpen(true);
+  };
+
+  const handleSaveNoticia = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingNoticia.titulo.trim() || !editingNoticia.resumen.trim()) {
+      alert('Por favor complete el título y el resumen.');
+      return;
+    }
+
+    let updatedNoticias = [...dynamicData.noticias];
+    if (editingNoticia.id) {
+      updatedNoticias = updatedNoticias.map(n => n.id === editingNoticia.id ? editingNoticia : n);
+    } else {
+      const newNoticia: NoticiaItem = {
+        ...editingNoticia,
+        id: `noticia-${Date.now()}`
+      };
+      updatedNoticias.unshift(newNoticia);
+    }
+
+    const updated = { ...dynamicData, noticias: updatedNoticias };
+    saveData(updated);
+    setIsNoticiaModalOpen(false);
+  };
+
+  const handleDeleteNoticia = (id: string | number) => {
+    if (!confirm('¿Deseas eliminar esta noticia/evento?')) return;
+    const updated = {
+      ...dynamicData,
+      noticias: dynamicData.noticias.filter(n => n.id !== id)
+    };
+    saveData(updated);
+  };
+
+  const handleToggleDestacada = (id: string | number) => {
+    const updated = {
+      ...dynamicData,
+      noticias: dynamicData.noticias.map(n => n.id === id ? { ...n, destacada: !n.destacada } : n)
+    };
+    saveData(updated);
   };
 
   // Manejador de FAQ
@@ -167,6 +307,16 @@ export default function Dashboard() {
           </div>
 
           <nav className="p-4 space-y-1">
+            <button
+              onClick={() => setActiveTab('noticias')}
+              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all text-left cursor-pointer ${
+                activeTab === 'noticias' ? 'bg-[#15803d] text-white shadow-md' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+              }`}
+            >
+              <Newspaper className="w-4 h-4" />
+              <span>Noticias y Eventos</span>
+            </button>
+
             <button
               onClick={() => setActiveTab('banner')}
               className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all text-left cursor-pointer ${
@@ -234,6 +384,115 @@ export default function Dashboard() {
       <main className="flex-1 p-4 sm:p-8 max-w-6xl w-full">
         
         {/* ========================================================= */}
+        {/* TAB: NOTICIAS Y EVENTOS */}
+        {/* ========================================================= */}
+        {activeTab === 'noticias' && (
+          <div className="space-y-6">
+            <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-4">
+                <div>
+                  <h1 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
+                    <Newspaper className="w-5 h-5 text-[#15803d]" />
+                    <span>Noticias, Eventos y Novedades CRCH</span>
+                  </h1>
+                  <p className="text-xs text-zinc-500 mt-1">
+                    Publicá y editá novedades institucionales, jornadas académicas y avisos importantes para la comunidad de Chivilcoy.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleOpenNewNoticia}
+                  className="inline-flex items-center gap-2 bg-[#15803d] hover:bg-green-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-transform active:scale-95 cursor-pointer shrink-0"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>+ Nueva Noticia / Evento</span>
+                </button>
+              </div>
+
+              {/* Lista de Noticias */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {dynamicData.noticias.map((item) => (
+                  <div key={item.id} className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl flex flex-col justify-between hover:border-[#15803d]/50 transition-all">
+                    <div>
+                      <div className="flex items-center justify-between gap-2 mb-2">
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase ${
+                          item.categoria === 'Ingreso' ? 'bg-amber-100 text-amber-900' :
+                          item.categoria === 'Académico' ? 'bg-emerald-100 text-emerald-900' :
+                          item.categoria === 'Extensión' ? 'bg-purple-100 text-purple-900' :
+                          'bg-blue-100 text-blue-900'
+                        }`}>
+                          {item.categoria}
+                        </span>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => handleToggleDestacada(item.id)}
+                            className={`p-1 rounded-md text-xs transition-colors ${
+                              item.destacada ? 'text-amber-500 bg-amber-50' : 'text-zinc-400 hover:text-amber-500'
+                            }`}
+                            title={item.destacada ? 'Quitar de destacadas' : 'Marcar como destacada'}
+                          >
+                            <Star className="w-3.5 h-3.5 fill-current" />
+                          </button>
+                          <span className="text-[11px] text-zinc-500 flex items-center gap-1">
+                            <Calendar className="w-3 h-3" />
+                            {item.fecha}
+                          </span>
+                        </div>
+                      </div>
+
+                      <h3 className="font-bold text-sm text-zinc-900 leading-snug line-clamp-2 mb-1.5">
+                        {item.titulo}
+                      </h3>
+                      <p className="text-xs text-zinc-600 line-clamp-2 leading-relaxed mb-3">
+                        {item.resumen}
+                      </p>
+                      
+                      {item.lugar && (
+                        <div className="flex items-center gap-1 text-[11px] text-zinc-500 mb-2">
+                          <MapPin className="w-3 h-3 text-emerald-600" />
+                          <span>{item.lugar}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="pt-3 border-t border-zinc-200/80 flex items-center justify-between">
+                      {item.enlace ? (
+                        <span className="text-[11px] text-emerald-700 font-bold flex items-center gap-1">
+                          <ExternalLink className="w-3 h-3" />
+                          <span>Con enlace externo</span>
+                        </span>
+                      ) : (
+                        <span className="text-[11px] text-zinc-400">Sin enlace externo</span>
+                      )}
+
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => handleEditNoticia(item)}
+                          className="p-1.5 text-zinc-600 hover:text-[#15803d] hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition-all"
+                          title="Editar"
+                        >
+                          <Edit2 className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteNoticia(item.id)}
+                          className="p-1.5 text-zinc-400 hover:text-red-600 hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition-all"
+                          title="Eliminar"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================= */}
         {/* TAB 1: AVISOS Y BANNERS */}
         {/* ========================================================= */}
         {activeTab === 'banner' && (
@@ -298,8 +557,8 @@ export default function Dashboard() {
                     >
                       <option value="gold">Dorado (Inscripciones / Destacado)</option>
                       <option value="green">Verde UNLu (Institucional)</option>
-                      <option value="blue">Azul (Académico / Bedelía)</option>
-                      <option value="red">Rojo (Urgente / Plazo límite)</option>
+                      <option value="blue">Azul (Información General)</option>
+                      <option value="red">Rojo (Alerta / Importante)</option>
                     </select>
                   </div>
                 </div>
@@ -354,7 +613,7 @@ export default function Dashboard() {
         )}
 
         {/* ========================================================= */}
-        {/* TAB 2: PREGUNTAS FRECUENTES (FAQ) */}
+        {/* TAB: PREGUNTAS FRECUENTES (FAQ) */}
         {/* ========================================================= */}
         {activeTab === 'faq' && (
           <div className="space-y-6">
@@ -390,29 +649,33 @@ export default function Dashboard() {
                         <span className="inline-block text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md mb-1 uppercase">
                           {item.categoria}
                         </span>
-                        <h3 className="text-sm font-bold text-zinc-900">{item.pregunta}</h3>
-                        <p className="text-xs text-zinc-600 mt-1 leading-relaxed">{item.respuesta}</p>
+                        <h3 className="font-bold text-xs sm:text-sm text-zinc-800">{item.pregunta}</h3>
                       </div>
-                      <div className="flex items-center gap-2 shrink-0">
+                      <div className="flex items-center gap-1 shrink-0">
                         <button
+                          type="button"
                           onClick={() => {
                             setEditingFaq(item);
                             setIsFaqModalOpen(true);
                           }}
-                          className="p-1.5 text-zinc-500 hover:text-[#15803d] rounded-lg hover:bg-white"
+                          className="p-1.5 text-zinc-500 hover:text-[#15803d] hover:bg-white rounded-lg transition-colors"
                           title="Editar"
                         >
-                          <Edit2 className="w-4 h-4" />
+                          <Edit2 className="w-3.5 h-3.5" />
                         </button>
                         <button
+                          type="button"
                           onClick={() => handleDeleteFaq(item.id)}
-                          className="p-1.5 text-zinc-500 hover:text-red-600 rounded-lg hover:bg-red-50"
+                          className="p-1.5 text-zinc-400 hover:text-red-600 hover:bg-white rounded-lg transition-colors"
                           title="Eliminar"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </div>
+                    <p className="text-xs text-zinc-600 leading-relaxed border-t border-zinc-200/60 pt-2">
+                      {item.respuesta}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -421,32 +684,33 @@ export default function Dashboard() {
         )}
 
         {/* ========================================================= */}
-        {/* TAB 3: CONTACTO & INTERNOS */}
+        {/* TAB: CANALES Y CONTACTO */}
         {/* ========================================================= */}
         {activeTab === 'contacto' && (
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs space-y-5">
-              <div className="border-b border-zinc-100 pb-4">
+              <div>
                 <h1 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
                   <Phone className="w-5 h-5 text-[#15803d]" />
-                  <span>Canales de Contacto e Internos de Chivilcoy</span>
+                  <span>Canales de Contacto e Internos Telefónicos</span>
                 </h1>
                 <p className="text-xs text-zinc-500 mt-1">
-                  Mantené actualizados los números telefónicos e internos del Centro Regional.
+                  Mantené actualizados los números de internos de cada oficina del Centro Regional Chivilcoy.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {dynamicData.contacto.internos.map((item) => (
-                  <div key={item.id} className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-xs text-zinc-900">{item.area}</span>
-                      <span className="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded">
+                  <div key={item.id} className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-bold text-[#15803d] bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
                         {item.interno}
                       </span>
+                      <span className="text-[11px] text-zinc-400 font-mono">ID: {item.id}</span>
                     </div>
-                    <p className="text-xs text-zinc-500">{item.responsable}</p>
-                    <span className="text-xs font-medium text-[#15803d] block">{item.email}</span>
+                    <h3 className="font-bold text-xs text-zinc-900">{item.area}</h3>
+                    <p className="text-[11px] text-zinc-500">{item.responsable}</p>
+                    <p className="text-[11px] text-[#15803d] font-semibold mt-2">{item.email}</p>
                   </div>
                 ))}
               </div>
@@ -455,29 +719,28 @@ export default function Dashboard() {
         )}
 
         {/* ========================================================= */}
-        {/* TAB 4: OFERTA ACADÉMICA */}
+        {/* TAB: OFERTA ACADÉMICA */}
         {/* ========================================================= */}
         {activeTab === 'carreras' && (
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs space-y-5">
-              <div className="border-b border-zinc-100 pb-4">
+              <div>
                 <h1 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
                   <BookOpen className="w-5 h-5 text-[#15803d]" />
-                  <span>Carreras Dictadas en Centro Regional Chivilcoy</span>
+                  <span>Carreras Dictadas en Sede Chivilcoy</span>
                 </h1>
-                <p className="text-xs text-zinc-500 mt-1">Listado oficial de pregrado y grado con sus planes de estudio.</p>
+                <p className="text-xs text-zinc-500 mt-1">
+                  Propuestas académicas oficiales con titulación universitaria nacional.
+                </p>
               </div>
 
-              <div className="divide-y divide-zinc-100 border border-zinc-200 rounded-xl overflow-hidden">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {dynamicData.carreras.map(c => (
-                  <div key={c.id} className="p-4 flex items-center justify-between hover:bg-zinc-50">
-                    <div>
-                      <span className="text-xs font-bold text-zinc-900 block">{c.nombre}</span>
-                      <span className="text-xs text-zinc-500">{c.tipo} · {c.duracion}</span>
-                    </div>
-                    <span className="text-xs text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full font-bold">
-                      Activa
+                  <div key={c.id} className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl space-y-1">
+                    <span className="inline-block text-[10px] font-bold bg-zinc-200 text-zinc-700 px-2 py-0.5 rounded-md uppercase">
+                      {c.tipo} · {c.duracion}
                     </span>
+                    <h3 className="font-bold text-xs text-zinc-900">{c.nombre}</h3>
                   </div>
                 ))}
               </div>
@@ -486,27 +749,29 @@ export default function Dashboard() {
         )}
 
         {/* ========================================================= */}
-        {/* TAB 5: AUTORIDADES */}
+        {/* TAB: AUTORIDADES */}
         {/* ========================================================= */}
         {activeTab === 'autoridades' && (
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs space-y-5">
-              <div className="border-b border-zinc-100 pb-4">
+              <div>
                 <h1 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
                   <Users className="w-5 h-5 text-[#15803d]" />
-                  <span>Autoridades Universitarias</span>
+                  <span>Autoridades Institucionales</span>
                 </h1>
-                <p className="text-xs text-zinc-500 mt-1">Gestión del Rectorado y autoridades del Centro Regional.</p>
+                <p className="text-xs text-zinc-500 mt-1">
+                  Cuerpo de conducción y gestión de la Universidad Nacional de Luján.
+                </p>
               </div>
 
-              <div className="divide-y divide-zinc-100 border border-zinc-200 rounded-xl overflow-hidden">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {dynamicData.autoridades.map(a => (
-                  <div key={a.id} className="p-4 flex items-center justify-between hover:bg-zinc-50">
+                  <div key={a.id} className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl flex items-center justify-between">
                     <div>
-                      <span className="text-xs font-bold text-zinc-900 block">{a.nombre}</span>
-                      <span className="text-xs text-zinc-500">{a.cargo}</span>
+                      <h3 className="font-bold text-xs sm:text-sm text-zinc-900">{a.nombre}</h3>
+                      <p className="text-xs text-zinc-500">{a.cargo}</p>
                     </div>
-                    <span className="text-xs text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full font-bold">
+                    <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full">
                       {a.estado}
                     </span>
                   </div>
@@ -518,15 +783,191 @@ export default function Dashboard() {
 
       </main>
 
-      {/* MODAL: EDITAR / CREAR FAQ */}
-      {isFaqModalOpen && (
-        <div className="fixed inset-0 z-50 bg-zinc-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-zinc-200 space-y-4">
-            <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
-              <h3 className="text-sm font-bold text-zinc-900">
-                {editingFaq.id ? 'Editar Pregunta Frecuente' : 'Nueva Pregunta Frecuente'}
+      {/* ========================================================= */}
+      {/* MODAL: NOTICIA / EVENTO */}
+      {/* ========================================================= */}
+      {isNoticiaModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-zinc-200 animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-zinc-100 pb-3 mb-4">
+              <h3 className="font-bold text-base text-zinc-900 flex items-center gap-2">
+                <Newspaper className="w-4 h-4 text-[#15803d]" />
+                <span>{editingNoticia.id ? 'Editar Noticia / Evento' : 'Nueva Noticia / Evento'}</span>
               </h3>
-              <button onClick={() => setIsFaqModalOpen(false)} className="text-zinc-400 hover:text-zinc-700 font-bold text-lg">&times;</button>
+              <button 
+                type="button" 
+                onClick={() => setIsNoticiaModalOpen(false)}
+                className="text-zinc-400 hover:text-zinc-600 text-lg font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveNoticia} className="space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Categoría</label>
+                  <select
+                    value={editingNoticia.categoria}
+                    onChange={(e) => setEditingNoticia({ ...editingNoticia, categoria: e.target.value })}
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  >
+                    <option value="Académico">Académico</option>
+                    <option value="Ingreso">Ingreso</option>
+                    <option value="Extensión">Extensión</option>
+                    <option value="Institucional">Institucional</option>
+                    <option value="Estudiantil">Estudiantil</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Fecha del Evento / Noticia</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingNoticia.fecha}
+                    onChange={(e) => setEditingNoticia({ ...editingNoticia, fecha: e.target.value })}
+                    placeholder="Ej: 15 de Noviembre de 2026"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Título</label>
+                <input
+                  type="text"
+                  required
+                  value={editingNoticia.titulo}
+                  onChange={(e) => setEditingNoticia({ ...editingNoticia, titulo: e.target.value })}
+                  placeholder="Ej: Jornadas de Inteligencia Artificial en el CRCH"
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Lugar / Modalidad (opcional)</label>
+                  <input
+                    type="text"
+                    value={editingNoticia.lugar || ''}
+                    onChange={(e) => setEditingNoticia({ ...editingNoticia, lugar: e.target.value })}
+                    placeholder="Ej: Aula Magna · 18:00 hs o Virtual"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">URL Imagen (opcional)</label>
+                  <input
+                    type="url"
+                    value={editingNoticia.imagen || ''}
+                    onChange={(e) => setEditingNoticia({ ...editingNoticia, imagen: e.target.value })}
+                    placeholder="https://..."
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Resumen Breve (Bajada)</label>
+                <textarea
+                  rows={2}
+                  required
+                  value={editingNoticia.resumen}
+                  onChange={(e) => setEditingNoticia({ ...editingNoticia, resumen: e.target.value })}
+                  placeholder="Breve descripción para la tarjeta principal..."
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl p-2.5 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                ></textarea>
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Contenido Completo / Detalle</label>
+                <textarea
+                  rows={4}
+                  required
+                  value={editingNoticia.contenido}
+                  onChange={(e) => setEditingNoticia({ ...editingNoticia, contenido: e.target.value })}
+                  placeholder="Información detallada sobre el evento, disertantes, cronograma o requisitos..."
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl p-2.5 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                ></textarea>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Enlace / Link Externo (opcional)</label>
+                  <input
+                    type="url"
+                    value={editingNoticia.enlace || ''}
+                    onChange={(e) => setEditingNoticia({ ...editingNoticia, enlace: e.target.value })}
+                    placeholder="https://..."
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Texto del Enlace</label>
+                  <input
+                    type="text"
+                    value={editingNoticia.enlaceTexto || ''}
+                    onChange={(e) => setEditingNoticia({ ...editingNoticia, enlaceTexto: e.target.value })}
+                    placeholder="Ej: Formulario de Inscripción ↗"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  type="checkbox"
+                  id="destacada-check"
+                  checked={editingNoticia.destacada || false}
+                  onChange={(e) => setEditingNoticia({ ...editingNoticia, destacada: e.target.checked })}
+                  className="w-4 h-4 text-[#15803d] rounded"
+                />
+                <label htmlFor="destacada-check" className="text-xs font-bold text-zinc-700 cursor-pointer">
+                  Destacar esta noticia en la portada
+                </label>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t border-zinc-100">
+                <button
+                  type="button"
+                  onClick={() => setIsNoticiaModalOpen(false)}
+                  className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-[#15803d] hover:bg-green-800 text-white rounded-xl font-bold cursor-pointer"
+                >
+                  Guardar Noticia
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* MODAL: FAQ */}
+      {/* ========================================================= */}
+      {isFaqModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-zinc-200 animate-in fade-in zoom-in-95">
+            <div className="flex items-center justify-between border-b border-zinc-100 pb-3 mb-4">
+              <h3 className="font-bold text-base text-zinc-900 flex items-center gap-2">
+                <HelpCircle className="w-4 h-4 text-[#15803d]" />
+                <span>{editingFaq.id ? 'Editar Pregunta Frecuente' : 'Nueva Pregunta Frecuente'}</span>
+              </h3>
+              <button 
+                type="button" 
+                onClick={() => setIsFaqModalOpen(false)}
+                className="text-zinc-400 hover:text-zinc-600 text-lg font-bold"
+              >
+                ✕
+              </button>
             </div>
 
             <form onSubmit={handleSaveFaq} className="space-y-3 text-xs">
