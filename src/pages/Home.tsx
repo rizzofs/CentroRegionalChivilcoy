@@ -145,65 +145,85 @@ export default function Home() {
       </nav>
 
       {/* Hero Principal Verde UNLu */}
-      <section className="bg-gradient-to-br from-[#008541] via-[#006834] to-[#005a2b] text-white pt-12 sm:pt-20 pb-16 sm:pb-24 overflow-hidden relative">
+      <section className="bg-gradient-to-br from-[#008541] via-[#006834] to-[#005a2b] text-white pt-12 sm:pt-20 pb-16 sm:pb-24 overflow-hidden relative border-b-4 border-[#f9c540]">
         {/* Ornamentos de fondo sutiles idénticos a SecPlaneamiento */}
-        <div className="absolute inset-0 opacity-5 pointer-events-none" aria-hidden="true">
-          <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full border-[40px] border-white"></div>
-          <div className="absolute bottom-0 -left-10 w-64 h-64 rounded-full border-[30px] border-white"></div>
-          <img src="/escudo.svg" alt="" className="absolute right-10 bottom-0 w-96 h-96 invert opacity-10" />
+        <div className="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
+          <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full border-[40px] border-white/20"></div>
+          <div className="absolute bottom-0 -left-10 w-64 h-64 rounded-full border-[30px] border-white/20"></div>
+          <img src="/escudo.svg" alt="" className="absolute right-10 bottom-0 w-96 h-96 invert opacity-15" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
-            {/* Badge Institucional Dorado */}
-            <div className="flex items-center gap-3 mb-4">
-              <img
-                src="/UNLU.svg"
-                alt="UNLu"
-                className="h-8 w-auto opacity-90"
-                style={{ filter: "brightness(0) invert(1)" }}
-              />
-              <span className="text-xs font-bold tracking-[0.18em] uppercase text-[#f9c540]">
-                UNIVERSIDAD NACIONAL DE LUJÁN · CR CHIVILCOY
-              </span>
+            {/* Contenido Principal Izquierda */}
+            <div className="lg:col-span-8">
+              {/* Badge Institucional Dorado con Escudo */}
+              <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 mb-6 shadow-xs">
+                <img
+                  src="/escudo.svg"
+                  alt="Escudo UNLu"
+                  className="h-6 w-6 rounded-full border border-[#f9c540]/60"
+                />
+                <span className="text-xs font-bold tracking-[0.18em] uppercase text-[#f9c540]">
+                  UNIVERSIDAD NACIONAL DE LUJÁN · CR CHIVILCOY
+                </span>
+              </div>
+
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white font-serif leading-[1.15] mb-5">
+                Educación universitaria pública de excelencia en tu región
+              </h1>
+              
+              <p className="text-base sm:text-lg text-emerald-100/90 leading-relaxed mb-8 max-w-2xl font-light">
+                Acercando carreras de pregrado, grado y formación profesional a la comunidad de Chivilcoy y zona de influencia con el respaldo académico y gratuidad de la UNLu.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-3.5">
+                <a 
+                  href="#oferta" 
+                  className="inline-flex items-center gap-2 bg-[#f9c540] hover:bg-yellow-400 text-slate-950 font-bold px-6 py-3.5 rounded-xl shadow-lg transition-transform active:scale-95 text-sm"
+                >
+                  <span>Conocer Carreras 2027</span>
+                  <ChevronRight className="w-4 h-4 text-slate-900" />
+                </a>
+
+                <a 
+                  href="https://www.unlu.edu.ar/inscripcion-periodo.html" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 text-white font-semibold px-6 py-3.5 rounded-xl backdrop-blur-md border border-white/20 transition-colors text-sm"
+                >
+                  <span>Guía de Ingreso</span>
+                  <ExternalLink className="w-4 h-4 text-emerald-200" />
+                </a>
+
+                <a 
+                  href="https://wa.me/5492323208888" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3.5 rounded-xl shadow-md transition-all text-sm"
+                >
+                  <span>WhatsApp Consultas</span>
+                </a>
+              </div>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white font-serif leading-[1.15] mb-5">
-              Educación universitaria pública de excelencia en tu región
-            </h1>
-            
-            <p className="text-base sm:text-lg text-emerald-100/90 leading-relaxed mb-8 max-w-2xl font-light">
-              Acercando carreras de pregrado, grado y formación profesional a la comunidad de Chivilcoy y zona de influencia con el respaldo académico y gratuidad de la UNLu.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-3.5">
-              <a 
-                href="#oferta" 
-                className="inline-flex items-center gap-2 bg-[#f9c540] hover:bg-yellow-400 text-slate-950 font-bold px-6 py-3.5 rounded-xl shadow-lg transition-transform active:scale-95 text-sm"
-              >
-                <span>Conocer Carreras 2027</span>
-                <ChevronRight className="w-4 h-4 text-slate-900" />
-              </a>
-
-              <a 
-                href="https://www.unlu.edu.ar/inscripcion-periodo.html" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 text-white font-semibold px-6 py-3.5 rounded-xl backdrop-blur-md border border-white/20 transition-colors text-sm"
-              >
-                <span>Guía de Ingreso</span>
-                <ExternalLink className="w-4 h-4 text-emerald-200" />
-              </a>
-
-              <a 
-                href="https://wa.me/5492323208888" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3.5 rounded-xl shadow-md transition-all text-sm"
-              >
-                <span>WhatsApp Consultas</span>
-              </a>
+            {/* Columna Derecha: Emblema / Logo Institucional UNLu */}
+            <div className="hidden lg:flex lg:col-span-4 justify-center">
+              <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-3xl text-center flex flex-col items-center shadow-2xl w-full max-w-xs hover:border-[#f9c540]/40 transition-all">
+                <div className="w-24 h-24 rounded-2xl bg-white p-3 shadow-lg flex items-center justify-center mb-4 border-2 border-[#f9c540]/30">
+                  <img src="/escudo.svg" alt="Escudo Oficial UNLu" className="w-full h-full object-contain" />
+                </div>
+                <img 
+                  src="/UNLU.svg" 
+                  alt="UNLu" 
+                  className="h-8 w-auto mb-3"
+                  style={{ filter: "brightness(0) invert(1)" }}
+                />
+                <div className="h-0.5 w-12 bg-[#f9c540] my-2"></div>
+                <span className="text-[11px] font-bold tracking-widest text-[#f9c540] uppercase">Centro Regional Chivilcoy</span>
+                <span className="text-[11px] text-emerald-100/80 leading-snug mt-1">Educación Superior Pública y Gratuita</span>
+              </div>
             </div>
 
           </div>
