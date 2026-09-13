@@ -1,10 +1,57 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BookOpen, Users, MapPin, ChevronRight, Building2, Mail, Phone, Clock, FileText, ArrowRight, Menu, X, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [testimonialTab, setTestimonialTab] = useState<'estudiantes' | 'docentes'>('estudiantes');
+
+  const [faqList, setFaqList] = useState([
+    {
+      id: 1,
+      pregunta: '¿La universidad es arancelada o gratuita?',
+      respuesta: 'La Universidad Nacional de Luján es pública y 100% gratuita. No se cobra matrícula ni cuota mensual para las carreras de grado y pregrado.',
+      categoria: 'Ingreso'
+    },
+    {
+      id: 2,
+      pregunta: '¿Qué pasa si trabajo y quiero estudiar?',
+      respuesta: 'Nuestros horarios y comisiones están pensados para acompañar a quienes trabajan. Además, existen certificados de examen para que puedas presentar en tu empleo y justificar tu ausencia los días que debas rendir.',
+      categoria: 'Académico'
+    },
+    {
+      id: 3,
+      pregunta: '¿Debo rendir examen de ingreso eliminatorio?',
+      respuesta: 'No, el ingreso es directo y no cuenta con exámenes eliminatorios. Somos una institución comprometida con el acceso irrestricto a la educación superior.',
+      categoria: 'Ingreso'
+    }
+  ]);
+
+  const [internosList, setInternosList] = useState([
+    { id: 'int-1', area: 'Dirección de Centro Regional', interno: 'Int. 101', responsable: 'Dirección y Despacho CRCH', email: 'direccioncrch@unlu.edu.ar' },
+    { id: 'int-2', area: 'Bedelía y Departamento de Alumnos', interno: 'Int. 102', responsable: 'Inscripciones y Certificados', email: 'alumnoscrch@unlu.edu.ar' },
+    { id: 'int-3', area: 'Biblioteca y Sala de Estudio', interno: 'Int. 104', responsable: 'Préstamos y Consulta Bibliográfica', email: 'bibliotecacrch@unlu.edu.ar' },
+    { id: 'int-4', area: 'Mesa General de Entradas', interno: 'Int. 100', responsable: 'Recepción de Documentación', email: 'mesacrch@unlu.edu.ar' }
+  ]);
+
+  useEffect(() => {
+    const loadDynamicContent = () => {
+      try {
+        const saved = localStorage.getItem('crch_dynamic_content');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed.faq && parsed.faq.length > 0) setFaqList(parsed.faq);
+          if (parsed.contacto?.internos && parsed.contacto.internos.length > 0) setInternosList(parsed.contacto.internos);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    loadDynamicContent();
+    window.addEventListener('storage', loadDynamicContent);
+    return () => window.removeEventListener('storage', loadDynamicContent);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-zinc-900 font-sans">
@@ -19,6 +66,9 @@ export default function Home() {
             <a href="https://webmail.unlu.edu.ar" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Webmail</a>
             <a href="https://www.unlu.edu.ar/acceso-aulas-virtuales.html" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Aulas Virtuales</a>
             <a href="https://www.biblioteca.unlu.edu.ar/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Biblioteca</a>
+            <Link to="/dashboard" className="text-emerald-400 hover:text-white transition-colors font-bold pl-2 border-l border-zinc-700">
+              Panel Admin
+            </Link>
           </div>
         </div>
       </div>
@@ -559,7 +609,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ (Preguntas Frecuentes) */}
+      {/* FAQ (Preguntas Frecuentes) Dinámico */}
       <section className="py-20 bg-white border-t border-zinc-200">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -567,47 +617,69 @@ export default function Home() {
             <p className="text-zinc-500 text-lg">Todo lo que necesitás saber antes de inscribirte.</p>
           </div>
           <div className="space-y-4">
-            <details className="group border border-zinc-200 rounded-xl bg-zinc-50 [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-zinc-900 font-semibold">
-                ¿La universidad es arancelada o gratuita?
-                <span className="shrink-0 rounded-full bg-white p-1.5 text-zinc-900 sm:p-3 shadow-sm border border-zinc-200 group-open:-rotate-180 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="size-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </span>
-              </summary>
-              <p className="px-6 pb-6 text-zinc-600 leading-relaxed">
-                La Universidad Nacional de Luján es pública y 100% gratuita. No se cobra matrícula ni cuota mensual para las carreras de grado y pregrado.
-              </p>
-            </details>
+            {faqList.map((item) => (
+              <details key={item.id} className="group border border-zinc-200 rounded-xl bg-zinc-50 [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-zinc-900 font-semibold">
+                  <div className="flex items-center gap-2.5">
+                    {item.categoria && (
+                      <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 shrink-0">
+                        {item.categoria}
+                      </span>
+                    )}
+                    <span>{item.pregunta}</span>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-white p-1.5 text-zinc-900 sm:p-3 shadow-sm border border-zinc-200 group-open:-rotate-180 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="size-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                </summary>
+                <p className="px-6 pb-6 text-zinc-600 leading-relaxed">
+                  {item.respuesta}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <details className="group border border-zinc-200 rounded-xl bg-zinc-50 [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-zinc-900 font-semibold">
-                ¿Qué pasa si trabajo y quiero estudiar?
-                <span className="shrink-0 rounded-full bg-white p-1.5 text-zinc-900 sm:p-3 shadow-sm border border-zinc-200 group-open:-rotate-180 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="size-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </span>
-              </summary>
-              <p className="px-6 pb-6 text-zinc-600 leading-relaxed">
-                Nuestros horarios y comisiones están pensados para acompañar a quienes trabajan. Además, existen certificados de examen para que puedas presentar en tu empleo y justificar tu ausencia los días que debas rendir.
-              </p>
-            </details>
+      {/* Canales de Atención Directa e Internos */}
+      <section className="py-16 bg-zinc-50 border-t border-zinc-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+              Atención y Consultas
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 mt-3">
+              Canales de Atención Directa
+            </h2>
+            <p className="text-zinc-600 text-sm mt-2">
+              Comunicate directamente con el área correspondiente del Centro Regional Chivilcoy.
+            </p>
+          </div>
 
-            <details className="group border border-zinc-200 rounded-xl bg-zinc-50 [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-zinc-900 font-semibold">
-                ¿Debo rendir examen de ingreso eliminatorio?
-                <span className="shrink-0 rounded-full bg-white p-1.5 text-zinc-900 sm:p-3 shadow-sm border border-zinc-200 group-open:-rotate-180 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="size-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </span>
-              </summary>
-              <p className="px-6 pb-6 text-zinc-600 leading-relaxed">
-                No, el ingreso es directo y no cuenta con exámenes eliminatorios. Somos una institución comprometida con el acceso irrestricto a la educación superior.
-              </p>
-            </details>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {internosList.map((item) => (
+              <div key={item.id} className="bg-white rounded-2xl p-6 border border-zinc-200 shadow-xs hover:border-[#15803d]/40 transition-all flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center">
+                      📞
+                    </span>
+                    <span className="text-xs font-extrabold text-[#15803d] bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                      {item.interno}
+                    </span>
+                  </div>
+                  <h3 className="text-sm font-bold text-zinc-900 leading-snug">{item.area}</h3>
+                  <p className="text-xs text-zinc-500 mt-1">{item.responsable}</p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-zinc-100">
+                  <a href={`mailto:${item.email}`} className="text-xs text-[#15803d] font-semibold hover:underline truncate block">
+                    {item.email}
+                  </a>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

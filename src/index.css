@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.cdnfonts.com/css/opendyslexic');
 
 @theme {
   --color-primary-50: #f0fdf4;
@@ -23,5 +24,68 @@
     background-color: var(--color-background);
     color: #0f172a;
     font-family: ui-sans-serif, system-ui, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
+}
+
+/* ==========================================================================
+   Herramientas de Accesibilidad Institucional (WCAG 2.1 AA)
+   ========================================================================== */
+
+/* Escalas de Fuente */
+html.font-scale-sm {
+  font-size: 88%;
+}
+
+html.font-scale-md {
+  font-size: 100%;
+}
+
+html.font-scale-lg {
+  font-size: 112%;
+}
+
+html.font-scale-xl {
+  font-size: 125%;
+}
+
+/* Modo Dislexia */
+html.font-dyslexic * {
+  font-family: 'OpenDyslexic', ui-sans-serif, sans-serif !important;
+  letter-spacing: 0.03em !important;
+}
+
+/* Modo Alto Contraste */
+html.high-contrast {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+html.high-contrast body {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+html.high-contrast .bg-white,
+html.high-contrast .bg-zinc-50,
+html.high-contrast .bg-zinc-100 {
+  background-color: #121212 !important;
+  color: #ffffff !important;
+  border-color: #333333 !important;
+}
+
+html.high-contrast .text-zinc-900,
+html.high-contrast .text-zinc-800,
+html.high-contrast .text-zinc-700,
+html.high-contrast .text-zinc-600 {
+  color: #f4f4f5 !important;
+}
+
+html.high-contrast .text-zinc-500,
+html.high-contrast .text-zinc-400 {
+  color: #d4d4d8 !important;
+}
+
+html.high-contrast a {
+  text-decoration: underline !important;
 }

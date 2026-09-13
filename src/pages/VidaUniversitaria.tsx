@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Trophy, Coffee, GraduationCap } from 'lucide-react';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 export default function VidaUniversitaria() {
   return (
@@ -8,16 +9,23 @@ export default function VidaUniversitaria() {
       <nav className="bg-white border-b border-zinc-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <Link to="/" className="flex items-center text-zinc-600 hover:text-primary transition-colors font-medium">
-              <ArrowLeft className="mr-2 h-5 w-5" />
-              Volver al Inicio
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link to="/" className="flex items-center text-zinc-600 hover:text-primary transition-colors font-medium">
+                <ArrowLeft className="mr-2 h-5 w-5" />
+                Volver al Inicio
+              </Link>
+            </div>
             <div className="flex items-center gap-2">
               <img src="/escudo.svg" alt="UNLu" className="h-8 w-auto opacity-80" />
             </div>
           </div>
         </div>
       </nav>
+
+      {/* Migas de Pan */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <Breadcrumbs items={[{ label: 'Vida Universitaria' }]} />
+      </div>
 
       {/* Hero Section */}
       <div className="bg-zinc-900 text-white py-20 relative overflow-hidden">
