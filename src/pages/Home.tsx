@@ -3,13 +3,14 @@ import {
   MapPin, ChevronRight, ArrowRight, Menu, X, ExternalLink,
   Bus, Train, Car, Navigation, CreditCard, Clock, Compass,
   Calendar, Sparkles, Building2, Newspaper, BookOpen, GraduationCap,
-  HelpCircle, Phone
+  HelpCircle, Phone, Quote, Users
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [transportTab, setTransportTab] = useState<'locales' | 'aledanias' | 'tren'>('locales');
+  const [testimonialTab, setTestimonialTab] = useState<'estudiantes' | 'docentes'>('estudiantes');
   const [selectedNoticiaCat, setSelectedNoticiaCat] = useState<string>('todas');
   const [selectedNoticiaModal, setSelectedNoticiaModal] = useState<any | null>(null);
 
@@ -248,6 +249,15 @@ export default function Home() {
                 >
                   <BookOpen className="w-4 h-4 text-[#008541]" />
                   <span>Oferta Académica (Carreras)</span>
+                </a>
+
+                <a 
+                  href="#testimonios" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-slate-700 hover:text-[#008541] hover:bg-slate-50 font-semibold text-sm transition-all"
+                >
+                  <Users className="w-4 h-4 text-[#008541]" />
+                  <span>Voces de la Comunidad</span>
                 </a>
 
                 <Link 
@@ -798,6 +808,265 @@ export default function Home() {
             </div>
 
           </div>
+        </div>
+      </section>
+
+      {/* Voces de la Comunidad (Testimonios) */}
+      <section id="testimonios" className="py-24 bg-white border-b border-slate-200 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 text-[#008541] border border-emerald-100 text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
+              <Quote className="w-3.5 h-3.5 fill-[#008541]" />
+              <span>Experiencias Reales UNLu</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 font-serif">Voces de Nuestra Comunidad</h2>
+            <div className="h-1 w-20 bg-gradient-to-r from-[#008541] via-[#f9c540] to-[#c0392b] rounded-full mx-auto my-4"></div>
+            <p className="text-slate-600 text-base leading-relaxed mb-8">
+              Conocé la experiencia de quienes construyen y dan vida al Centro Regional Chivilcoy: estudiantes que avanzan en su carrera, egresados que transforman la región y docentes comprometidos con la educación pública.
+            </p>
+
+            {/* Selector de Pestañas */}
+            <div className="inline-flex p-1.5 bg-slate-100/90 rounded-2xl border border-slate-200 shadow-inner">
+              <button
+                type="button"
+                onClick={() => setTestimonialTab('estudiantes')}
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 ${
+                  testimonialTab === 'estudiantes'
+                    ? 'bg-[#008541] text-white shadow-md'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <GraduationCap className="w-4 h-4" />
+                <span>Estudiantes y Graduados</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setTestimonialTab('docentes')}
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 ${
+                  testimonialTab === 'docentes'
+                    ? 'bg-[#008541] text-white shadow-md'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <Users className="w-4 h-4" />
+                <span>Cuerpo Docente</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Tab 1: Estudiantes y Graduados */}
+          {testimonialTab === 'estudiantes' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              
+              {/* Martín */}
+              <div className="bg-slate-50/70 p-8 rounded-2xl border border-slate-200 hover:border-emerald-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group">
+                <Quote className="absolute top-6 right-6 w-8 h-8 text-slate-200 group-hover:text-emerald-100 transition-colors" />
+                <div>
+                  <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-emerald-100/60 text-[#008541] text-[11px] font-bold uppercase tracking-wider mb-4 border border-emerald-200">
+                    Graduado Destacado
+                  </div>
+                  <p className="text-slate-700 italic text-sm leading-relaxed mb-6">
+                    "Pude recibirme de Contador Público sin tener que mudarme a Capital ni dejar a mi familia. Las instalaciones, la cercanía con los profesores y el nivel académico son excelentes. El trato en el Centro es sumamente personalizado y te abre puertas laborales concretas en la región."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-5 border-t border-slate-200/80">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-[#008541] to-[#005a2b] text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    M
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 font-serif text-base">Martín</h4>
+                    <p className="text-xs text-slate-500 font-semibold">Graduado en Contador Público</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Carolina */}
+              <div className="bg-slate-50/70 p-8 rounded-2xl border border-slate-200 hover:border-emerald-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group">
+                <Quote className="absolute top-6 right-6 w-8 h-8 text-slate-200 group-hover:text-emerald-100 transition-colors" />
+                <div>
+                  <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-amber-100/60 text-amber-800 text-[11px] font-bold uppercase tracking-wider mb-4 border border-amber-200">
+                    Estudiante Activa
+                  </div>
+                  <p className="text-slate-700 italic text-sm leading-relaxed mb-6">
+                    "Estudio la Licenciatura en Sistemas de Información. Al principio dudaba si iba a poder sostener el ritmo porque trabajo jornada completa, pero la flexibilidad, los horarios y las aulas informáticas equipadas me permitieron cursar y avanzar año tras año."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-5 border-t border-slate-200/80">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-amber-500 to-amber-700 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    C
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 font-serif text-base">Carolina</h4>
+                    <p className="text-xs text-slate-500 font-semibold">Estudiante de Lic. en Sistemas</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Tomás */}
+              <div className="bg-slate-50/70 p-8 rounded-2xl border border-slate-200 hover:border-emerald-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group">
+                <Quote className="absolute top-6 right-6 w-8 h-8 text-slate-200 group-hover:text-emerald-100 transition-colors" />
+                <div>
+                  <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-blue-100/60 text-blue-800 text-[11px] font-bold uppercase tracking-wider mb-4 border border-blue-200">
+                    Nueva Carrera
+                  </div>
+                  <p className="text-slate-700 italic text-sm leading-relaxed mb-6">
+                    "Poder estudiar Ciencia de Datos en mi ciudad natal es una oportunidad inmensa. Es una carrera con un futuro enorme a nivel global, y la UNLu nos provee herramientas analíticas y tecnológicas de primer nivel sin costo alguno."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-5 border-t border-slate-200/80">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    T
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 font-serif text-base">Tomás</h4>
+                    <p className="text-xs text-slate-500 font-semibold">Estudiante de Ciencia de Datos</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Camila */}
+              <div className="bg-slate-50/70 p-8 rounded-2xl border border-slate-200 hover:border-emerald-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group">
+                <Quote className="absolute top-6 right-6 w-8 h-8 text-slate-200 group-hover:text-emerald-100 transition-colors" />
+                <div>
+                  <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-emerald-100/60 text-[#008541] text-[11px] font-bold uppercase tracking-wider mb-4 border border-emerald-200">
+                    Salud Pública
+                  </div>
+                  <p className="text-slate-700 italic text-sm leading-relaxed mb-6">
+                    "La Licenciatura en Enfermería superó ampliamente mis expectativas. Desarrollamos prácticas clínicas en hospitales y centros de salud de la zona desde los primeros años, lo que te forma con una solidez técnica y humana inigualable."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-5 border-t border-slate-200/80">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-emerald-600 to-teal-800 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    C
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 font-serif text-base">Camila</h4>
+                    <p className="text-xs text-slate-500 font-semibold">Graduada en Lic. en Enfermería</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Lucía */}
+              <div className="bg-slate-50/70 p-8 rounded-2xl border border-slate-200 hover:border-emerald-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group">
+                <Quote className="absolute top-6 right-6 w-8 h-8 text-slate-200 group-hover:text-emerald-100 transition-colors" />
+                <div>
+                  <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-purple-100/60 text-purple-800 text-[11px] font-bold uppercase tracking-wider mb-4 border border-purple-200">
+                    Compromiso Social
+                  </div>
+                  <p className="text-slate-700 italic text-sm leading-relaxed mb-6">
+                    "El clima en el Centro Regional es único: todos nos conocemos por el nombre, los docentes te acompañan en cada duda y la biblioteca con sala de estudio es mi espacio favorito para preparar finales en grupo."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-5 border-t border-slate-200/80">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-purple-600 to-purple-800 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    L
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 font-serif text-base">Lucía</h4>
+                    <p className="text-xs text-slate-500 font-semibold">Estudiante de Trabajo Social</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Juan Ignacio */}
+              <div className="bg-slate-50/70 p-8 rounded-2xl border border-slate-200 hover:border-emerald-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group">
+                <Quote className="absolute top-6 right-6 w-8 h-8 text-slate-200 group-hover:text-emerald-100 transition-colors" />
+                <div>
+                  <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-rose-100/60 text-rose-800 text-[11px] font-bold uppercase tracking-wider mb-4 border border-rose-200">
+                    Gestión & Negocios
+                  </div>
+                  <p className="text-slate-700 italic text-sm leading-relaxed mb-6">
+                    "Elegí la Licenciatura en Administración porque buscaba una formación integral para emprender y liderar organizaciones. El enfoque práctico en casos reales y la comunidad de estudiantes del Centro marcan la diferencia."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-5 border-t border-slate-200/80">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-rose-600 to-rose-800 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    J
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 font-serif text-base">Juan Ignacio López</h4>
+                    <p className="text-xs text-slate-500 font-semibold">Estudiante de Lic. en Administración</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          )}
+
+          {/* Tab 2: Cuerpo Docente */}
+          {testimonialTab === 'docentes' && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              
+              {/* Docente Sistemas */}
+              <div className="bg-slate-50/70 p-8 rounded-2xl border border-slate-200 hover:border-emerald-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group">
+                <Quote className="absolute top-6 right-6 w-8 h-8 text-slate-200 group-hover:text-emerald-100 transition-colors" />
+                <div>
+                  <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-emerald-100/60 text-[#008541] text-[11px] font-bold uppercase tracking-wider mb-4 border border-emerald-200">
+                    Docencia & Acompañamiento
+                  </div>
+                  <p className="text-slate-700 italic text-sm leading-relaxed mb-6">
+                    "La cercanía con los estudiantes en Chivilcoy permite un seguimiento pedagógico y humano que no se encuentra en sedes multitudinarias. Conocemos sus nombres, sus inquietudes y los vemos crecer profesionalmente paso a paso hasta graduarse."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-5 border-t border-slate-200/80">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-[#008541] to-[#005a2b] text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    S
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 font-serif text-base">Equipo Docente de Sistemas</h4>
+                    <p className="text-xs text-slate-500 font-semibold">Dpto. de Ciencias Básicas · UNLu</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Docente Económicas */}
+              <div className="bg-slate-50/70 p-8 rounded-2xl border border-slate-200 hover:border-emerald-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group">
+                <Quote className="absolute top-6 right-6 w-8 h-8 text-slate-200 group-hover:text-emerald-100 transition-colors" />
+                <div>
+                  <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-amber-100/60 text-amber-800 text-[11px] font-bold uppercase tracking-wider mb-4 border border-amber-200">
+                    Impacto Territorial
+                  </div>
+                  <p className="text-slate-700 italic text-sm leading-relaxed mb-6">
+                    "Formar profesionales en Ciencias Económicas y Administración que luego vuelcan sus saberes en PyMEs, cooperativas e instituciones de Chivilcoy y la zona es el verdadero sentido y orgullo de la universidad pública."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-5 border-t border-slate-200/80">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-amber-600 to-amber-800 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    E
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 font-serif text-base">Docentes de Cs. Económicas</h4>
+                    <p className="text-xs text-slate-500 font-semibold">Dpto. de Ciencias Sociales · UNLu</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Docente Salud y Sociales */}
+              <div className="bg-slate-50/70 p-8 rounded-2xl border border-slate-200 hover:border-emerald-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group">
+                <Quote className="absolute top-6 right-6 w-8 h-8 text-slate-200 group-hover:text-emerald-100 transition-colors" />
+                <div>
+                  <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-purple-100/60 text-purple-800 text-[11px] font-bold uppercase tracking-wider mb-4 border border-purple-200">
+                    Práctica y Vocación
+                  </div>
+                  <p className="text-slate-700 italic text-sm leading-relaxed mb-6">
+                    "En carreras como Enfermería y Trabajo Social, la vocación de servicio y el contacto directo con la comunidad forjan egresados con una sólida solvencia técnica y un profundo compromiso ético con la salud y los derechos humanos."
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 pt-5 border-t border-slate-200/80">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-purple-600 to-purple-800 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    S
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 font-serif text-base">Docentes de Salud y Sociales</h4>
+                    <p className="text-xs text-slate-500 font-semibold">Equipo de Prácticas y Extensión</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          )}
+
         </div>
       </section>
 
