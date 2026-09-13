@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { 
   MapPin, ChevronRight, ArrowRight, Menu, X, ExternalLink,
   Bus, Train, Car, Navigation, CreditCard, Clock, Compass,
-  Calendar, Sparkles
+  Calendar, Sparkles, Building2, Newspaper, BookOpen, GraduationCap,
+  HelpCircle, Phone
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -125,7 +126,7 @@ export default function Home() {
       </div>
 
       {/* Header (Navbar Principal) */}
-      <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/95 border-b border-slate-200/80 shadow-xs">
+      <nav className="sticky top-0 z-40 backdrop-blur-md bg-white/95 border-b border-slate-200/80 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
             
@@ -141,60 +142,183 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Links de Navegación Desktop */}
-            <div className="hidden md:flex items-center space-x-6">
-              <a href="#institucion" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">La Institución</a>
-              <a href="#noticias" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Noticias</a>
-              <a href="#oferta" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Oferta Académica</a>
-              <Link to="/vida-universitaria" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Vida Universitaria</Link>
-              <a href="#como-llegar" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Cómo Llegar</a>
-              <a href="#contacto" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">Contacto</a>
-              
+            {/* Acciones y Menú Hamburguesa */}
+            <div className="flex items-center gap-3">
               <a 
                 href="https://www.unlu.edu.ar/inscripcion-periodo.html" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="bg-[#008541] hover:bg-[#005a2b] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl shadow-xs transition-transform active:scale-95"
+                className="hidden sm:inline-flex items-center gap-2 bg-[#008541] hover:bg-[#005a2b] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl shadow-xs transition-transform active:scale-95"
               >
-                Inscripciones 2027
+                <span>Inscripciones 2027</span>
               </a>
-            </div>
 
-            {/* Botón Mobile Menu */}
-            <div className="md:hidden">
+              {/* Botón Menú Hamburguesa Institucional */}
               <button 
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-slate-700 hover:text-[#008541] p-2"
-                aria-label="Menú principal"
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-3.5 py-2.5 rounded-xl border border-slate-300/80 transition-all cursor-pointer text-xs active:scale-95"
+                aria-label="Abrir menú de navegación"
               >
-                {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                <Menu className="w-5 h-5 text-[#008541]" />
+                <span className="font-bold text-xs tracking-wider uppercase">Menú</span>
               </button>
             </div>
+
           </div>
         </div>
-        
-        {/* Mobile Dropdown */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
-            <a href="#institucion" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">La Institución</a>
-            <a href="#noticias" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Noticias y Eventos</a>
-            <a href="#oferta" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Oferta Académica</a>
-            <Link to="/vida-universitaria" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Vida Universitaria</Link>
-            <a href="#como-llegar" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Cómo Llegar</a>
-            <a href="#contacto" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Contacto</a>
-            <a 
-              href="https://www.unlu.edu.ar/inscripcion-periodo.html" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block px-3 py-2 text-sm font-bold text-emerald-800 bg-emerald-50 rounded-lg"
-            >
-              Inscripciones 2027 ↗
-            </a>
-            <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-bold text-slate-600 hover:bg-slate-100 rounded-lg">Panel de Administración</Link>
-          </div>
-        )}
       </nav>
+
+      {/* Menú Hamburguesa Off-Canvas (Drawer Desplegable Lateral) */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 flex justify-end">
+          {/* Backdrop con Blur */}
+          <div 
+            className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+
+          {/* Panel Lateral Drawer */}
+          <div className="relative w-full max-w-md bg-white h-full shadow-2xl z-10 flex flex-col justify-between overflow-y-auto animate-in slide-in-from-right duration-300 border-l border-slate-200">
+            
+            {/* Cabecera del Menú */}
+            <div>
+              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
+                <div className="flex items-center gap-3">
+                  <img src="/escudo.svg" alt="Escudo UNLu" className="h-10 w-10 p-1 bg-white rounded-full border border-slate-200 shadow-xs" />
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none block">UNLu</span>
+                    <span className="font-bold text-sm text-[#008541] font-serif leading-tight">CR Chivilcoy</span>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-8 h-8 rounded-full bg-slate-200/80 hover:bg-slate-300 text-slate-700 flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
+                  aria-label="Cerrar menú"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Botón Destacado de Inscripciones */}
+              <div className="p-5 pb-2">
+                <a 
+                  href="https://www.unlu.edu.ar/inscripcion-periodo.html" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full flex items-center justify-between bg-gradient-to-r from-[#008541] to-[#005a2b] text-white p-4 rounded-2xl shadow-md font-bold text-sm hover:brightness-110 transition-all"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <GraduationCap className="w-5 h-5 text-[#f9c540]" />
+                    <span>Inscripciones Ciclo 2027</span>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-emerald-200" />
+                </a>
+              </div>
+
+              {/* Secciones de Navegación Principal */}
+              <div className="p-5 space-y-1">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block px-3 py-1">
+                  Navegación Institucional
+                </span>
+
+                <a 
+                  href="#institucion" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-slate-700 hover:text-[#008541] hover:bg-slate-50 font-semibold text-sm transition-all"
+                >
+                  <Building2 className="w-4 h-4 text-[#008541]" />
+                  <span>La Institución e Historia</span>
+                </a>
+
+                <a 
+                  href="#noticias" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-slate-700 hover:text-[#008541] hover:bg-slate-50 font-semibold text-sm transition-all"
+                >
+                  <Newspaper className="w-4 h-4 text-[#008541]" />
+                  <span>Noticias y Eventos</span>
+                </a>
+
+                <a 
+                  href="#oferta" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-slate-700 hover:text-[#008541] hover:bg-slate-50 font-semibold text-sm transition-all"
+                >
+                  <BookOpen className="w-4 h-4 text-[#008541]" />
+                  <span>Oferta Académica (Carreras)</span>
+                </a>
+
+                <Link 
+                  to="/vida-universitaria" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-slate-700 hover:text-[#008541] hover:bg-slate-50 font-semibold text-sm transition-all"
+                >
+                  <GraduationCap className="w-4 h-4 text-[#008541]" />
+                  <span>Vida Universitaria & Becas</span>
+                </Link>
+
+                <a 
+                  href="#como-llegar" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-slate-700 hover:text-[#008541] hover:bg-slate-50 font-semibold text-sm transition-all"
+                >
+                  <Navigation className="w-4 h-4 text-[#008541]" />
+                  <span>Cómo Llegar y Transportes</span>
+                </a>
+
+                <a 
+                  href="#faq-section" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-slate-700 hover:text-[#008541] hover:bg-slate-50 font-semibold text-sm transition-all"
+                >
+                  <HelpCircle className="w-4 h-4 text-[#008541]" />
+                  <span>Preguntas Frecuentes</span>
+                </a>
+
+                <a 
+                  href="#contacto" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3.5 px-3.5 py-3 rounded-xl text-slate-700 hover:text-[#008541] hover:bg-slate-50 font-semibold text-sm transition-all"
+                >
+                  <Phone className="w-4 h-4 text-[#008541]" />
+                  <span>Canales de Contacto e Internos</span>
+                </a>
+              </div>
+
+              {/* Accesos a Portales UNLu */}
+              <div className="p-5 pt-2 border-t border-slate-100">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block px-3 py-1 mb-1">
+                  Portales UNLu
+                </span>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <a href="https://webmail.unlu.edu.ar" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium">
+                    Webmail UNLu ↗
+                  </a>
+                  <a href="https://www.unlu.edu.ar/acceso-aulas-virtuales.html" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium">
+                    Aulas Virtuales ↗
+                  </a>
+                  <a href="https://www.biblioteca.unlu.edu.ar/" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium">
+                    Biblioteca ↗
+                  </a>
+                  <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-[#008541] font-bold">
+                    Panel Admin ⚙
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Pie del Menú */}
+            <div className="p-5 bg-slate-50 border-t border-slate-100 text-xs text-slate-500">
+              <p className="font-semibold text-slate-700">Centro Regional Chivilcoy</p>
+              <p className="mt-0.5">Calle 110 (Grito de Alcorta) Nº 110</p>
+              <p className="text-[11px] text-slate-400 mt-1">Tel: +54 (02346) 424160 / 427183</p>
+            </div>
+
+          </div>
+        </div>
+      )}
 
       {/* Hero Principal Verde UNLu */}
       <section className="bg-gradient-to-br from-[#008541] via-[#006834] to-[#005a2b] text-white pt-12 sm:pt-20 pb-16 sm:pb-24 overflow-hidden relative border-b-4 border-[#f9c540]">
@@ -706,7 +830,7 @@ export default function Home() {
       </section>
 
       {/* FAQ (Preguntas Frecuentes) */}
-      <section className="py-20 bg-white border-b border-slate-200">
+      <section id="faq-section" className="py-20 bg-white border-b border-slate-200 scroll-mt-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#008541] block mb-1">Respuestas Rápidas</span>
