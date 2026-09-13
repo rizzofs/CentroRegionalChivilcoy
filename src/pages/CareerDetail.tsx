@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { 
-  ArrowLeft, GraduationCap, Calendar, 
+  GraduationCap, Calendar, 
   Download, CheckCircle2, ArrowRight
 } from 'lucide-react';
 import Breadcrumbs from '../components/Breadcrumbs';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const careersData = {
   sistemas: {
@@ -113,8 +115,7 @@ const careersData = {
 
 export default function CareerDetail() {
   const { id } = useParams<{ id: string }>();
-  
-  const data = id && careersData[id as keyof typeof careersData] 
+  const data = (id && careersData[id as keyof typeof careersData]) 
     ? careersData[id as keyof typeof careersData] 
     : {
         title: "Carrera en Desarrollo",
@@ -133,27 +134,12 @@ export default function CareerDetail() {
   }, [data.title]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased">
-      
-      {/* Navbar Superior */}
-      <nav className="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link to="/" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-[#008541] transition-colors">
-            <ArrowLeft className="h-4 w-4 text-[#008541]" />
-            <span>Volver a Inicio</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <img src="/escudo.svg" alt="Escudo UNLu" className="h-10 w-auto" />
-            <div className="hidden sm:flex flex-col">
-              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest leading-tight">Universidad Nacional de Luján</span>
-              <span className="text-xs font-bold text-[#008541] font-serif leading-tight">CR Chivilcoy</span>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased flex flex-col justify-between">
+      <div>
+        <Navbar />
 
-      {/* Hero Header Institucional Verde UNLu */}
-      <header className="bg-gradient-to-br from-[#008541] via-[#006834] to-[#005a2b] text-white pt-10 pb-14 relative overflow-hidden">
+        {/* Hero Header Institucional Verde UNLu */}
+        <header className="bg-gradient-to-br from-[#008541] via-[#006834] to-[#005a2b] text-white pt-10 pb-14 relative overflow-hidden border-b-4 border-[#f9c540]">
         <div className="absolute inset-0 opacity-5 pointer-events-none">
           <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full border-[40px] border-white"></div>
           <img src="/escudo.svg" alt="" className="absolute right-10 bottom-0 w-80 h-80 invert opacity-10" />
@@ -313,16 +299,8 @@ export default function CareerDetail() {
         </div>
       </section>
       
-      {/* Footer */}
-      <footer className="bg-slate-900 text-slate-400 py-10 border-t border-slate-800 text-xs text-center">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} Centro Regional Chivilcoy · Universidad Nacional de Luján.</p>
-          <Link to="/" className="text-slate-300 hover:text-white font-bold">
-            ← Volver a la página principal
-          </Link>
-        </div>
-      </footer>
-
+      </div>
+      <Footer />
     </div>
   );
 }
