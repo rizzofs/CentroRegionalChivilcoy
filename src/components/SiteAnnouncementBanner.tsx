@@ -6,7 +6,7 @@ export default function SiteAnnouncementBanner() {
   const [bannerConfig, setBannerConfig] = useState({
     active: true,
     style: 'gold',
-    text: 'Inscripciones abiertas al Ciclo Lectivo 2026 en el Centro Regional Chivilcoy.',
+    text: 'Inscripciones abiertas al Ciclo Lectivo 2027 en el Centro Regional Chivilcoy.',
     btnText: 'Conocé las Carreras ↗',
     url: '#oferta'
   });

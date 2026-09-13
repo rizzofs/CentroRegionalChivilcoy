@@ -9,7 +9,7 @@ const DEFAULT_DYNAMIC_DATA = {
   banner: {
     active: true,
     style: 'gold',
-    text: 'Inscripciones abiertas al Ciclo Lectivo 2026 en el Centro Regional Chivilcoy.',
+    text: 'Inscripciones abiertas al Ciclo Lectivo 2027 en el Centro Regional Chivilcoy.',
     btnText: 'Conocé las Carreras ↗',
     url: '#oferta'
   },
@@ -310,7 +310,7 @@ export default function Dashboard() {
                     type="text"
                     value={dynamicData.banner.text}
                     onChange={(e) => handleBannerChange('text', e.target.value)}
-                    placeholder="Ej: Inscripciones abiertas al Ciclo Lectivo 2026..."
+                    placeholder="Ej: Inscripciones abiertas al Ciclo Lectivo 2027..."
                     className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2.5 text-xs text-zinc-800 font-medium focus:bg-white focus:ring-2 focus:ring-[#15803d] outline-none"
                   />
                 </div>

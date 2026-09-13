@@ -106,7 +106,7 @@ export default function Home() {
                 rel="noopener noreferrer" 
                 className="bg-[#008541] hover:bg-[#005a2b] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl shadow-xs transition-transform active:scale-95"
               >
-                Inscripciones 2026
+                Inscripciones 2027
               </a>
             </div>
 
@@ -130,7 +130,16 @@ export default function Home() {
             <a href="#oferta" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Oferta Académica</a>
             <Link to="/vida-universitaria" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Vida Universitaria</Link>
             <a href="#contacto" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#008541] rounded-lg">Contacto</a>
-            <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-bold text-[#008541] bg-emerald-50 rounded-lg">Panel de Administración</Link>
+            <a 
+              href="https://www.unlu.edu.ar/inscripcion-periodo.html" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block px-3 py-2 text-sm font-bold text-emerald-800 bg-emerald-50 rounded-lg"
+            >
+              Inscripciones 2027 ↗
+            </a>
+            <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-sm font-bold text-slate-600 hover:bg-slate-100 rounded-lg">Panel de Administración</Link>
           </div>
         )}
       </nav>
@@ -173,7 +182,7 @@ export default function Home() {
                 href="#oferta" 
                 className="inline-flex items-center gap-2 bg-[#f9c540] hover:bg-yellow-400 text-slate-950 font-bold px-6 py-3.5 rounded-xl shadow-lg transition-transform active:scale-95 text-sm"
               >
-                <span>Conocer Carreras 2026</span>
+                <span>Conocer Carreras 2027</span>
                 <ChevronRight className="w-4 h-4 text-slate-900" />
               </a>
 
