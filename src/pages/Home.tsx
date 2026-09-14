@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { 
   MapPin, ChevronRight, ArrowRight, ExternalLink,
   Calendar, Newspaper, BookOpen, GraduationCap,
-  Users, ListChecks, Quote
+  Users, ListChecks, Quote, Mail, Landmark,
+  Building2, ShieldCheck
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -586,6 +587,188 @@ export default function Home() {
                 </div>
               </div>
             )}
+          </div>
+        </section>
+
+        {/* Autoridades y Conducción Institucional */}
+        <section id="autoridades" className="py-20 bg-white border-b border-slate-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#008541] block mb-1">
+                Estructura y Gobierno Universitario
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 font-serif">
+                Autoridades Institucionales
+              </h2>
+              <div className="h-1 w-20 bg-gradient-to-r from-[#008541] via-[#f9c540] to-[#c0392b] rounded-full mx-auto my-3"></div>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                Conducción superior de la Universidad Nacional de Luján y equipo directivo a cargo del Centro Regional Chivilcoy.
+              </p>
+            </div>
+
+            {/* 1. Conducción Superior UNLu (Rector y Vicerrector) */}
+            <div className="mb-10">
+              <div className="flex items-center gap-2 mb-4">
+                <Landmark className="w-4 h-4 text-[#008541]" />
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Rectorado · Sede Central Luján</h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-7 border border-slate-700 shadow-md relative overflow-hidden group">
+                  <div className="absolute right-0 bottom-0 opacity-10 translate-x-4 translate-y-4">
+                    <img src="/escudo.svg" alt="" className="w-36 h-36 invert" />
+                  </div>
+                  <span className="text-[11px] font-bold text-[#f9c540] uppercase tracking-widest block mb-1">
+                    Rector de la UNLu
+                  </span>
+                  <h4 className="text-2xl font-bold font-serif mb-1 text-white">
+                    Lic. Walter Fabián Panessi
+                  </h4>
+                  <p className="text-xs text-slate-300 mb-4">Universidad Nacional de Luján</p>
+                  <div className="pt-3 border-t border-slate-700/80 flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <a 
+                      href="mailto:rector@mail.unlu.edu.ar" 
+                      className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-mono transition-colors"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>rector@mail.unlu.edu.ar</span>
+                    </a>
+                    <a 
+                      href="https://rectorado.unlu.edu.ar" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-slate-400 hover:text-white inline-flex items-center gap-1 text-[11px]"
+                    >
+                      <span>rectorado.unlu.edu.ar</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-7 border border-slate-700 shadow-md relative overflow-hidden group">
+                  <div className="absolute right-0 bottom-0 opacity-10 translate-x-4 translate-y-4">
+                    <img src="/escudo.svg" alt="" className="w-36 h-36 invert" />
+                  </div>
+                  <span className="text-[11px] font-bold text-[#f9c540] uppercase tracking-widest block mb-1">
+                    Vicerrector de la UNLu
+                  </span>
+                  <h4 className="text-2xl font-bold font-serif mb-1 text-white">
+                    Lic. Miguel Ángel Núñez
+                  </h4>
+                  <p className="text-xs text-slate-300 mb-4">Universidad Nacional de Luján</p>
+                  <div className="pt-3 border-t border-slate-700/80 flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <a 
+                      href="mailto:vcrector@mail.unlu.edu.ar" 
+                      className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-mono transition-colors"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>vcrector@mail.unlu.edu.ar</span>
+                    </a>
+                    <span className="text-slate-400 text-[11px]">Sede Central Luján</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Dirección de Centro Regional Chivilcoy */}
+            <div className="mb-10">
+              <div className="flex items-center gap-2 mb-4">
+                <Building2 className="w-4 h-4 text-[#008541]" />
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Dirección del Centro Regional Chivilcoy</h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-[#008541] transition-all">
+                  <span className="text-[11px] font-bold text-[#008541] uppercase tracking-wider block mb-1">
+                    Director del Centro Regional
+                  </span>
+                  <h4 className="text-xl font-bold text-slate-900 font-serif mb-1">
+                    Lic. Jorge Guelffi
+                  </h4>
+                  <p className="text-xs text-slate-500 mb-4">Conducción y Gestión Académico-Institucional Sede Chivilcoy</p>
+                  <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
+                    <a href="mailto:direccioncrch@unlu.edu.ar" className="inline-flex items-center gap-1.5 text-[#008541] hover:underline font-medium">
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>direccioncrch@unlu.edu.ar</span>
+                    </a>
+                    <span className="text-slate-400 font-mono text-[11px]">Int. 101</span>
+                  </div>
+                </div>
+
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-[#008541] transition-all">
+                  <span className="text-[11px] font-bold text-[#008541] uppercase tracking-wider block mb-1">
+                    Director Administrativo
+                  </span>
+                  <h4 className="text-xl font-bold text-slate-900 font-serif mb-1">
+                    Maximiliano Lucci
+                  </h4>
+                  <p className="text-xs text-slate-500 mb-4">Administración General, Recursos y Despacho Operativo</p>
+                  <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
+                    <span className="text-slate-600 font-medium">Administración y Despacho</span>
+                    <span className="text-slate-400 font-mono text-[11px]">Sede Chivilcoy</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. Áreas de Gestión y Coordinación */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <ShieldCheck className="w-4 h-4 text-[#008541]" />
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Áreas y Dependencias de Gestión Local</h3>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 shadow-xs">
+                  <h5 className="font-bold text-slate-900 text-sm font-serif mb-2 pb-2 border-b border-slate-200">
+                    Servicios Académicos
+                  </h5>
+                  <ul className="space-y-1.5 text-xs text-slate-600">
+                    <li><strong className="text-slate-800">Jefe:</strong> C.P.N. María Luján Cialdo</li>
+                    <li><strong className="text-slate-800">Atención:</strong> Lic. Ariadna Canepa</li>
+                    <li><strong className="text-slate-800">Internos:</strong> 3301 / 3302</li>
+                    <li><a href="mailto:academicach@unlu.edu.ar" className="text-[#008541] hover:underline break-all">academicach@unlu.edu.ar</a></li>
+                  </ul>
+                </div>
+
+                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 shadow-xs">
+                  <h5 className="font-bold text-slate-900 text-sm font-serif mb-2 pb-2 border-b border-slate-200">
+                    Dpto. Administrativo
+                  </h5>
+                  <ul className="space-y-1.5 text-xs text-slate-600">
+                    <li><strong className="text-slate-800">SUEP:</strong> Alberto Sergio Raele</li>
+                    <li><strong className="text-slate-800">Atención:</strong> Lorena Pissaco</li>
+                    <li><strong className="text-slate-800">Interno:</strong> 1787</li>
+                    <li className="text-slate-500 text-[11px]">Mesa de Entradas y Personal</li>
+                  </ul>
+                </div>
+
+                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 shadow-xs">
+                  <h5 className="font-bold text-slate-900 text-sm font-serif mb-2 pb-2 border-b border-slate-200">
+                    Bienestar y Deportes
+                  </h5>
+                  <ul className="space-y-1.5 text-xs text-slate-600">
+                    <li><strong className="text-slate-800">Becas:</strong> Juan E. Lattanzio</li>
+                    <li><strong className="text-slate-800">Deportes:</strong> Carlos Canepa</li>
+                    <li><strong className="text-slate-800">Interno:</strong> 3309</li>
+                    <li className="text-slate-500 text-[11px]">Pasantías y Actividad Física</li>
+                  </ul>
+                </div>
+
+                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 shadow-xs">
+                  <h5 className="font-bold text-slate-900 text-sm font-serif mb-2 pb-2 border-b border-slate-200">
+                    Biblioteca CRCH
+                  </h5>
+                  <ul className="space-y-1.5 text-xs text-slate-600">
+                    <li><strong className="text-slate-800">Horario:</strong> Lun. a Vie. 14 a 21 hs.</li>
+                    <li><strong className="text-slate-800">Interno:</strong> 3303</li>
+                    <li className="text-slate-500 text-[11px]">Préstamos y Sala Silenciosa</li>
+                    <li><a href="https://www.biblioteca.unlu.edu.ar/" target="_blank" rel="noopener noreferrer" className="text-[#008541] hover:underline">biblioteca.unlu.edu.ar ↗</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 

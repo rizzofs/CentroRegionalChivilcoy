@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  BookOpen, ArrowRight, Compass, Sparkles, RotateCcw, 
-  Clock, Award, ExternalLink, GraduationCap, Building2
+  BookOpen, ArrowRight, Compass, Clock, 
+  Award, ExternalLink, GraduationCap, Building2
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -11,85 +11,6 @@ import Breadcrumbs from '../components/Breadcrumbs';
 export default function Carreras() {
   const [filterType, setFilterType] = useState<'todas' | 'grado' | 'pregrado'>('todas');
   const [filterArea, setFilterArea] = useState<string>('todas');
-
-  // Orientador Vocacional Rápido State
-  const [sovInterest, setSovInterest] = useState<string>('');
-  const [sovWorkplace, setSovWorkplace] = useState<string>('');
-  const [sovDuration, setSovDuration] = useState<string>('');
-  const [sovCareerResult, setSovCareerResult] = useState<any | null>(null);
-
-  const calculateSovRecommendation = () => {
-    if (!sovInterest || !sovWorkplace) return;
-
-    if (sovInterest === 'tech' || sovInterest === 'datos') {
-      if (sovDuration === 'corta' || sovInterest === 'datos') {
-        setSovCareerResult({
-          nombre: 'Tecnicatura Universitaria en Ciencia de Datos',
-          tipo: 'Pregrado Universitario · 2.5 Años',
-          descripcion: 'Ideal para quienes disfrutan el análisis cuantitativo, la inteligencia artificial, bases de datos y la resolución de problemas lógicos aplicados a negocios e investigación.',
-          enlace: '/carrera/datos',
-          color: 'from-blue-600 to-indigo-800'
-        });
-      } else {
-        setSovCareerResult({
-          nombre: 'Licenciatura en Sistemas de Información',
-          tipo: 'Grado Universitario · 5 Años',
-          descripcion: 'Diseñada para liderar proyectos de software, arquitectura tecnológica, transformación digital y gestión de sistemas complejos en organizaciones globales.',
-          enlace: '/carrera/sistemas',
-          color: 'from-[#008541] to-[#005a2b]'
-        });
-      }
-      return;
-    }
-
-    if (sovInterest === 'salud') {
-      setSovCareerResult({
-        nombre: 'Licenciatura en Enfermería',
-        tipo: 'Grado Universitario · 5 Años (con título intermedio)',
-        descripcion: 'Formación de excelencia con profunda vocación de cuidado humano, gestión de servicios sanitarios y prácticas clínicas integradas desde el inicio en hospitales de la región.',
-        enlace: '/carrera/enfermeria',
-        color: 'from-teal-600 to-emerald-800'
-      });
-      return;
-    }
-
-    if (sovInterest === 'social') {
-      setSovCareerResult({
-        nombre: 'Licenciatura en Trabajo Social',
-        tipo: 'Grado Universitario · 5 Años',
-        descripcion: 'Enfocada en la defensa de derechos humanos, diseño de políticas públicas, intervención territorial y fortalecimiento de instituciones comunitarias.',
-        enlace: '/carrera/trabajosocial',
-        color: 'from-purple-600 to-indigo-900'
-      });
-      return;
-    }
-
-    if (sovWorkplace === 'empresa' || sovInterest === 'gestion') {
-      setSovCareerResult({
-        nombre: 'Licenciatura en Administración',
-        tipo: 'Grado Universitario · 5 Años',
-        descripcion: 'Para perfiles con liderazgo estratégico, interés en crear empresas, gestionar organizaciones públicas y privadas, y liderar equipos multidisciplinarios.',
-        enlace: '/carrera/administracion',
-        color: 'from-amber-600 to-amber-800'
-      });
-      return;
-    }
-
-    setSovCareerResult({
-      nombre: 'Contador Público',
-      tipo: 'Grado Universitario · 5 Años',
-      descripcion: 'Formación integral en tributación, auditoría, consultoría contable y finanzas, con altísima demanda y habilitación profesional plena en toda la región.',
-      enlace: '/carrera/contador',
-      color: 'from-emerald-700 to-slate-900'
-    });
-  };
-
-  const resetSovTest = () => {
-    setSovInterest('');
-    setSovWorkplace('');
-    setSovDuration('');
-    setSovCareerResult(null);
-  };
 
   const carrerasList = [
     {
@@ -209,151 +130,37 @@ export default function Carreras() {
         </header>
 
         {/* Servicio de Orientación Vocacional (SOV) Integrado */}
-        <section className="bg-white py-16 border-b border-slate-200">
+        <section className="bg-white py-12 border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-              
-              {/* Información SOV */}
-              <div className="lg:col-span-6 space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-[#008541] border border-emerald-100 text-xs font-bold uppercase tracking-wider">
+            <div className="bg-gradient-to-br from-emerald-50 via-white to-slate-50 rounded-3xl p-8 border border-emerald-100/80 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+              <div className="max-w-3xl space-y-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white text-[#008541] border border-emerald-200 text-xs font-bold uppercase tracking-wider shadow-2xs">
                   <Compass className="w-3.5 h-3.5 text-[#008541]" />
-                  <span>¿Dudas sobre tu vocación?</span>
+                  <span>Orientación y Acompañamiento Vocacional</span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 font-serif leading-tight">
-                  Servicio de Orientación Vocacional (SOV)
+                  Servicio de Orientación Vocacional (SOV) UNLu
                 </h2>
                 <p className="text-slate-600 text-sm leading-relaxed">
-                  El SOV de la Universidad Nacional de Luján asesora y acompaña a postulantes y estudiantes a través de talleres grupales, entrevistas individuales e información académica detallada.
+                  ¿Tenés dudas sobre tu elección de carrera o querés conocer los perfiles y campos laborales? El SOV acompaña a ingresantes y estudiantes mediante talleres grupales, entrevistas individuales e información académica detallada.
                 </p>
-                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-2">
-                  <p className="font-bold text-slate-800">Canales de consulta del SOV:</p>
-                  <p>• <strong>Email:</strong> orientacionvocacional@unlu.edu.ar</p>
-                  <p>• <strong>Web:</strong> www.sov.unlu.edu.ar</p>
-                  <p>• <strong>Atención en Sede:</strong> Dpto. de Alumnos y Extensión</p>
+                <div className="flex flex-wrap gap-4 text-xs text-slate-600 pt-1">
+                  <span>✉️ <strong>Email:</strong> <a href="mailto:orientacionvocacional@unlu.edu.ar" className="text-[#008541] hover:underline">orientacionvocacional@unlu.edu.ar</a></span>
+                  <span>📍 <strong>Atención:</strong> Centro Regional Chivilcoy / Sede Central</span>
                 </div>
               </div>
 
-              {/* Test Vocacional Express */}
-              <div className="lg:col-span-6">
-                <div className="bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-md">
-                  <div className="flex items-center justify-between gap-4 mb-4">
-                    <div>
-                      <span className="text-xs font-bold text-[#008541] uppercase tracking-wider block">Orientador Rápido</span>
-                      <h3 className="text-lg font-bold text-slate-900 font-serif">Descubrí tu carrera ideal</h3>
-                    </div>
-                    {sovCareerResult && (
-                      <button
-                        type="button"
-                        onClick={resetSovTest}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-200/70 hover:bg-slate-300 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
-                      >
-                        <RotateCcw className="w-3 h-3" />
-                        <span>Rehacer</span>
-                      </button>
-                    )}
-                  </div>
-
-                  {!sovCareerResult ? (
-                    <div className="space-y-4 text-xs">
-                      <div>
-                        <label className="block font-bold text-slate-700 uppercase tracking-wider mb-2">
-                          1. ¿Qué disciplina te atrae más?
-                        </label>
-                        <div className="grid grid-cols-2 gap-2">
-                          {[
-                            { key: 'tech', label: '💻 Software y TI' },
-                            { key: 'datos', label: '📊 Ciencia de Datos e IA' },
-                            { key: 'salud', label: '🩺 Salud y Cuidados' },
-                            { key: 'social', label: '🤝 Derechos y Comunidad' },
-                            { key: 'gestion', label: '📈 Negocios y Dirección' },
-                            { key: 'contable', label: '⚖️ Finanzas y Auditoría' }
-                          ].map(opt => (
-                            <button
-                              key={opt.key}
-                              type="button"
-                              onClick={() => setSovInterest(opt.key)}
-                              className={`p-2.5 rounded-xl text-left font-medium transition-all cursor-pointer border ${
-                                sovInterest === opt.key 
-                                  ? 'bg-[#008541] text-white border-[#008541] shadow-xs' 
-                                  : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
-                              }`}
-                            >
-                              {opt.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block font-bold text-slate-700 uppercase tracking-wider mb-2">
-                          2. ¿En qué entorno te gustaría trabajar?
-                        </label>
-                        <div className="grid grid-cols-2 gap-2">
-                          {[
-                            { key: 'tech_office', label: '🏢 Empresas Tech / Remoto' },
-                            { key: 'salud_hosp', label: '🏥 Hospitales / Clínicas' },
-                            { key: 'empresa', label: '🏭 PyMEs y Organizaciones' },
-                            { key: 'territorio', label: '🏛️ Sector Público / ONG' }
-                          ].map(opt => (
-                            <button
-                              key={opt.key}
-                              type="button"
-                              onClick={() => setSovWorkplace(opt.key)}
-                              className={`p-2.5 rounded-xl text-left font-medium transition-all cursor-pointer border ${
-                                sovWorkplace === opt.key 
-                                  ? 'bg-[#008541] text-white border-[#008541] shadow-xs' 
-                                  : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
-                              }`}
-                            >
-                              {opt.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      <button
-                        type="button"
-                        disabled={!sovInterest || !sovWorkplace}
-                        onClick={calculateSovRecommendation}
-                        className={`w-full py-3 px-4 rounded-xl font-bold text-xs transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer mt-2 ${
-                          sovInterest && sovWorkplace
-                            ? 'bg-[#008541] hover:bg-[#005a2b] text-white'
-                            : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                        }`}
-                      >
-                        <Sparkles className="w-4 h-4 text-[#f9c540]" />
-                        <span>Ver Recomendación</span>
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-lg animate-in fade-in zoom-in-95">
-                      <span className="inline-block px-2.5 py-0.5 rounded bg-[#f9c540] text-slate-950 font-extrabold text-[10px] uppercase mb-2">
-                        Carrera Sugerida
-                      </span>
-                      <h4 className="text-xl font-bold font-serif mb-1">{sovCareerResult.nombre}</h4>
-                      <p className="text-xs text-emerald-300 font-semibold mb-3">{sovCareerResult.tipo}</p>
-                      <p className="text-xs text-slate-300 leading-relaxed mb-4">{sovCareerResult.descripcion}</p>
-                      <div className="flex items-center gap-3">
-                        <Link
-                          to={sovCareerResult.enlace}
-                          className="bg-[#008541] hover:bg-[#005a2b] text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs inline-flex items-center gap-1.5"
-                        >
-                          <span>Ver Ficha y Plan</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </Link>
-                        <button
-                          type="button"
-                          onClick={resetSovTest}
-                          className="text-xs text-slate-400 hover:text-white"
-                        >
-                          Probar otra opción
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
+              <div className="shrink-0">
+                <a
+                  href="http://www.orientacionvocacional.unlu.edu.ar"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-[#008541] hover:bg-[#005a2b] text-white font-bold text-xs px-5 py-3.5 rounded-xl shadow-md transition-transform active:scale-95"
+                >
+                  <span>Portal Oficial SOV</span>
+                  <ExternalLink className="w-4 h-4" />
+                </a>
               </div>
-
             </div>
           </div>
         </section>

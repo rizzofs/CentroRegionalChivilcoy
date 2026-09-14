@@ -27,21 +27,28 @@ export default function Footer() {
             </span>
           </div>
 
-          {/* 2. Contacto Sede Central */}
+          {/* 2. Contacto Sede Central y Autoridades */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Sede Central Luján</h3>
-            <ul className="space-y-2 text-xs text-slate-400">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Autoridades UNLu</h3>
+            <div className="space-y-2.5 text-xs text-slate-400 mb-4">
+              <div>
+                <span className="text-[10px] uppercase font-bold text-slate-500 block">Rector</span>
+                <span className="text-slate-200 font-medium">Lic. Walter Fabián Panessi</span>
+                <a href="mailto:rector@mail.unlu.edu.ar" className="text-slate-400 hover:text-emerald-400 block text-[11px]">rector@mail.unlu.edu.ar</a>
+              </div>
+              <div>
+                <span className="text-[10px] uppercase font-bold text-slate-500 block">Vicerrector</span>
+                <span className="text-slate-200 font-medium">Lic. Miguel Ángel Núñez</span>
+                <a href="mailto:vcrector@mail.unlu.edu.ar" className="text-slate-400 hover:text-emerald-400 block text-[11px]">vcrector@mail.unlu.edu.ar</a>
+              </div>
+            </div>
+
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-2">Sede Central Luján</h4>
+            <ul className="space-y-1.5 text-xs text-slate-400">
               <li>Ruta 5 y Av. Constitución, Luján</li>
               <li>Conmutador: +54 (02323) 445100</li>
-              <li><a href="https://www.unlu.edu.ar" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white underline">www.unlu.edu.ar</a></li>
+              <li><a href="https://rectorado.unlu.edu.ar" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white underline">rectorado.unlu.edu.ar</a></li>
             </ul>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white mt-4 mb-2">Navegación</h4>
-            <div className="flex flex-wrap gap-2 text-xs">
-              <Link to="/carreras" className="hover:text-white text-slate-300 transition-colors">Carreras</Link> · 
-              <Link to="/ingreso" className="hover:text-white text-slate-300 transition-colors">Ingreso</Link> · 
-              <Link to="/noticias" className="hover:text-white text-slate-300 transition-colors">Noticias</Link> · 
-              <Link to="/transporte" className="hover:text-white text-slate-300 transition-colors">Transporte</Link>
-            </div>
           </div>
 
           {/* 3. Enlaces Rápidos */}
