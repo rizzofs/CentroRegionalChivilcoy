@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   BookOpen, ArrowRight, Compass, Clock, 
@@ -8,84 +8,125 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Breadcrumbs from '../components/Breadcrumbs';
 
-export default function Carreras() {
-  const [filterType, setFilterType] = useState<'todas' | 'grado' | 'pregrado'>('todas');
-  const [filterArea, setFilterArea] = useState<string>('todas');
+export interface CarreraItem {
+  id: string;
+  nombre: string;
+  tipo: 'grado' | 'pregrado' | 'posgrado';
+  tipoTexto: string;
+  duracion: string;
+  area: 'tecnologia' | 'administracion' | 'salud' | 'sociales' | 'exactas' | 'agro' | 'otras';
+  areaTexto: string;
+  tituloIntermedio?: string | null;
+  descripcion: string;
+  enlace: string;
+  planUrl?: string;
+}
 
-  const carrerasList = [
-    {
-      id: 'sistemas',
-      nombre: 'Licenciatura en Sistemas de Información',
-      tipo: 'grado',
-      tipoTexto: 'Carrera de Grado',
-      duracion: '5 Años',
-      area: 'tecnologia',
-      areaTexto: 'Tecnología e Informática',
-      tituloIntermedio: 'Analista Programador Universitario (APU) - 3 Años',
-      descripcion: 'Formación integral en desarrollo de software, arquitectura de sistemas, gestión de TI y seguridad informática.',
-      enlace: '/carrera/sistemas'
-    },
-    {
-      id: 'datos',
-      nombre: 'Analista Universitario en Ciencias de Datos',
-      tipo: 'pregrado',
-      tipoTexto: 'Pregrado Universitario · Nueva',
-      duracion: '2.5 Años',
-      area: 'tecnologia',
-      areaTexto: 'Tecnología y Datos',
-      tituloIntermedio: null,
-      descripcion: 'Modelado estadístico, aprendizaje automático (Machine Learning), análisis masivo de datos e inteligencia artificial.',
-      enlace: '/carrera/datos'
-    },
-    {
-      id: 'administracion',
-      nombre: 'Licenciatura en Administración',
-      tipo: 'grado',
-      tipoTexto: 'Carrera de Grado',
-      duracion: '5 Años',
-      area: 'administracion',
-      areaTexto: 'Administración y Negocios',
-      tituloIntermedio: 'Técnico Universitario en Administración - 4 Años',
-      descripcion: 'Planificación estratégica, diseño organizacional, finanzas corporativas y dirección de empresas u organismos públicos.',
-      enlace: '/carrera/administracion'
-    },
-    {
-      id: 'contador',
-      nombre: 'Contador Público',
-      tipo: 'grado',
-      tipoTexto: 'Carrera de Grado',
-      duracion: '5 Años',
-      area: 'administracion',
-      areaTexto: 'Ciencias Económicas',
-      tituloIntermedio: null,
-      descripcion: 'Auditoría, régimen tributario, consultoría financiera y peritajes contables y judiciales.',
-      enlace: '/carrera/contador'
-    },
-    {
-      id: 'enfermeria',
-      nombre: 'Licenciatura en Enfermería',
-      tipo: 'grado',
-      tipoTexto: 'Carrera de Grado',
-      duracion: '5 Años',
-      area: 'salud',
-      areaTexto: 'Ciencias de la Salud',
-      tituloIntermedio: 'Enfermero/a Universitario/a - 3 Años',
-      descripcion: 'Cuidado integral de la salud, atención en centros hospitalarios de alta complejidad y gestión de servicios sanitarios.',
-      enlace: '/carrera/enfermeria'
-    },
-    {
-      id: 'trabajosocial',
-      nombre: 'Licenciatura en Trabajo Social',
-      tipo: 'grado',
-      tipoTexto: 'Carrera de Grado',
-      duracion: '5 Años',
-      area: 'sociales',
-      areaTexto: 'Ciencias Sociales',
-      tituloIntermedio: 'Técnico/a en Minoridad y Familia - 3 Años',
-      descripcion: 'Intervención en políticas sociales, defensa de derechos humanos y articulación con instituciones comunitarias.',
-      enlace: '/carrera/trabajosocial'
-    }
-  ];
+const DEFAULT_CARRERAS: CarreraItem[] = [
+  {
+    id: 'sistemas',
+    nombre: 'Licenciatura en Sistemas de Información',
+    tipo: 'grado',
+    tipoTexto: 'Carrera de Grado',
+    duracion: '5 Años',
+    area: 'tecnologia',
+    areaTexto: 'Tecnología e Informática',
+    tituloIntermedio: 'Analista Programador Universitario (APU) - 3 Años',
+    descripcion: 'Formación integral en desarrollo de software, arquitectura de sistemas, gestión de TI y seguridad informática.',
+    enlace: '/carrera/sistemas',
+    planUrl: 'https://www.unlu.edu.ar/carg-sistemas-pre.html'
+  },
+  {
+    id: 'datos',
+    nombre: 'Analista Universitario en Ciencias de Datos',
+    tipo: 'pregrado',
+    tipoTexto: 'Pregrado Universitario · Nueva',
+    duracion: '2.5 Años',
+    area: 'tecnologia',
+    areaTexto: 'Tecnología y Datos',
+    tituloIntermedio: null,
+    descripcion: 'Modelado estadístico, aprendizaje automático (Machine Learning), análisis masivo de datos e inteligencia artificial.',
+    enlace: '/carrera/datos',
+    planUrl: 'https://www.unlu.edu.ar/carpre-analistaciedatos.html'
+  },
+  {
+    id: 'administracion',
+    nombre: 'Licenciatura en Administración',
+    tipo: 'grado',
+    tipoTexto: 'Carrera de Grado',
+    duracion: '5 Años',
+    area: 'administracion',
+    areaTexto: 'Administración y Negocios',
+    tituloIntermedio: 'Técnico Universitario en Administración - 4 Años',
+    descripcion: 'Planificación estratégica, diseño organizacional, finanzas corporativas y dirección de empresas u organismos públicos.',
+    enlace: '/carrera/administracion',
+    planUrl: 'https://www.unlu.edu.ar/carg-admin-pre.html'
+  },
+  {
+    id: 'contador',
+    nombre: 'Contador Público',
+    tipo: 'grado',
+    tipoTexto: 'Carrera de Grado',
+    duracion: '5 Años',
+    area: 'administracion',
+    areaTexto: 'Ciencias Económicas',
+    tituloIntermedio: null,
+    descripcion: 'Auditoría, régimen tributario, consultoría financiera y peritajes contables y judiciales.',
+    enlace: '/carrera/contador',
+    planUrl: 'https://www.unlu.edu.ar/carg-contador-pre.html'
+  },
+  {
+    id: 'enfermeria',
+    nombre: 'Licenciatura en Enfermería',
+    tipo: 'grado',
+    tipoTexto: 'Carrera de Grado',
+    duracion: '5 Años',
+    area: 'salud',
+    areaTexto: 'Ciencias de la Salud',
+    tituloIntermedio: 'Enfermero/a Universitario/a - 3 Años',
+    descripcion: 'Cuidado integral de la salud, atención en centros hospitalarios de alta complejidad y gestión de servicios sanitarios.',
+    enlace: '/carrera/enfermeria',
+    planUrl: 'https://www.unlu.edu.ar/carg-enfermeria-pre.html'
+  },
+  {
+    id: 'trabajosocial',
+    nombre: 'Licenciatura en Trabajo Social',
+    tipo: 'grado',
+    tipoTexto: 'Carrera de Grado',
+    duracion: '5 Años',
+    area: 'sociales',
+    areaTexto: 'Ciencias Sociales',
+    tituloIntermedio: 'Técnico/a en Minoridad y Familia - 3 Años',
+    descripcion: 'Intervención en políticas sociales, defensa de derechos humanos y articulación con instituciones comunitarias.',
+    enlace: '/carrera/trabajosocial',
+    planUrl: 'https://www.unlu.edu.ar/carg-trabsocial.html'
+  }
+];
+
+export default function Carreras() {
+  const [filterType, setFilterType] = useState<'todas' | 'grado' | 'pregrado' | 'posgrado'>('todas');
+  const [filterArea, setFilterArea] = useState<string>('todas');
+  const [carrerasList, setCarrerasList] = useState<CarreraItem[]>(DEFAULT_CARRERAS);
+
+  useEffect(() => {
+    const loadCarreras = () => {
+      try {
+        const saved = localStorage.getItem('crch_dynamic_content');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed.carreras && Array.isArray(parsed.carreras) && parsed.carreras.length > 0 && typeof parsed.carreras[0]?.descripcion === 'string') {
+            setCarrerasList(parsed.carreras);
+          }
+        }
+      } catch (e) {
+        console.error("Error al cargar carreras", e);
+      }
+    };
+
+    loadCarreras();
+    window.addEventListener('storage', loadCarreras);
+    return () => window.removeEventListener('storage', loadCarreras);
+  }, []);
 
   const filteredCarreras = carrerasList.filter(c => {
     const matchType = filterType === 'todas' || c.tipo === filterType;
@@ -191,7 +232,7 @@ export default function Carreras() {
                     filterType === 'grado' ? 'bg-[#008541] text-white shadow-xs' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
-                  Grado (5 Años)
+                  Grado ({carrerasList.filter(c => c.tipo === 'grado').length})
                 </button>
                 <button
                   onClick={() => setFilterType('pregrado')}
@@ -199,8 +240,18 @@ export default function Carreras() {
                     filterType === 'pregrado' ? 'bg-[#008541] text-white shadow-xs' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
-                  Pregrado (2.5 Años)
+                  Pregrado ({carrerasList.filter(c => c.tipo === 'pregrado').length})
                 </button>
+                {carrerasList.some(c => c.tipo === 'posgrado') && (
+                  <button
+                    onClick={() => setFilterType('posgrado')}
+                    className={`text-xs font-bold px-3.5 py-2 rounded-xl transition-all cursor-pointer ${
+                      filterType === 'posgrado' ? 'bg-[#008541] text-white shadow-xs' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    Posgrado ({carrerasList.filter(c => c.tipo === 'posgrado').length})
+                  </button>
+                )}
                 <div className="h-6 w-px bg-slate-200 hidden md:block"></div>
                 {['tecnologia', 'administracion', 'salud', 'sociales'].map(area => (
                   <button
@@ -228,9 +279,13 @@ export default function Carreras() {
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-4">
                       <span className={`text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full ${
-                        carrera.tipo === 'pregrado' ? 'bg-amber-100 text-amber-900' : 'bg-emerald-100 text-emerald-900'
+                        carrera.tipo === 'pregrado' 
+                          ? 'bg-amber-100 text-amber-900' 
+                          : carrera.tipo === 'posgrado'
+                          ? 'bg-purple-100 text-purple-900'
+                          : 'bg-emerald-100 text-emerald-900'
                       }`}>
-                        {carrera.tipoTexto}
+                        {carrera.tipoTexto || (carrera.tipo === 'pregrado' ? 'Pregrado' : 'Grado')}
                       </span>
                       <span className="text-xs font-semibold text-slate-500 flex items-center gap-1">
                         <Clock className="w-3.5 h-3.5 text-slate-400" />
@@ -258,13 +313,25 @@ export default function Carreras() {
                   </div>
 
                   <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <Link 
-                      to={carrera.enlace}
-                      className="w-full inline-flex items-center justify-center gap-2 bg-[#008541] hover:bg-[#005a2b] text-white font-bold text-xs py-3 rounded-xl shadow-xs transition-transform active:scale-95"
-                    >
-                      <span>Ver Plan de Estudios y Materias</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+                    {carrera.enlace.startsWith('http') ? (
+                      <a 
+                        href={carrera.enlace}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full inline-flex items-center justify-center gap-2 bg-[#008541] hover:bg-[#005a2b] text-white font-bold text-xs py-3 rounded-xl shadow-xs transition-transform active:scale-95"
+                      >
+                        <span>Ver Plan de Estudios y Materias</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    ) : (
+                      <Link 
+                        to={carrera.enlace}
+                        className="w-full inline-flex items-center justify-center gap-2 bg-[#008541] hover:bg-[#005a2b] text-white font-bold text-xs py-3 rounded-xl shadow-xs transition-transform active:scale-95"
+                      >
+                        <span>Ver Plan de Estudios y Materias</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    )}
                   </div>
                 </div>
               ))}

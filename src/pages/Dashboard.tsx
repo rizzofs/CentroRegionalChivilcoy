@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { 
   Users, BookOpen, HelpCircle, Plus, Edit2, Trash2, 
   Megaphone, Phone, CheckCircle2, Save, ArrowLeft,
-  Newspaper, Calendar, ExternalLink, Star, MapPin
+  Newspaper, Calendar, ExternalLink, Star, MapPin, Quote,
+  Landmark, Building2, ShieldCheck
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -18,6 +19,65 @@ export interface NoticiaItem {
   imagen?: string;
   enlace?: string;
   enlaceTexto?: string;
+}
+
+export interface TestimonioItem {
+  id: string | number;
+  nombre: string;
+  rol: string;
+  categoria: 'estudiantes' | 'graduados' | 'docentes' | 'nodocentes';
+  frase: string;
+  foto?: string;
+}
+
+export interface RectoradoItem {
+  id: string | number;
+  cargo: string;
+  nombre: string;
+  institucion: string;
+  email: string;
+  enlace?: string;
+  ubicacion?: string;
+}
+
+export interface DirectorItem {
+  id: string | number;
+  cargo: string;
+  nombre: string;
+  descripcion: string;
+  email?: string;
+  interno?: string;
+}
+
+export interface AreaItem {
+  id: string | number;
+  nombre: string;
+  jefe: string;
+  atencion?: string;
+  internos: string;
+  email?: string;
+  detalle?: string;
+  enlace?: string;
+}
+
+export interface CarreraItem {
+  id: string;
+  nombre: string;
+  tipo: 'grado' | 'pregrado' | 'posgrado';
+  tipoTexto: string;
+  duracion: string;
+  area: 'tecnologia' | 'administracion' | 'salud' | 'sociales' | 'exactas' | 'agro' | 'otras';
+  areaTexto: string;
+  tituloIntermedio?: string | null;
+  descripcion: string;
+  enlace: string;
+  planUrl?: string;
+}
+
+export interface AutoridadesData {
+  rectorado: RectoradoItem[];
+  direccion: DirectorItem[];
+  areas: AreaItem[];
 }
 
 const DEFAULT_DYNAMIC_DATA = {
@@ -81,6 +141,111 @@ const DEFAULT_DYNAMIC_DATA = {
       enlaceTexto: ''
     }
   ] as NoticiaItem[],
+  testimonios: [
+    // Estudiantes
+    {
+      id: 'testimonio-est-1',
+      nombre: 'Carolina',
+      rol: 'Estudiante · Lic. en Sistemas de Información',
+      categoria: 'estudiantes' as const,
+      frase: 'La flexibilidad horaria y las aulas informáticas equipadas me permitieron cursar y trabajar sin problemas en mi propia ciudad.',
+      foto: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-est-2',
+      nombre: 'Tomás',
+      rol: 'Estudiante · Analista en Ciencia de Datos',
+      categoria: 'estudiantes' as const,
+      frase: 'Poder estudiar Ciencia de Datos en Chivilcoy es una oportunidad inmensa. Es una formación moderna, con salida laboral concreta y 100% pública.',
+      foto: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-est-3',
+      nombre: 'Agustina',
+      rol: 'Estudiante · Lic. en Administración',
+      categoria: 'estudiantes' as const,
+      frase: 'El ambiente universitario en la sede es muy cálido. Los grupos de estudio y la cercanía con los profesores hacen una gran diferencia.',
+      foto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80'
+    },
+
+    // Graduados
+    {
+      id: 'testimonio-grad-1',
+      nombre: 'Martín',
+      rol: 'Graduado · Contador Público Nacional',
+      categoria: 'graduados' as const,
+      frase: 'Egresar de la UNLu me abrió las puertas para fundar mi propio estudio contable y asesorar a pymes de toda la zona oeste.',
+      foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-grad-2',
+      nombre: 'Valeria',
+      rol: 'Graduada · Lic. en Trabajo Social',
+      categoria: 'graduados' as const,
+      frase: 'La formación en territorio y las prácticas comunitarias desde los primeros años te preparan con una sólida empatía social y solvencia profesional.',
+      foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-grad-3',
+      nombre: 'Gonzalo',
+      rol: 'Graduado · Lic. en Sistemas de Información',
+      categoria: 'graduados' as const,
+      frase: 'Gracias a los convenios y el prestigio de la universidad, comencé a trabajar como desarrollador en una empresa internacional antes de graduarme.',
+      foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80'
+    },
+
+    // Docentes
+    {
+      id: 'testimonio-doc-1',
+      nombre: 'Prof. Marcelo García',
+      rol: 'Docente Titular · Dpto. de Ciencias Básicas',
+      categoria: 'docentes' as const,
+      frase: 'Enseñar en el Centro Regional Chivilcoy es un orgullo. El compromiso de los alumnos y la cercanía cotidiana potencian la excelencia pedagógica.',
+      foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-doc-2',
+      nombre: 'Cra. Laura Bianchi',
+      rol: 'Docente · Dpto. de Ciencias Sociales y Administración',
+      categoria: 'docentes' as const,
+      frase: 'Combinamos teoría rigurosa con casos reales de empresas locales para que cada futuro profesional egrese con herramientas de aplicación inmediata.',
+      foto: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-doc-3',
+      nombre: 'Docentes de Salud y Sociales',
+      rol: 'Docentes · Prácticas y Extensión Comunitaria',
+      categoria: 'docentes' as const,
+      frase: 'La vocación de servicio y el contacto directo con la comunidad forjan profesionales con profunda solvencia técnica y ética.',
+      foto: 'https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=150&auto=format&fit=crop&q=80'
+    },
+
+    // Nodocentes
+    {
+      id: 'testimonio-nodoc-1',
+      nombre: 'Equipo de Bedelía y Alumnos',
+      rol: 'Personal Nodocente · Dpto. de Alumnos CRCH',
+      categoria: 'nodocentes' as const,
+      frase: 'Acompañar a cada ingresante desde su primer trámite de inscripción hasta la entrega de su título universitario es el corazón de nuestra labor diaria.',
+      foto: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-nodoc-2',
+      nombre: 'Biblioteca y Sala de Estudio',
+      rol: 'Personal Nodocente · Biblioteca CRCH',
+      categoria: 'nodocentes' as const,
+      frase: 'Nuestra misión es brindar a los estudiantes los libros, recursos bibliográficos y el espacio de estudio ideal para que alcancen sus metas.',
+      foto: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-nodoc-3',
+      nombre: 'Servicios Generales y Maestranza',
+      rol: 'Personal Nodocente · Intendencia y Mantenimiento CRCH',
+      categoria: 'nodocentes' as const,
+      frase: 'Cuidar cada aula, laboratorio y espacio común del Centro para que toda la comunidad universitaria tenga instalaciones seguras, limpias y confortables.',
+      foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80'
+    }
+  ] as TestimonioItem[],
   faq: [
     {
       id: 1,
@@ -101,24 +266,174 @@ const DEFAULT_DYNAMIC_DATA = {
       categoria: 'Bienestar'
     }
   ],
-  autoridades: [
-    { id: 1, nombre: 'Walter Fabián Panessi', cargo: 'Rector', estado: 'Activo' },
-    { id: 2, nombre: 'Miguel Ángel Nuñez', cargo: 'Vicerrector', estado: 'Activo' }
-  ],
+  autoridades: {
+    rectorado: [
+      {
+        id: 'rec-1',
+        cargo: 'Rector de la UNLu',
+        nombre: 'Lic. Walter Fabián Panessi',
+        institucion: 'Universidad Nacional de Luján',
+        email: 'rector@mail.unlu.edu.ar',
+        enlace: 'https://rectorado.unlu.edu.ar'
+      },
+      {
+        id: 'rec-2',
+        cargo: 'Vicerrector de la UNLu',
+        nombre: 'Lic. Miguel Ángel Núñez',
+        institucion: 'Universidad Nacional de Luján',
+        email: 'vcrector@mail.unlu.edu.ar',
+        enlace: '',
+        ubicacion: 'Sede Central Luján'
+      }
+    ] as RectoradoItem[],
+    direccion: [
+      {
+        id: 'dir-1',
+        cargo: 'Director del Centro Regional',
+        nombre: 'Lic. Jorge Guelffi',
+        descripcion: 'Conducción y Gestión Académico-Institucional Sede Chivilcoy',
+        email: 'direccioncrch@unlu.edu.ar',
+        interno: 'Int. 101'
+      },
+      {
+        id: 'dir-2',
+        cargo: 'Director Administrativo',
+        nombre: 'Maximiliano Lucci',
+        descripcion: 'Administración General, Recursos y Despacho Operativo',
+        email: '',
+        interno: 'Sede Chivilcoy'
+      }
+    ] as DirectorItem[],
+    areas: [
+      {
+        id: 'area-1',
+        nombre: 'Servicios Académicos',
+        jefe: 'C.P.N. María Luján Cialdo',
+        atencion: 'Lic. Ariadna Canepa',
+        internos: '3301 / 3302',
+        email: 'academicach@unlu.edu.ar',
+        detalle: '',
+        enlace: ''
+      },
+      {
+        id: 'area-2',
+        nombre: 'Dpto. Administrativo',
+        jefe: 'Alberto Sergio Raele (SUEP)',
+        atencion: 'Lorena Pissaco',
+        internos: '1787',
+        email: '',
+        detalle: 'Mesa de Entradas y Personal',
+        enlace: ''
+      },
+      {
+        id: 'area-3',
+        nombre: 'Bienestar y Deportes',
+        jefe: 'Juan E. Lattanzio (Becas)',
+        atencion: 'Carlos Canepa (Deportes)',
+        internos: '3309',
+        email: '',
+        detalle: 'Pasantías y Actividad Física',
+        enlace: ''
+      },
+      {
+        id: 'area-4',
+        nombre: 'Biblioteca CRCH',
+        jefe: 'Horario: Lun. a Vie. 14 a 21 hs.',
+        atencion: 'Préstamos y Sala Silenciosa',
+        internos: '3303',
+        email: '',
+        detalle: '',
+        enlace: 'https://www.biblioteca.unlu.edu.ar/'
+      }
+    ] as AreaItem[]
+  },
   carreras: [
-    { id: 1, nombre: 'Lic. en Sistemas de Información', tipo: 'Grado', duracion: '5 Años' },
-    { id: 2, nombre: 'Analista Universitario en Ciencias de Datos', tipo: 'Pregrado', duracion: '2.5 Años' },
-    { id: 3, nombre: 'Contador Público', tipo: 'Grado', duracion: '5 Años' },
-    { id: 4, nombre: 'Lic. en Administración', tipo: 'Grado', duracion: '5 Años' },
-    { id: 5, nombre: 'Lic. en Enfermería', tipo: 'Grado', duracion: '5 Años' },
-    { id: 6, nombre: 'Lic. en Trabajo Social', tipo: 'Grado', duracion: '5 Años' }
-  ]
+    {
+      id: 'sistemas',
+      nombre: 'Licenciatura en Sistemas de Información',
+      tipo: 'grado' as const,
+      tipoTexto: 'Carrera de Grado',
+      duracion: '5 Años',
+      area: 'tecnologia' as const,
+      areaTexto: 'Tecnología e Informática',
+      tituloIntermedio: 'Analista Programador Universitario (APU) - 3 Años',
+      descripcion: 'Formación integral en desarrollo de software, arquitectura de sistemas, gestión de TI y seguridad informática.',
+      enlace: '/carrera/sistemas',
+      planUrl: 'https://www.unlu.edu.ar/carg-sistemas-pre.html'
+    },
+    {
+      id: 'datos',
+      nombre: 'Analista Universitario en Ciencias de Datos',
+      tipo: 'pregrado' as const,
+      tipoTexto: 'Pregrado Universitario · Nueva',
+      duracion: '2.5 Años',
+      area: 'tecnologia' as const,
+      areaTexto: 'Tecnología y Datos',
+      tituloIntermedio: null,
+      descripcion: 'Modelado estadístico, aprendizaje automático (Machine Learning), análisis masivo de datos e inteligencia artificial.',
+      enlace: '/carrera/datos',
+      planUrl: 'https://www.unlu.edu.ar/carpre-analistaciedatos.html'
+    },
+    {
+      id: 'administracion',
+      nombre: 'Licenciatura en Administración',
+      tipo: 'grado' as const,
+      tipoTexto: 'Carrera de Grado',
+      duracion: '5 Años',
+      area: 'administracion' as const,
+      areaTexto: 'Administración y Negocios',
+      tituloIntermedio: 'Técnico Universitario en Administración - 4 Años',
+      descripcion: 'Planificación estratégica, diseño organizacional, finanzas corporativas y dirección de empresas u organismos públicos.',
+      enlace: '/carrera/administracion',
+      planUrl: 'https://www.unlu.edu.ar/carg-admin-pre.html'
+    },
+    {
+      id: 'contador',
+      nombre: 'Contador Público',
+      tipo: 'grado' as const,
+      tipoTexto: 'Carrera de Grado',
+      duracion: '5 Años',
+      area: 'administracion' as const,
+      areaTexto: 'Ciencias Económicas',
+      tituloIntermedio: null,
+      descripcion: 'Auditoría, régimen tributario, consultoría financiera y peritajes contables y judiciales.',
+      enlace: '/carrera/contador',
+      planUrl: 'https://www.unlu.edu.ar/carg-contador-pre.html'
+    },
+    {
+      id: 'enfermeria',
+      nombre: 'Licenciatura en Enfermería',
+      tipo: 'grado' as const,
+      tipoTexto: 'Carrera de Grado',
+      duracion: '5 Años',
+      area: 'salud' as const,
+      areaTexto: 'Ciencias de la Salud',
+      tituloIntermedio: 'Enfermero/a Universitario/a - 3 Años',
+      descripcion: 'Cuidado integral de la salud, atención en centros hospitalarios de alta complejidad y gestión de servicios sanitarios.',
+      enlace: '/carrera/enfermeria',
+      planUrl: 'https://www.unlu.edu.ar/carg-enfermeria-pre.html'
+    },
+    {
+      id: 'trabajosocial',
+      nombre: 'Licenciatura en Trabajo Social',
+      tipo: 'grado' as const,
+      tipoTexto: 'Carrera de Grado',
+      duracion: '5 Años',
+      area: 'sociales' as const,
+      areaTexto: 'Ciencias Sociales',
+      tituloIntermedio: 'Técnico/a en Minoridad y Familia - 3 Años',
+      descripcion: 'Intervención en políticas sociales, defensa de derechos humanos y articulación con instituciones comunitarias.',
+      enlace: '/carrera/trabajosocial',
+      planUrl: 'https://www.unlu.edu.ar/carg-trabsocial.html'
+    }
+  ] as CarreraItem[]
 };
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState<'banner' | 'noticias' | 'faq' | 'contacto' | 'carreras' | 'autoridades'>('noticias');
+  const [activeTab, setActiveTab] = useState<'banner' | 'noticias' | 'faq' | 'testimonios' | 'contacto' | 'carreras' | 'autoridades'>('noticias');
   const [dynamicData, setDynamicData] = useState(DEFAULT_DYNAMIC_DATA);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [testimonialAdminFilter, setTestimonialAdminFilter] = useState<'todos' | 'estudiantes' | 'graduados' | 'docentes' | 'nodocentes'>('todos');
 
   // Modales
   const [isFaqModalOpen, setIsFaqModalOpen] = useState(false);
@@ -141,6 +456,67 @@ export default function Dashboard() {
     enlaceTexto: ''
   });
 
+  const [isTestimonioModalOpen, setIsTestimonioModalOpen] = useState(false);
+  const [editingTestimonio, setEditingTestimonio] = useState<TestimonioItem>({
+    id: '',
+    nombre: '',
+    rol: '',
+    categoria: 'estudiantes',
+    frase: '',
+    foto: ''
+  });
+
+  // Modales Autoridades
+  const [isRectoradoModalOpen, setIsRectoradoModalOpen] = useState(false);
+  const [editingRectorado, setEditingRectorado] = useState<RectoradoItem>({
+    id: '',
+    cargo: '',
+    nombre: '',
+    institucion: 'Universidad Nacional de Luján',
+    email: '',
+    enlace: '',
+    ubicacion: 'Sede Central Luján'
+  });
+
+  const [isDirectorModalOpen, setIsDirectorModalOpen] = useState(false);
+  const [editingDirector, setEditingDirector] = useState<DirectorItem>({
+    id: '',
+    cargo: '',
+    nombre: '',
+    descripcion: '',
+    email: '',
+    interno: 'Sede Chivilcoy'
+  });
+
+  const [isAreaModalOpen, setIsAreaModalOpen] = useState(false);
+  const [editingArea, setEditingArea] = useState<AreaItem>({
+    id: '',
+    nombre: '',
+    jefe: '',
+    atencion: '',
+    internos: '',
+    email: '',
+    detalle: '',
+    enlace: ''
+  });
+
+  // Modal y Filtro de Carreras
+  const [isCarreraModalOpen, setIsCarreraModalOpen] = useState(false);
+  const [carreraAdminFilter, setCarreraAdminFilter] = useState<'todas' | 'grado' | 'pregrado' | 'posgrado'>('todas');
+  const [editingCarrera, setEditingCarrera] = useState<CarreraItem>({
+    id: '',
+    nombre: '',
+    tipo: 'grado',
+    tipoTexto: 'Carrera de Grado',
+    duracion: '5 Años',
+    area: 'tecnologia',
+    areaTexto: 'Tecnología e Informática',
+    tituloIntermedio: '',
+    descripcion: '',
+    enlace: '',
+    planUrl: ''
+  });
+
   // Cargar de localStorage
   useEffect(() => {
     try {
@@ -150,7 +526,12 @@ export default function Dashboard() {
         setDynamicData({
           ...DEFAULT_DYNAMIC_DATA,
           ...parsed,
-          noticias: parsed.noticias && parsed.noticias.length > 0 ? parsed.noticias : DEFAULT_DYNAMIC_DATA.noticias
+          noticias: parsed.noticias && parsed.noticias.length > 0 ? parsed.noticias : DEFAULT_DYNAMIC_DATA.noticias,
+          testimonios: parsed.testimonios && parsed.testimonios.length > 0 ? parsed.testimonios : DEFAULT_DYNAMIC_DATA.testimonios,
+          autoridades: parsed.autoridades && parsed.autoridades.rectorado ? parsed.autoridades : DEFAULT_DYNAMIC_DATA.autoridades,
+          carreras: parsed.carreras && parsed.carreras.length > 0 && typeof parsed.carreras[0]?.descripcion === 'string'
+            ? parsed.carreras
+            : DEFAULT_DYNAMIC_DATA.carreras
         });
       }
     } catch (e) {
@@ -284,6 +665,351 @@ export default function Dashboard() {
     saveData(updated);
   };
 
+  // Manejadores de Testimonios / Voces de la Comunidad
+  const handleOpenNewTestimonio = () => {
+    setEditingTestimonio({
+      id: '',
+      nombre: '',
+      rol: '',
+      categoria: 'estudiantes',
+      frase: '',
+      foto: ''
+    });
+    setIsTestimonioModalOpen(true);
+  };
+
+  const handleEditTestimonio = (item: TestimonioItem) => {
+    setEditingTestimonio(item);
+    setIsTestimonioModalOpen(true);
+  };
+
+  const handleSaveTestimonio = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingTestimonio.nombre.trim() || !editingTestimonio.frase.trim()) {
+      alert('Por favor completá el nombre y la frase.');
+      return;
+    }
+
+    let updated = [...(dynamicData.testimonios || [])];
+    if (editingTestimonio.id) {
+      updated = updated.map(t => t.id === editingTestimonio.id ? editingTestimonio : t);
+    } else {
+      const newItem: TestimonioItem = {
+        ...editingTestimonio,
+        id: `testimonio-${Date.now()}`
+      };
+      updated.push(newItem);
+    }
+
+    const newDynamicData = { ...dynamicData, testimonios: updated };
+    saveData(newDynamicData);
+    setIsTestimonioModalOpen(false);
+  };
+
+  const handleDeleteTestimonio = (id: string | number) => {
+    if (!confirm('¿Deseas eliminar esta voz/testimonio de la comunidad?')) return;
+    const updated = {
+      ...dynamicData,
+      testimonios: (dynamicData.testimonios || []).filter(t => t.id !== id)
+    };
+    saveData(updated);
+  };
+
+  // ==========================================
+  // Manejadores de Autoridades: Conducción Central (Rectorado)
+  // ==========================================
+  const handleOpenNewRectorado = () => {
+    setEditingRectorado({
+      id: '',
+      cargo: '',
+      nombre: '',
+      institucion: 'Universidad Nacional de Luján',
+      email: '',
+      enlace: '',
+      ubicacion: 'Sede Central Luján'
+    });
+    setIsRectoradoModalOpen(true);
+  };
+
+  const handleEditRectorado = (item: RectoradoItem) => {
+    setEditingRectorado(item);
+    setIsRectoradoModalOpen(true);
+  };
+
+  const handleSaveRectorado = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingRectorado.cargo.trim() || !editingRectorado.nombre.trim()) {
+      alert('Por favor completá el cargo y el nombre.');
+      return;
+    }
+
+    const currentRectorado = dynamicData.autoridades?.rectorado || [];
+    let updatedRectorado = [...currentRectorado];
+
+    if (editingRectorado.id) {
+      updatedRectorado = updatedRectorado.map(r => r.id === editingRectorado.id ? editingRectorado : r);
+    } else {
+      const newItem: RectoradoItem = {
+        ...editingRectorado,
+        id: `rec-${Date.now()}`
+      };
+      updatedRectorado.push(newItem);
+    }
+
+    const updated = {
+      ...dynamicData,
+      autoridades: {
+        ...(dynamicData.autoridades || DEFAULT_DYNAMIC_DATA.autoridades),
+        rectorado: updatedRectorado
+      }
+    };
+    saveData(updated);
+    setIsRectoradoModalOpen(false);
+  };
+
+  const handleDeleteRectorado = (id: string | number) => {
+    if (!confirm('¿Deseas eliminar esta autoridad superior?')) return;
+    const currentRectorado = dynamicData.autoridades?.rectorado || [];
+    const updated = {
+      ...dynamicData,
+      autoridades: {
+        ...(dynamicData.autoridades || DEFAULT_DYNAMIC_DATA.autoridades),
+        rectorado: currentRectorado.filter(r => r.id !== id)
+      }
+    };
+    saveData(updated);
+  };
+
+  // ==========================================
+  // Manejadores de Autoridades: Directores Sede Chivilcoy
+  // ==========================================
+  const handleOpenNewDirector = () => {
+    setEditingDirector({
+      id: '',
+      cargo: '',
+      nombre: '',
+      descripcion: '',
+      email: '',
+      interno: 'Sede Chivilcoy'
+    });
+    setIsDirectorModalOpen(true);
+  };
+
+  const handleEditDirector = (item: DirectorItem) => {
+    setEditingDirector(item);
+    setIsDirectorModalOpen(true);
+  };
+
+  const handleSaveDirector = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingDirector.cargo.trim() || !editingDirector.nombre.trim()) {
+      alert('Por favor completá el cargo y el nombre del director/a.');
+      return;
+    }
+
+    const currentDireccion = dynamicData.autoridades?.direccion || [];
+    let updatedDireccion = [...currentDireccion];
+
+    if (editingDirector.id) {
+      updatedDireccion = updatedDireccion.map(d => d.id === editingDirector.id ? editingDirector : d);
+    } else {
+      const newItem: DirectorItem = {
+        ...editingDirector,
+        id: `dir-${Date.now()}`
+      };
+      updatedDireccion.push(newItem);
+    }
+
+    const updated = {
+      ...dynamicData,
+      autoridades: {
+        ...(dynamicData.autoridades || DEFAULT_DYNAMIC_DATA.autoridades),
+        direccion: updatedDireccion
+      }
+    };
+    saveData(updated);
+    setIsDirectorModalOpen(false);
+  };
+
+  const handleDeleteDirector = (id: string | number) => {
+    if (!confirm('¿Deseas eliminar este cargo directivo?')) return;
+    const currentDireccion = dynamicData.autoridades?.direccion || [];
+    const updated = {
+      ...dynamicData,
+      autoridades: {
+        ...(dynamicData.autoridades || DEFAULT_DYNAMIC_DATA.autoridades),
+        direccion: currentDireccion.filter(d => d.id !== id)
+      }
+    };
+    saveData(updated);
+  };
+
+  // ==========================================
+  // Manejadores de Autoridades: Áreas y Responsables Locales
+  // ==========================================
+  const handleOpenNewArea = () => {
+    setEditingArea({
+      id: '',
+      nombre: '',
+      jefe: '',
+      atencion: '',
+      internos: '',
+      email: '',
+      detalle: '',
+      enlace: ''
+    });
+    setIsAreaModalOpen(true);
+  };
+
+  const handleEditArea = (item: AreaItem) => {
+    setEditingArea(item);
+    setIsAreaModalOpen(true);
+  };
+
+  const handleSaveArea = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingArea.nombre.trim() || !editingArea.jefe.trim()) {
+      alert('Por favor completá el nombre del área y la persona/responsable a cargo.');
+      return;
+    }
+
+    const currentAreas = dynamicData.autoridades?.areas || [];
+    let updatedAreas = [...currentAreas];
+
+    if (editingArea.id) {
+      updatedAreas = updatedAreas.map(a => a.id === editingArea.id ? editingArea : a);
+    } else {
+      const newItem: AreaItem = {
+        ...editingArea,
+        id: `area-${Date.now()}`
+      };
+      updatedAreas.push(newItem);
+    }
+
+    const updated = {
+      ...dynamicData,
+      autoridades: {
+        ...(dynamicData.autoridades || DEFAULT_DYNAMIC_DATA.autoridades),
+        areas: updatedAreas
+      }
+    };
+    saveData(updated);
+    setIsAreaModalOpen(false);
+  };
+
+  const handleDeleteArea = (id: string | number) => {
+    if (!confirm('¿Deseas eliminar esta área/dependencia?')) return;
+    const currentAreas = dynamicData.autoridades?.areas || [];
+    const updated = {
+      ...dynamicData,
+      autoridades: {
+        ...(dynamicData.autoridades || DEFAULT_DYNAMIC_DATA.autoridades),
+        areas: currentAreas.filter(a => a.id !== id)
+      }
+    };
+    saveData(updated);
+  };
+
+  // ==========================================
+  // Manejadores de Carreras / Oferta Académica
+  // ==========================================
+  const handleOpenNewCarrera = () => {
+    setEditingCarrera({
+      id: '',
+      nombre: '',
+      tipo: 'grado',
+      tipoTexto: 'Carrera de Grado',
+      duracion: '5 Años',
+      area: 'tecnologia',
+      areaTexto: 'Tecnología e Informática',
+      tituloIntermedio: '',
+      descripcion: '',
+      enlace: '',
+      planUrl: ''
+    });
+    setIsCarreraModalOpen(true);
+  };
+
+  const handleEditCarrera = (item: CarreraItem) => {
+    setEditingCarrera({
+      ...item,
+      tituloIntermedio: item.tituloIntermedio || ''
+    });
+    setIsCarreraModalOpen(true);
+  };
+
+  const handleSaveCarrera = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingCarrera.nombre.trim() || !editingCarrera.duracion.trim()) {
+      alert('Por favor completá el nombre de la carrera y su duración.');
+      return;
+    }
+
+    const currentCarreras = dynamicData.carreras || [];
+    let updatedCarreras = [...currentCarreras];
+
+    let computedTipoTexto = editingCarrera.tipoTexto?.trim();
+    if (!computedTipoTexto) {
+      computedTipoTexto = editingCarrera.tipo === 'pregrado' ? 'Carrera de Pregrado' :
+                          editingCarrera.tipo === 'posgrado' ? 'Posgrado / Especialización' :
+                          'Carrera de Grado';
+    }
+
+    let computedAreaTexto = editingCarrera.areaTexto?.trim();
+    if (!computedAreaTexto) {
+      const areaMap: Record<string, string> = {
+        tecnologia: 'Tecnología e Informática',
+        administracion: 'Administración y Negocios',
+        salud: 'Ciencias de la Salud',
+        sociales: 'Ciencias Sociales',
+        exactas: 'Ciencias Exactas',
+        agro: 'Ciencias Agropecuarias',
+        otras: 'Otras Disciplinas'
+      };
+      computedAreaTexto = areaMap[editingCarrera.area] || 'Oferta Académica';
+    }
+
+    const carreraToSave: CarreraItem = {
+      ...editingCarrera,
+      nombre: editingCarrera.nombre.trim(),
+      tipoTexto: computedTipoTexto,
+      duracion: editingCarrera.duracion.trim(),
+      areaTexto: computedAreaTexto,
+      tituloIntermedio: editingCarrera.tituloIntermedio?.trim() ? editingCarrera.tituloIntermedio.trim() : null,
+      descripcion: editingCarrera.descripcion.trim(),
+      enlace: editingCarrera.enlace?.trim() ? editingCarrera.enlace.trim() : (editingCarrera.planUrl?.trim() || '/carreras'),
+      planUrl: editingCarrera.planUrl?.trim() || ''
+    };
+
+    if (editingCarrera.id) {
+      updatedCarreras = updatedCarreras.map(c => c.id === editingCarrera.id ? carreraToSave : c);
+    } else {
+      const slugId = editingCarrera.nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `carrera-${Date.now()}`;
+      const newCarrera: CarreraItem = {
+        ...carreraToSave,
+        id: slugId
+      };
+      updatedCarreras.push(newCarrera);
+    }
+
+    const updated = {
+      ...dynamicData,
+      carreras: updatedCarreras
+    };
+    saveData(updated);
+    setIsCarreraModalOpen(false);
+  };
+
+  const handleDeleteCarrera = (id: string) => {
+    if (!confirm('¿Deseas eliminar esta carrera de la oferta académica?')) return;
+    const currentCarreras = dynamicData.carreras || [];
+    const updated = {
+      ...dynamicData,
+      carreras: currentCarreras.filter(c => c.id !== id)
+    };
+    saveData(updated);
+  };
+
   return (
     <div className="min-h-screen bg-zinc-100 flex flex-col md:flex-row antialiased font-sans">
       
@@ -335,6 +1061,16 @@ export default function Dashboard() {
             >
               <HelpCircle className="w-4 h-4" />
               <span>Preguntas Frecuentes</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('testimonios')}
+              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all text-left cursor-pointer ${
+                activeTab === 'testimonios' ? 'bg-[#15803d] text-white shadow-md' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+              }`}
+            >
+              <Quote className="w-4 h-4" />
+              <span>Voces de la Comunidad</span>
             </button>
 
             <button
@@ -684,6 +1420,165 @@ export default function Dashboard() {
         )}
 
         {/* ========================================================= */}
+        {/* TAB: VOCES DE LA COMUNIDAD (TESTIMONIOS) */}
+        {/* ========================================================= */}
+        {activeTab === 'testimonios' && (
+          <div className="space-y-6">
+            <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-4">
+                <div>
+                  <h1 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
+                    <Quote className="w-5 h-5 text-[#15803d]" />
+                    <span>Voces de Nuestra Comunidad (Testimonios)</span>
+                  </h1>
+                  <p className="text-xs text-zinc-500 mt-1">
+                    Gestioná las frases, experiencias y fotos de perfil de estudiantes, graduados y docentes que se destacan en la portada.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleOpenNewTestimonio}
+                  className="inline-flex items-center gap-2 bg-[#15803d] hover:bg-green-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-transform active:scale-95 cursor-pointer shrink-0"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>+ Nueva Voz / Testimonio</span>
+                </button>
+              </div>
+
+              {/* Filtro de Categorías */}
+              <div className="flex flex-wrap items-center gap-2 pb-2">
+                <button
+                  type="button"
+                  onClick={() => setTestimonialAdminFilter('todos')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    testimonialAdminFilter === 'todos' 
+                      ? 'bg-zinc-900 text-white shadow-xs' 
+                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                  }`}
+                >
+                  Todos ({dynamicData.testimonios?.length || 0})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTestimonialAdminFilter('estudiantes')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    testimonialAdminFilter === 'estudiantes' 
+                      ? 'bg-[#15803d] text-white shadow-xs' 
+                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                  }`}
+                >
+                  Estudiantes ({(dynamicData.testimonios || []).filter(t => t.categoria === 'estudiantes').length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTestimonialAdminFilter('graduados')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    testimonialAdminFilter === 'graduados' 
+                      ? 'bg-[#15803d] text-white shadow-xs' 
+                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                  }`}
+                >
+                  Graduados ({(dynamicData.testimonios || []).filter(t => t.categoria === 'graduados').length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTestimonialAdminFilter('docentes')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    testimonialAdminFilter === 'docentes' 
+                      ? 'bg-[#15803d] text-white shadow-xs' 
+                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                  }`}
+                >
+                  Cuerpo Docente ({(dynamicData.testimonios || []).filter(t => t.categoria === 'docentes').length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTestimonialAdminFilter('nodocentes')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    testimonialAdminFilter === 'nodocentes' 
+                      ? 'bg-[#15803d] text-white shadow-xs' 
+                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                  }`}
+                >
+                  Nodocentes ({(dynamicData.testimonios || []).filter(t => t.categoria === 'nodocentes').length})
+                </button>
+              </div>
+
+              {/* Grid de Testimonios */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {(dynamicData.testimonios || [])
+                  .filter(item => testimonialAdminFilter === 'todos' || item.categoria === testimonialAdminFilter)
+                  .map(item => (
+                    <div key={item.id} className="p-5 bg-zinc-50 border border-zinc-200 rounded-2xl flex flex-col justify-between hover:border-[#15803d]/50 hover:shadow-xs transition-all">
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-3">
+                          <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${
+                            item.categoria === 'estudiantes' 
+                              ? 'bg-emerald-100 text-emerald-900 border border-emerald-200' 
+                              : item.categoria === 'graduados'
+                              ? 'bg-amber-100 text-amber-900 border border-amber-200'
+                              : item.categoria === 'docentes'
+                              ? 'bg-purple-100 text-purple-900 border border-purple-200'
+                              : 'bg-blue-100 text-blue-900 border border-blue-200'
+                          }`}>
+                            {item.categoria === 'estudiantes' ? 'Estudiante' : 
+                             item.categoria === 'graduados' ? 'Graduado / Egresado' :
+                             item.categoria === 'docentes' ? 'Cuerpo Docente' : 'Personal Nodocente'}
+                          </span>
+
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              onClick={() => handleEditTestimonio(item)}
+                              className="p-1.5 text-zinc-600 hover:text-[#15803d] hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition-all"
+                              title="Editar"
+                            >
+                              <Edit2 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteTestimonio(item.id)}
+                              className="p-1.5 text-zinc-400 hover:text-red-600 hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition-all"
+                              title="Eliminar"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <p className="text-xs text-zinc-700 italic leading-relaxed mb-4">
+                          "{item.frase}"
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-3 pt-3 border-t border-zinc-200">
+                        {item.foto ? (
+                          <img 
+                            src={item.foto} 
+                            alt={item.nombre} 
+                            className="h-10 w-10 rounded-full object-cover ring-2 ring-[#15803d]/30 shadow-xs shrink-0"
+                            onError={(e) => {
+                              (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80';
+                            }}
+                          />
+                        ) : (
+                          <div className="h-10 w-10 rounded-full bg-[#15803d] text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+                            {item.nombre ? item.nombre.charAt(0).toUpperCase() : '?'}
+                          </div>
+                        )}
+                        <div className="min-w-0">
+                          <h4 className="font-bold text-zinc-900 text-xs truncate">{item.nombre}</h4>
+                          <p className="text-[11px] text-zinc-500 truncate">{item.rol}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================= */}
         {/* TAB: CANALES Y CONTACTO */}
         {/* ========================================================= */}
         {activeTab === 'contacto' && (
@@ -719,30 +1614,168 @@ export default function Dashboard() {
         )}
 
         {/* ========================================================= */}
-        {/* TAB: OFERTA ACADÉMICA */}
+        {/* TAB: OFERTA ACADÉMICA (ABM CARRERAS) */}
         {/* ========================================================= */}
         {activeTab === 'carreras' && (
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs space-y-5">
-              <div>
-                <h1 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-[#15803d]" />
-                  <span>Carreras Dictadas en Sede Chivilcoy</span>
-                </h1>
-                <p className="text-xs text-zinc-500 mt-1">
-                  Propuestas académicas oficiales con titulación universitaria nacional.
-                </p>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-4">
+                <div>
+                  <h1 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
+                    <BookOpen className="w-5 h-5 text-[#15803d]" />
+                    <span>Oferta Académica y Carreras Universitarias</span>
+                  </h1>
+                  <p className="text-xs text-zinc-500 mt-1">
+                    Administrá, creá, modificá o quitá carreras de grado y pregrado dictadas en el Centro Regional Chivilcoy.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleOpenNewCarrera}
+                  className="inline-flex items-center gap-2 bg-[#15803d] hover:bg-green-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-transform active:scale-95 cursor-pointer shrink-0"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>+ Nueva Carrera</span>
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {dynamicData.carreras.map(c => (
-                  <div key={c.id} className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl space-y-1">
-                    <span className="inline-block text-[10px] font-bold bg-zinc-200 text-zinc-700 px-2 py-0.5 rounded-md uppercase">
-                      {c.tipo} · {c.duracion}
-                    </span>
-                    <h3 className="font-bold text-xs text-zinc-900">{c.nombre}</h3>
-                  </div>
-                ))}
+              {/* Filtros de Tipo */}
+              <div className="flex flex-wrap items-center gap-2 pb-2">
+                <button
+                  type="button"
+                  onClick={() => setCarreraAdminFilter('todas')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    carreraAdminFilter === 'todas' 
+                      ? 'bg-zinc-900 text-white shadow-xs' 
+                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                  }`}
+                >
+                  Todas ({(dynamicData.carreras || []).length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCarreraAdminFilter('grado')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    carreraAdminFilter === 'grado' 
+                      ? 'bg-[#15803d] text-white shadow-xs' 
+                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                  }`}
+                >
+                  Grado ({(dynamicData.carreras || []).filter(c => c.tipo === 'grado').length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCarreraAdminFilter('pregrado')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    carreraAdminFilter === 'pregrado' 
+                      ? 'bg-[#15803d] text-white shadow-xs' 
+                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                  }`}
+                >
+                  Pregrado ({(dynamicData.carreras || []).filter(c => c.tipo === 'pregrado').length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCarreraAdminFilter('posgrado')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    carreraAdminFilter === 'posgrado' 
+                      ? 'bg-[#15803d] text-white shadow-xs' 
+                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                  }`}
+                >
+                  Posgrado ({(dynamicData.carreras || []).filter(c => c.tipo === 'posgrado').length})
+                </button>
+              </div>
+
+              {/* Grid de Carreras */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {(dynamicData.carreras || [])
+                  .filter(c => carreraAdminFilter === 'todas' || c.tipo === carreraAdminFilter)
+                  .map((carrera) => (
+                    <div 
+                      key={carrera.id} 
+                      className="p-5 bg-zinc-50 border border-zinc-200 rounded-2xl flex flex-col justify-between hover:border-[#15803d]/50 hover:shadow-xs transition-all"
+                    >
+                      <div>
+                        {/* Header de la tarjeta */}
+                        <div className="flex items-center justify-between gap-2 mb-3">
+                          <span className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full ${
+                            carrera.tipo === 'pregrado' 
+                              ? 'bg-amber-100 text-amber-900 border border-amber-200' 
+                              : carrera.tipo === 'posgrado'
+                              ? 'bg-purple-100 text-purple-900 border border-purple-200'
+                              : 'bg-emerald-100 text-emerald-900 border border-emerald-200'
+                          }`}>
+                            {carrera.tipoTexto || (carrera.tipo === 'pregrado' ? 'Pregrado' : 'Grado')}
+                          </span>
+
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              onClick={() => handleEditCarrera(carrera)}
+                              className="p-1.5 text-zinc-600 hover:text-[#15803d] hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition-all cursor-pointer"
+                              title="Editar Carrera"
+                            >
+                              <Edit2 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteCarrera(carrera.id)}
+                              className="p-1.5 text-zinc-400 hover:text-red-600 hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition-all cursor-pointer"
+                              title="Eliminar Carrera"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between gap-2 mb-2 text-xs text-zinc-500">
+                          <span className="font-semibold text-zinc-700">{carrera.areaTexto || carrera.area}</span>
+                          <span className="flex items-center gap-1">
+                            <Calendar className="w-3 h-3 text-zinc-400" />
+                            {carrera.duracion}
+                          </span>
+                        </div>
+
+                        <h3 className="font-bold text-sm text-zinc-900 leading-snug mb-2">
+                          {carrera.nombre}
+                        </h3>
+
+                        <p className="text-xs text-zinc-600 leading-relaxed mb-4 line-clamp-3">
+                          {carrera.descripcion}
+                        </p>
+
+                        {carrera.tituloIntermedio && (
+                          <div className="p-2.5 bg-white rounded-xl border border-zinc-200/80 mb-4 text-[11px] text-zinc-600">
+                            <span className="font-bold text-zinc-800 block">Título Intermedio:</span>
+                            <span>{carrera.tituloIntermedio}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="pt-3 border-t border-zinc-200 flex flex-wrap items-center justify-between gap-2 text-[11px]">
+                        {carrera.planUrl && (
+                          <a
+                            href={carrera.planUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 font-bold text-[#15803d] hover:underline"
+                          >
+                            <ExternalLink className="w-3 h-3" />
+                            <span>Plan Oficial</span>
+                          </a>
+                        )}
+                        {carrera.enlace && (
+                          <Link
+                            to={carrera.enlace}
+                            className="inline-flex items-center gap-1 font-semibold text-zinc-500 hover:text-zinc-900"
+                          >
+                            <span>Ver Página ↗</span>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
@@ -752,28 +1785,267 @@ export default function Dashboard() {
         {/* TAB: AUTORIDADES */}
         {/* ========================================================= */}
         {activeTab === 'autoridades' && (
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs space-y-5">
-              <div>
-                <h1 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
-                  <Users className="w-5 h-5 text-[#15803d]" />
-                  <span>Autoridades Institucionales</span>
-                </h1>
-                <p className="text-xs text-zinc-500 mt-1">
-                  Cuerpo de conducción y gestión de la Universidad Nacional de Luján.
-                </p>
+          <div className="space-y-8">
+            {/* Header del Tab */}
+            <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs">
+              <h1 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
+                <Users className="w-5 h-5 text-[#15803d]" />
+                <span>Autoridades y Equipos de Gestión</span>
+              </h1>
+              <p className="text-xs text-zinc-500 mt-1 leading-relaxed">
+                Modificá y actualizá en tiempo real quiénes integran la Conducción Superior de la UNLu, la Dirección del Centro Regional Chivilcoy y los responsables a cargo de cada área local.
+              </p>
+            </div>
+
+            {/* SECCIÓN 1: CONDUCCIÓN SUPERIOR (RECTORADO) */}
+            <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 rounded-xl bg-emerald-50 text-[#15803d] border border-emerald-100">
+                    <Landmark className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-bold text-zinc-900">1. Conducción Superior (UNLu Central)</h2>
+                    <p className="text-[11px] text-zinc-500">Rectorado, Vicerrectorado y Consejo Superior</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleOpenNewRectorado}
+                  className="inline-flex items-center gap-2 bg-[#15803d] hover:bg-green-800 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow-xs transition-transform active:scale-95 cursor-pointer shrink-0"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>+ Agregar Autoridad Central</span>
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {dynamicData.autoridades.map(a => (
-                  <div key={a.id} className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl flex items-center justify-between">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {(dynamicData.autoridades?.rectorado || []).map((item) => (
+                  <div key={item.id} className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl flex flex-col justify-between hover:border-[#15803d]/50 transition-all">
                     <div>
-                      <h3 className="font-bold text-xs sm:text-sm text-zinc-900">{a.nombre}</h3>
-                      <p className="text-xs text-zinc-500">{a.cargo}</p>
+                      <div className="flex items-center justify-between gap-2 mb-2">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900 border border-emerald-200 uppercase">
+                          {item.cargo}
+                        </span>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => handleEditRectorado(item)}
+                            className="p-1.5 text-zinc-600 hover:text-[#15803d] hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition-all cursor-pointer"
+                            title="Editar"
+                          >
+                            <Edit2 className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteRectorado(item.id)}
+                            className="p-1.5 text-zinc-400 hover:text-red-600 hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition-all cursor-pointer"
+                            title="Eliminar"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+
+                      <h3 className="font-bold text-sm text-zinc-900 mb-1">{item.nombre}</h3>
+                      <p className="text-xs text-zinc-600 mb-2">{item.institucion}</p>
+                      
+                      {item.ubicacion && (
+                        <p className="text-[11px] text-zinc-500 flex items-center gap-1 mb-1">
+                          <MapPin className="w-3 h-3 text-zinc-400" />
+                          <span>{item.ubicacion}</span>
+                        </p>
+                      )}
+
+                      {item.email && (
+                        <p className="text-[11px] text-[#15803d] font-semibold">{item.email}</p>
+                      )}
                     </div>
-                    <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full">
-                      {a.estado}
-                    </span>
+
+                    {item.enlace && (
+                      <div className="pt-3 mt-3 border-t border-zinc-200">
+                        <a 
+                          href={item.enlace} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#15803d] hover:underline"
+                        >
+                          <ExternalLink className="w-3 h-3" />
+                          <span>Sitio Oficial de Rectorado</span>
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* SECCIÓN 2: DIRECCIÓN CENTRO REGIONAL CHIVILCOY */}
+            <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 rounded-xl bg-blue-50 text-blue-700 border border-blue-100">
+                    <Building2 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-bold text-zinc-900">2. Conducción Centro Regional Chivilcoy</h2>
+                    <p className="text-[11px] text-zinc-500">Directores y Administración General de la Sede</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleOpenNewDirector}
+                  className="inline-flex items-center gap-2 bg-[#15803d] hover:bg-green-800 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow-xs transition-transform active:scale-95 cursor-pointer shrink-0"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>+ Agregar Director / Directora</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {(dynamicData.autoridades?.direccion || []).map((item) => (
+                  <div key={item.id} className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl flex flex-col justify-between hover:border-[#15803d]/50 transition-all">
+                    <div>
+                      <div className="flex items-center justify-between gap-2 mb-2">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-100 text-blue-900 border border-blue-200 uppercase">
+                          {item.cargo}
+                        </span>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => handleEditDirector(item)}
+                            className="p-1.5 text-zinc-600 hover:text-[#15803d] hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition-all cursor-pointer"
+                            title="Editar"
+                          >
+                            <Edit2 className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteDirector(item.id)}
+                            className="p-1.5 text-zinc-400 hover:text-red-600 hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition-all cursor-pointer"
+                            title="Eliminar"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+
+                      <h3 className="font-bold text-sm text-zinc-900 mb-1">{item.nombre}</h3>
+                      <p className="text-xs text-zinc-600 mb-2 leading-relaxed">{item.descripcion}</p>
+
+                      <div className="flex flex-wrap items-center gap-3 pt-2 text-[11px]">
+                        {item.interno && (
+                          <span className="font-semibold text-zinc-700 bg-white px-2 py-0.5 rounded-md border border-zinc-200">
+                            {item.interno}
+                          </span>
+                        )}
+                        {item.email && (
+                          <span className="text-[#15803d] font-semibold">{item.email}</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* SECCIÓN 3: ÁREAS Y RESPONSABLES A CARGO */}
+            <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 rounded-xl bg-purple-50 text-purple-700 border border-purple-100">
+                    <ShieldCheck className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-bold text-zinc-900">3. Áreas de Gestión, Responsables e Internos</h2>
+                    <p className="text-[11px] text-zinc-500">Quién está a cargo de cada oficina, atención y dependencias locales</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleOpenNewArea}
+                  className="inline-flex items-center gap-2 bg-[#15803d] hover:bg-green-800 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow-xs transition-transform active:scale-95 cursor-pointer shrink-0"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>+ Agregar Área / Responsable</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {(dynamicData.autoridades?.areas || []).map((item) => (
+                  <div key={item.id} className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl flex flex-col justify-between hover:border-[#15803d]/50 transition-all">
+                    <div>
+                      <div className="flex items-center justify-between gap-2 mb-2">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-purple-100 text-purple-900 border border-purple-200 uppercase">
+                          {item.nombre}
+                        </span>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => handleEditArea(item)}
+                            className="p-1.5 text-zinc-600 hover:text-[#15803d] hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition-all cursor-pointer"
+                            title="Editar"
+                          >
+                            <Edit2 className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteArea(item.id)}
+                            className="p-1.5 text-zinc-400 hover:text-red-600 hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition-all cursor-pointer"
+                            title="Eliminar"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Responsable Principal / Jefe */}
+                      <div className="space-y-1.5 mt-2">
+                        <div>
+                          <span className="text-[10px] uppercase font-bold text-zinc-400 tracking-wider block">Responsable a cargo:</span>
+                          <span className="font-bold text-xs text-zinc-900 block">{item.jefe}</span>
+                        </div>
+
+                        {item.atencion && (
+                          <div>
+                            <span className="text-[10px] uppercase font-bold text-zinc-400 tracking-wider block">Atención / Equipo:</span>
+                            <span className="text-xs text-zinc-700 block">{item.atencion}</span>
+                          </div>
+                        )}
+
+                        {item.detalle && (
+                          <div>
+                            <span className="text-[10px] uppercase font-bold text-zinc-400 tracking-wider block">Detalle / Funciones:</span>
+                            <span className="text-xs text-zinc-600 block">{item.detalle}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2 pt-3 mt-3 border-t border-zinc-200 text-[11px]">
+                        {item.internos && (
+                          <span className="font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                            Int. {item.internos}
+                          </span>
+                        )}
+                        {item.email && (
+                          <span className="text-[#15803d] font-semibold">{item.email}</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {item.enlace && (
+                      <div className="pt-2 mt-2">
+                        <a 
+                          href={item.enlace} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#15803d] hover:underline"
+                        >
+                          <ExternalLink className="w-3 h-3" />
+                          <span>Enlace externo / Portal</span>
+                        </a>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -1022,6 +2294,655 @@ export default function Dashboard() {
                   className="px-4 py-2 bg-[#15803d] hover:bg-green-800 text-white rounded-xl font-bold"
                 >
                   Guardar FAQ
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* MODAL: TESTIMONIO / VOZ */}
+      {/* ========================================================= */}
+      {isTestimonioModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-zinc-200 animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-zinc-100 pb-3 mb-4">
+              <h3 className="font-bold text-base text-zinc-900 flex items-center gap-2">
+                <Quote className="w-4 h-4 text-[#15803d]" />
+                <span>{editingTestimonio.id ? 'Editar Voz de la Comunidad' : 'Nueva Voz de la Comunidad'}</span>
+              </h3>
+              <button 
+                type="button" 
+                onClick={() => setIsTestimonioModalOpen(false)}
+                className="text-zinc-400 hover:text-zinc-600 text-lg font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveTestimonio} className="space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Categoría</label>
+                  <select
+                    value={editingTestimonio.categoria}
+                    onChange={(e) => setEditingTestimonio({ ...editingTestimonio, categoria: e.target.value as 'estudiantes' | 'graduados' | 'docentes' | 'nodocentes' })}
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  >
+                    <option value="estudiantes">Estudiante</option>
+                    <option value="graduados">Graduado / Egresado</option>
+                    <option value="docentes">Cuerpo Docente</option>
+                    <option value="nodocentes">Personal Nodocente</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Nombre y Apellido / Título</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingTestimonio.nombre}
+                    onChange={(e) => setEditingTestimonio({ ...editingTestimonio, nombre: e.target.value })}
+                    placeholder="Ej: Carolina o Prof. Martín Rossi"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Rol / Carrera / Dependencia</label>
+                <input
+                  type="text"
+                  required
+                  value={editingTestimonio.rol}
+                  onChange={(e) => setEditingTestimonio({ ...editingTestimonio, rol: e.target.value })}
+                  placeholder="Ej: Estudiante de Lic. en Sistemas o Dpto. Ciencias Básicas"
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">URL Foto Circular de Perfil</label>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="url"
+                    value={editingTestimonio.foto || ''}
+                    onChange={(e) => setEditingTestimonio({ ...editingTestimonio, foto: e.target.value })}
+                    placeholder="https://images.unsplash.com/... o enlace web de la foto"
+                    className="flex-1 bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                  {editingTestimonio.foto ? (
+                    <img 
+                      src={editingTestimonio.foto} 
+                      alt="Vista previa" 
+                      className="w-10 h-10 rounded-full object-cover ring-2 ring-emerald-500 shrink-0" 
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'; }}
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-zinc-200 text-zinc-600 flex items-center justify-center font-bold shrink-0">
+                      {editingTestimonio.nombre ? editingTestimonio.nombre.charAt(0).toUpperCase() : '?'}
+                    </div>
+                  )}
+                </div>
+                <p className="text-[10px] text-zinc-400 mt-1">Podés ingresar cualquier enlace de imagen. Se recortará en forma circular.</p>
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Frase / Testimonio</label>
+                <textarea
+                  rows={3}
+                  required
+                  value={editingTestimonio.frase}
+                  onChange={(e) => setEditingTestimonio({ ...editingTestimonio, frase: e.target.value })}
+                  placeholder="Escribí la experiencia o frase compartida..."
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl p-3 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                ></textarea>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t border-zinc-100">
+                <button
+                  type="button"
+                  onClick={() => setIsTestimonioModalOpen(false)}
+                  className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-[#15803d] hover:bg-green-800 text-white rounded-xl font-bold cursor-pointer"
+                >
+                  Guardar Voz
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* MODAL: CONDUCCIÓN CENTRAL / RECTORADO */}
+      {/* ========================================================= */}
+      {isRectoradoModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-zinc-200 animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-zinc-100 pb-3 mb-4">
+              <h3 className="font-bold text-base text-zinc-900 flex items-center gap-2">
+                <Landmark className="w-4 h-4 text-[#15803d]" />
+                <span>{editingRectorado.id ? 'Editar Autoridad Central' : 'Nueva Autoridad Superior (UNLu)'}</span>
+              </h3>
+              <button 
+                type="button" 
+                onClick={() => setIsRectoradoModalOpen(false)}
+                className="text-zinc-400 hover:text-zinc-600 text-lg font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveRectorado} className="space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Cargo Institucional</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingRectorado.cargo}
+                    onChange={(e) => setEditingRectorado({ ...editingRectorado, cargo: e.target.value })}
+                    placeholder="Ej: Rector de la UNLu"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Nombre y Apellido</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingRectorado.nombre}
+                    onChange={(e) => setEditingRectorado({ ...editingRectorado, nombre: e.target.value })}
+                    placeholder="Ej: Lic. Walter Fabián Panessi"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Institución / Dependencia</label>
+                  <input
+                    type="text"
+                    value={editingRectorado.institucion}
+                    onChange={(e) => setEditingRectorado({ ...editingRectorado, institucion: e.target.value })}
+                    placeholder="Ej: Universidad Nacional de Luján"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Ubicación / Sede</label>
+                  <input
+                    type="text"
+                    value={editingRectorado.ubicacion || ''}
+                    onChange={(e) => setEditingRectorado({ ...editingRectorado, ubicacion: e.target.value })}
+                    placeholder="Ej: Sede Central Luján"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Correo Electrónico Oficial</label>
+                <input
+                  type="email"
+                  value={editingRectorado.email || ''}
+                  onChange={(e) => setEditingRectorado({ ...editingRectorado, email: e.target.value })}
+                  placeholder="rector@mail.unlu.edu.ar"
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Enlace / Sitio Oficial (opcional)</label>
+                <input
+                  type="url"
+                  value={editingRectorado.enlace || ''}
+                  onChange={(e) => setEditingRectorado({ ...editingRectorado, enlace: e.target.value })}
+                  placeholder="https://rectorado.unlu.edu.ar"
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t border-zinc-100">
+                <button
+                  type="button"
+                  onClick={() => setIsRectoradoModalOpen(false)}
+                  className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-[#15803d] hover:bg-green-800 text-white rounded-xl font-bold cursor-pointer"
+                >
+                  Guardar Autoridad
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* MODAL: DIRECTORES / CONDUCCIÓN LOCAL */}
+      {/* ========================================================= */}
+      {isDirectorModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-zinc-200 animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-zinc-100 pb-3 mb-4">
+              <h3 className="font-bold text-base text-zinc-900 flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-[#15803d]" />
+                <span>{editingDirector.id ? 'Editar Cargo Directivo' : 'Nuevo Director / Cargo Directivo'}</span>
+              </h3>
+              <button 
+                type="button" 
+                onClick={() => setIsDirectorModalOpen(false)}
+                className="text-zinc-400 hover:text-zinc-600 text-lg font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveDirector} className="space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Cargo Directivo</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingDirector.cargo}
+                    onChange={(e) => setEditingDirector({ ...editingDirector, cargo: e.target.value })}
+                    placeholder="Ej: Director del Centro Regional"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Nombre y Apellido</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingDirector.nombre}
+                    onChange={(e) => setEditingDirector({ ...editingDirector, nombre: e.target.value })}
+                    placeholder="Ej: Lic. Jorge Guelffi"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Descripción / Función Principal</label>
+                <textarea
+                  rows={2}
+                  value={editingDirector.descripcion}
+                  onChange={(e) => setEditingDirector({ ...editingDirector, descripcion: e.target.value })}
+                  placeholder="Ej: Conducción y Gestión Académico-Institucional Sede Chivilcoy"
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl p-2.5 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                ></textarea>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Interno / Sede</label>
+                  <input
+                    type="text"
+                    value={editingDirector.interno || ''}
+                    onChange={(e) => setEditingDirector({ ...editingDirector, interno: e.target.value })}
+                    placeholder="Ej: Int. 101 o Sede Chivilcoy"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Email Oficial</label>
+                  <input
+                    type="email"
+                    value={editingDirector.email || ''}
+                    onChange={(e) => setEditingDirector({ ...editingDirector, email: e.target.value })}
+                    placeholder="direccioncrch@unlu.edu.ar"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t border-zinc-100">
+                <button
+                  type="button"
+                  onClick={() => setIsDirectorModalOpen(false)}
+                  className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-[#15803d] hover:bg-green-800 text-white rounded-xl font-bold cursor-pointer"
+                >
+                  Guardar Cargo Directivo
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* MODAL: ÁREAS Y DEPENDENCIAS LOCALES */}
+      {/* ========================================================= */}
+      {isAreaModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-zinc-200 animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-zinc-100 pb-3 mb-4">
+              <h3 className="font-bold text-base text-zinc-900 flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-[#15803d]" />
+                <span>{editingArea.id ? 'Editar Área / Dependencia' : 'Nueva Área / Dependencia'}</span>
+              </h3>
+              <button 
+                type="button" 
+                onClick={() => setIsAreaModalOpen(false)}
+                className="text-zinc-400 hover:text-zinc-600 text-lg font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveArea} className="space-y-4 text-xs">
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Nombre del Área / Dependencia</label>
+                <input
+                  type="text"
+                  required
+                  value={editingArea.nombre}
+                  onChange={(e) => setEditingArea({ ...editingArea, nombre: e.target.value })}
+                  placeholder="Ej: Servicios Académicos, Biblioteca CRCH, Dpto. Administrativo"
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Persona Responsable / Jefe a cargo</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingArea.jefe}
+                    onChange={(e) => setEditingArea({ ...editingArea, jefe: e.target.value })}
+                    placeholder="Ej: C.P.N. María Luján Cialdo"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Atención al Público / Equipo auxiliar</label>
+                  <input
+                    type="text"
+                    value={editingArea.atencion || ''}
+                    onChange={(e) => setEditingArea({ ...editingArea, atencion: e.target.value })}
+                    placeholder="Ej: Lic. Ariadna Canepa"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Internos Telefónicos</label>
+                  <input
+                    type="text"
+                    value={editingArea.internos || ''}
+                    onChange={(e) => setEditingArea({ ...editingArea, internos: e.target.value })}
+                    placeholder="Ej: 3301 / 3302"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Email de Contacto</label>
+                  <input
+                    type="email"
+                    value={editingArea.email || ''}
+                    onChange={(e) => setEditingArea({ ...editingArea, email: e.target.value })}
+                    placeholder="academicach@unlu.edu.ar"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Detalle / Horarios / Observaciones (opcional)</label>
+                <input
+                  type="text"
+                  value={editingArea.detalle || ''}
+                  onChange={(e) => setEditingArea({ ...editingArea, detalle: e.target.value })}
+                  placeholder="Ej: Mesa de Entradas y Personal, o Lun. a Vie. 14 a 21 hs."
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Enlace Web / Trámites (opcional)</label>
+                <input
+                  type="url"
+                  value={editingArea.enlace || ''}
+                  onChange={(e) => setEditingArea({ ...editingArea, enlace: e.target.value })}
+                  placeholder="https://www.biblioteca.unlu.edu.ar/"
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t border-zinc-100">
+                <button
+                  type="button"
+                  onClick={() => setIsAreaModalOpen(false)}
+                  className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-[#15803d] hover:bg-green-800 text-white rounded-xl font-bold cursor-pointer"
+                >
+                  Guardar Área
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* MODAL: CARRERA / OFERTA ACADÉMICA */}
+      {/* ========================================================= */}
+      {isCarreraModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-zinc-200 animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-zinc-100 pb-3 mb-4">
+              <h3 className="font-bold text-base text-zinc-900 flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-[#15803d]" />
+                <span>{editingCarrera.id ? 'Editar Propuesta Académica' : 'Nueva Carrera / Propuesta Académica'}</span>
+              </h3>
+              <button 
+                type="button" 
+                onClick={() => setIsCarreraModalOpen(false)}
+                className="text-zinc-400 hover:text-zinc-600 text-lg font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveCarrera} className="space-y-4 text-xs">
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Nombre Oficial de la Carrera</label>
+                <input
+                  type="text"
+                  required
+                  value={editingCarrera.nombre}
+                  onChange={(e) => setEditingCarrera({ ...editingCarrera, nombre: e.target.value })}
+                  placeholder="Ej: Licenciatura en Sistemas de Información, Tecnicatura Universitaria en..."
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Tipo de Titulación</label>
+                  <select
+                    value={editingCarrera.tipo}
+                    onChange={(e) => {
+                      const newTipo = e.target.value as 'grado' | 'pregrado' | 'posgrado';
+                      setEditingCarrera({
+                        ...editingCarrera,
+                        tipo: newTipo,
+                        tipoTexto: newTipo === 'pregrado' ? 'Carrera de Pregrado' : newTipo === 'posgrado' ? 'Posgrado' : 'Carrera de Grado'
+                      });
+                    }}
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  >
+                    <option value="grado">Grado</option>
+                    <option value="pregrado">Pregrado</option>
+                    <option value="posgrado">Posgrado</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Etiqueta de Titulación</label>
+                  <input
+                    type="text"
+                    value={editingCarrera.tipoTexto}
+                    onChange={(e) => setEditingCarrera({ ...editingCarrera, tipoTexto: e.target.value })}
+                    placeholder="Ej: Carrera de Grado"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Duración Estimada</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingCarrera.duracion}
+                    onChange={(e) => setEditingCarrera({ ...editingCarrera, duracion: e.target.value })}
+                    placeholder="Ej: 5 Años, 2.5 Años"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Área Disciplinar</label>
+                  <select
+                    value={editingCarrera.area}
+                    onChange={(e) => {
+                      const areaVal = e.target.value as any;
+                      const textMap: Record<string, string> = {
+                        tecnologia: 'Tecnología e Informática',
+                        administracion: 'Administración y Negocios',
+                        salud: 'Ciencias de la Salud',
+                        sociales: 'Ciencias Sociales',
+                        exactas: 'Ciencias Exactas y Naturales',
+                        agro: 'Ciencias Agropecuarias',
+                        otras: 'Otras Disciplinas'
+                      };
+                      setEditingCarrera({
+                        ...editingCarrera,
+                        area: areaVal,
+                        areaTexto: textMap[areaVal] || 'Oferta Académica'
+                      });
+                    }}
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  >
+                    <option value="tecnologia">Tecnología e Informática</option>
+                    <option value="administracion">Administración y Negocios</option>
+                    <option value="salud">Ciencias de la Salud</option>
+                    <option value="sociales">Ciencias Sociales</option>
+                    <option value="exactas">Ciencias Exactas y Naturales</option>
+                    <option value="agro">Ciencias Agropecuarias</option>
+                    <option value="otras">Otras Disciplinas</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Nombre Visible del Área</label>
+                  <input
+                    type="text"
+                    value={editingCarrera.areaTexto}
+                    onChange={(e) => setEditingCarrera({ ...editingCarrera, areaTexto: e.target.value })}
+                    placeholder="Ej: Tecnología e Informática"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Título Intermedio (opcional)</label>
+                <input
+                  type="text"
+                  value={editingCarrera.tituloIntermedio || ''}
+                  onChange={(e) => setEditingCarrera({ ...editingCarrera, tituloIntermedio: e.target.value })}
+                  placeholder="Ej: Analista Programador Universitario (APU) - 3 Años"
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-zinc-700 mb-1">Descripción / Perfil del Egresado</label>
+                <textarea
+                  rows={3}
+                  required
+                  value={editingCarrera.descripcion}
+                  onChange={(e) => setEditingCarrera({ ...editingCarrera, descripcion: e.target.value })}
+                  placeholder="Resumen del campo ocupacional, formación y competencias adquiridas..."
+                  className="w-full bg-zinc-50 border border-zinc-300 rounded-xl p-3 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                ></textarea>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">Enlace a la Página / Ruta (opcional)</label>
+                  <input
+                    type="text"
+                    value={editingCarrera.enlace || ''}
+                    onChange={(e) => setEditingCarrera({ ...editingCarrera, enlace: e.target.value })}
+                    placeholder="Ej: /carrera/sistemas o https://..."
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-zinc-700 mb-1">URL Plan de Estudios Oficial / PDF (opcional)</label>
+                  <input
+                    type="url"
+                    value={editingCarrera.planUrl || ''}
+                    onChange={(e) => setEditingCarrera({ ...editingCarrera, planUrl: e.target.value })}
+                    placeholder="https://www.unlu.edu.ar/carg-sistemas-pre.html"
+                    className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-3 py-2 text-zinc-900 font-medium outline-none focus:ring-2 focus:ring-[#15803d]"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t border-zinc-100">
+                <button
+                  type="button"
+                  onClick={() => setIsCarreraModalOpen(false)}
+                  className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-[#15803d] hover:bg-green-800 text-white rounded-xl font-bold cursor-pointer"
+                >
+                  Guardar Carrera
                 </button>
               </div>
             </form>

@@ -8,7 +8,24 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const careersData = {
+interface SubjectYear {
+  year: string;
+  list: string[];
+}
+
+interface CareerDetailInfo {
+  title: string;
+  type: string;
+  duration: string;
+  intermediateTitle: string;
+  profile: string;
+  field: string;
+  color: string;
+  planUrl: string;
+  subjects: SubjectYear[];
+}
+
+const careersData: Record<string, CareerDetailInfo> = {
   sistemas: {
     title: "Licenciatura en Sistemas de Información",
     type: "Carrera de Grado",
@@ -98,7 +115,7 @@ const careersData = {
     title: "Licenciatura en Trabajo Social",
     type: "Carrera de Grado",
     duration: "5 Años",
-    intermediateTitle: "Técnico/a Univ. en Minoridad y Familia - 3 Años",
+    intermediateTitle: "Técnico/a en Minoridad y Familia - 3 Años",
     profile: "Forma profesionales orientados a promover la participación comunitaria, la defensa de los derechos y la asistencia en procesos de intervención social. Capacita para diseñar y dirigir programas sociales, peritajes judiciales, y abordar problemáticas de grupos en situación de vulnerabilidad.",
     field: "Organismos de desarrollo y asistencia social del Estado, poder judicial (peritajes), hospitales, instituciones educativas, ONG's orientadas a minoridad y familia, y centros comunitarios.",
     color: "primary",
@@ -115,9 +132,36 @@ const careersData = {
 
 export default function CareerDetail() {
   const { id } = useParams<{ id: string }>();
-  const data = (id && careersData[id as keyof typeof careersData]) 
-    ? careersData[id as keyof typeof careersData] 
-    : {
+  
+  // Buscar si existe en localStorage dinámico
+  let dynamicCareer: any = null;
+  try {
+    const saved = localStorage.getItem('crch_dynamic_content');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed.carreras && Array.isArray(parsed.carreras)) {
+        dynamicCareer = parsed.carreras.find((c: any) => c.id === id || c.enlace === `/carrera/${id}`);
+      }
+    }
+  } catch (e) {
+    console.error("Error al leer dynamic carreras", e);
+  }
+
+  const staticData: CareerDetailInfo | undefined = id ? careersData[id] : undefined;
+
+  const data: CareerDetailInfo = dynamicCareer
+    ? {
+        title: dynamicCareer.nombre,
+        type: dynamicCareer.tipoTexto || (dynamicCareer.tipo === 'pregrado' ? 'Carrera de Pregrado' : 'Carrera de Grado'),
+        duration: dynamicCareer.duracion,
+        intermediateTitle: dynamicCareer.tituloIntermedio || 'N/A',
+        profile: dynamicCareer.descripcion || staticData?.profile || 'Perfil profesional en desarrollo.',
+        field: staticData?.field || 'Amplia demanda laboral en el sector productivo, público y privado de la región.',
+        color: 'primary',
+        planUrl: dynamicCareer.planUrl || staticData?.planUrl || '#',
+        subjects: staticData?.subjects || []
+      }
+    : (staticData || {
         title: "Carrera en Desarrollo",
         type: "Pregrado / Grado",
         duration: "A definir",
@@ -127,7 +171,7 @@ export default function CareerDetail() {
         color: "primary",
         planUrl: "#",
         subjects: []
-      };
+      });
 
   useEffect(() => {
     document.title = `${data.title} | Centro Regional Chivilcoy - UNLu`;

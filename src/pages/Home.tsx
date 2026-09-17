@@ -3,14 +3,14 @@ import {
   MapPin, ChevronRight, ArrowRight, ExternalLink,
   Calendar, Newspaper, BookOpen, GraduationCap,
   Users, ListChecks, Quote, Mail, Landmark,
-  Building2, ShieldCheck
+  Building2, ShieldCheck, Award
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 export default function Home() {
-  const [testimonialTab, setTestimonialTab] = useState<'estudiantes' | 'docentes'>('estudiantes');
+  const [testimonialTab, setTestimonialTab] = useState<'estudiantes' | 'graduados' | 'docentes' | 'nodocentes'>('estudiantes');
   const [selectedNoticiaModal, setSelectedNoticiaModal] = useState<any | null>(null);
 
   const [noticiasList, setNoticiasList] = useState([
@@ -83,6 +83,194 @@ export default function Home() {
     { id: 'int-4', area: 'Mesa General de Entradas', interno: 'Int. 100', responsable: 'Recepción de Documentación', email: 'mesacrch@unlu.edu.ar' }
   ]);
 
+  const [testimoniosList, setTestimoniosList] = useState([
+    // Estudiantes
+    {
+      id: 'testimonio-est-1',
+      nombre: 'Carolina',
+      rol: 'Estudiante · Lic. en Sistemas de Información',
+      categoria: 'estudiantes',
+      frase: 'La flexibilidad horaria y las aulas informáticas equipadas me permitieron cursar y trabajar sin problemas en mi propia ciudad.',
+      foto: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-est-2',
+      nombre: 'Tomás',
+      rol: 'Estudiante · Analista en Ciencia de Datos',
+      categoria: 'estudiantes',
+      frase: 'Poder estudiar Ciencia de Datos en Chivilcoy es una oportunidad inmensa. Es una formación moderna, con salida laboral concreta y 100% pública.',
+      foto: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-est-3',
+      nombre: 'Agustina',
+      rol: 'Estudiante · Lic. en Administración',
+      categoria: 'estudiantes',
+      frase: 'El ambiente universitario en la sede es muy cálido. Los grupos de estudio y la cercanía con los profesores hacen una gran diferencia.',
+      foto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80'
+    },
+
+    // Graduados
+    {
+      id: 'testimonio-grad-1',
+      nombre: 'Martín',
+      rol: 'Graduado · Contador Público Nacional',
+      categoria: 'graduados',
+      frase: 'Pude recibirme de Contador Público sin tener que mudarme a Capital. Hoy tengo mi propio estudio contable y el título UNLu me abrió todas las puertas.',
+      foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-grad-2',
+      nombre: 'Florencia',
+      rol: 'Graduada · Lic. en Trabajo Social',
+      categoria: 'graduados',
+      frase: 'Formarme en el Centro Regional me dio una perspectiva comunitaria única. Trabajo en el sistema de salud regional aplicando todo lo aprendido.',
+      foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-grad-3',
+      nombre: 'Lucas',
+      rol: 'Graduado · Analista Programador Univ. (APU)',
+      categoria: 'graduados',
+      frase: 'El título intermedio de APU me permitió insertarme en la industria IT antes de finalizar la carrera. Las bases técnicas de la UNLu son excelentes.',
+      foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80'
+    },
+
+    // Docentes
+    {
+      id: 'testimonio-doc-1',
+      nombre: 'Equipo Docente de Sistemas',
+      rol: 'Docentes · Dpto. de Ciencias Básicas',
+      categoria: 'docentes',
+      frase: 'La cercanía con los alumnos en Chivilcoy permite un seguimiento pedagógico y humano personalizado desde el primer día de cursada.',
+      foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-doc-2',
+      nombre: 'Cátedra de Cs. Económicas',
+      rol: 'Docentes · Dpto. de Ciencias Sociales',
+      categoria: 'docentes',
+      frase: 'Formar profesionales que luego impulsan el desarrollo de PyMEs e instituciones regionales es nuestro mayor orgullo docente.',
+      foto: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-doc-3',
+      nombre: 'Docentes de Salud y Sociales',
+      rol: 'Docentes · Prácticas y Extensión Comunitaria',
+      categoria: 'docentes',
+      frase: 'La vocación de servicio y el contacto directo con la comunidad forjan profesionales con profunda solvencia técnica y ética.',
+      foto: 'https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=150&auto=format&fit=crop&q=80'
+    },
+
+    // Nodocentes
+    {
+      id: 'testimonio-nodoc-1',
+      nombre: 'Equipo de Bedelía y Alumnos',
+      rol: 'Personal Nodocente · Dpto. de Alumnos CRCH',
+      categoria: 'nodocentes',
+      frase: 'Acompañar a cada ingresante desde su primer trámite de inscripción hasta la entrega de su título universitario es el corazón de nuestra labor diaria.',
+      foto: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-nodoc-2',
+      nombre: 'Biblioteca y Sala de Estudio',
+      rol: 'Personal Nodocente · Biblioteca CRCH',
+      categoria: 'nodocentes',
+      frase: 'Nuestra misión es brindar a los estudiantes los libros, recursos bibliográficos y el espacio de estudio ideal para que alcancen sus metas.',
+      foto: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-nodoc-3',
+      nombre: 'Servicios Generales y Maestranza',
+      rol: 'Personal Nodocente · Intendencia y Mantenimiento CRCH',
+      categoria: 'nodocentes',
+      frase: 'Cuidar cada aula, laboratorio y espacio común del Centro para que toda la comunidad universitaria tenga instalaciones seguras, limpias y confortables.',
+      foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80'
+    }
+  ]);
+
+  const [autoridadesData, setAutoridadesData] = useState({
+    rectorado: [
+      {
+        id: 'rec-1',
+        cargo: 'Rector de la UNLu',
+        nombre: 'Lic. Walter Fabián Panessi',
+        institucion: 'Universidad Nacional de Luján',
+        email: 'rector@mail.unlu.edu.ar',
+        enlace: 'https://rectorado.unlu.edu.ar'
+      },
+      {
+        id: 'rec-2',
+        cargo: 'Vicerrector de la UNLu',
+        nombre: 'Lic. Miguel Ángel Núñez',
+        institucion: 'Universidad Nacional de Luján',
+        email: 'vcrector@mail.unlu.edu.ar',
+        enlace: '',
+        ubicacion: 'Sede Central Luján'
+      }
+    ],
+    direccion: [
+      {
+        id: 'dir-1',
+        cargo: 'Director del Centro Regional',
+        nombre: 'Lic. Jorge Guelffi',
+        descripcion: 'Conducción y Gestión Académico-Institucional Sede Chivilcoy',
+        email: 'direccioncrch@unlu.edu.ar',
+        interno: 'Int. 101'
+      },
+      {
+        id: 'dir-2',
+        cargo: 'Director Administrativo',
+        nombre: 'Maximiliano Lucci',
+        descripcion: 'Administración General, Recursos y Despacho Operativo',
+        email: '',
+        interno: 'Sede Chivilcoy'
+      }
+    ],
+    areas: [
+      {
+        id: 'area-1',
+        nombre: 'Servicios Académicos',
+        jefe: 'C.P.N. María Luján Cialdo',
+        atencion: 'Lic. Ariadna Canepa',
+        internos: '3301 / 3302',
+        email: 'academicach@unlu.edu.ar',
+        detalle: '',
+        enlace: ''
+      },
+      {
+        id: 'area-2',
+        nombre: 'Dpto. Administrativo',
+        jefe: 'Alberto Sergio Raele (SUEP)',
+        atencion: 'Lorena Pissaco',
+        internos: '1787',
+        email: '',
+        detalle: 'Mesa de Entradas y Personal',
+        enlace: ''
+      },
+      {
+        id: 'area-3',
+        nombre: 'Bienestar y Deportes',
+        jefe: 'Juan E. Lattanzio (Becas)',
+        atencion: 'Carlos Canepa (Deportes)',
+        internos: '3309',
+        email: '',
+        detalle: 'Pasantías y Actividad Física',
+        enlace: ''
+      },
+      {
+        id: 'area-4',
+        nombre: 'Biblioteca CRCH',
+        jefe: 'Horario: Lun. a Vie. 14 a 21 hs.',
+        atencion: 'Préstamos y Sala Silenciosa',
+        internos: '3303',
+        email: '',
+        detalle: '',
+        enlace: 'https://www.biblioteca.unlu.edu.ar/'
+      }
+    ]
+  });
+
   useEffect(() => {
     const loadDynamicContent = () => {
       try {
@@ -92,6 +280,10 @@ export default function Home() {
           if (parsed.faq && parsed.faq.length > 0) setFaqList(parsed.faq);
           if (parsed.contacto?.internos && parsed.contacto.internos.length > 0) setInternosList(parsed.contacto.internos);
           if (parsed.noticias && parsed.noticias.length > 0) setNoticiasList(parsed.noticias);
+          if (parsed.testimonios && parsed.testimonios.length > 0) setTestimoniosList(parsed.testimonios);
+          if (parsed.autoridades && typeof parsed.autoridades === 'object' && !Array.isArray(parsed.autoridades) && parsed.autoridades.rectorado) {
+            setAutoridadesData(parsed.autoridades);
+          }
         }
       } catch (e) {
         console.error(e);
@@ -120,7 +312,7 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               
               {/* Contenido Principal Izquierda */}
-              <div className="lg:col-span-8">
+              <div className="lg:col-span-7">
                 <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 mb-6 shadow-xs">
                   <img
                     src="/escudo.svg"
@@ -143,7 +335,7 @@ export default function Home() {
                 <div className="flex flex-wrap items-center gap-3.5">
                   <Link 
                     to="/ingreso" 
-                    className="inline-flex items-center gap-2 bg-[#f9c540] hover:bg-yellow-400 text-slate-950 font-bold px-6 py-3.5 rounded-xl shadow-lg transition-transform active:scale-95 text-sm"
+                    className="inline-flex items-center gap-2 bg-[#f9c540] hover:bg-yellow-400 text-slate-950 font-bold px-6 py-3.5 rounded-xl shadow-lg transition-transform active:scale-95 text-sm cursor-pointer"
                   >
                     <ListChecks className="w-4 h-4 text-slate-900" />
                     <span>Guía y Checklist Ingreso 2027</span>
@@ -151,7 +343,7 @@ export default function Home() {
 
                   <Link 
                     to="/carreras" 
-                    className="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 text-white font-semibold px-6 py-3.5 rounded-xl backdrop-blur-md border border-white/20 transition-colors text-sm"
+                    className="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 text-white font-semibold px-6 py-3.5 rounded-xl backdrop-blur-md border border-white/20 transition-colors text-sm cursor-pointer"
                   >
                     <BookOpen className="w-4 h-4 text-[#f9c540]" />
                     <span>Ver Oferta Académica</span>
@@ -159,7 +351,7 @@ export default function Home() {
 
                   <Link 
                     to="/noticias" 
-                    className="inline-flex items-center gap-2 bg-emerald-800/80 hover:bg-emerald-800 text-white font-semibold px-5 py-3.5 rounded-xl border border-emerald-600/40 transition-colors text-sm"
+                    className="inline-flex items-center gap-2 bg-emerald-800/80 hover:bg-emerald-800 text-white font-semibold px-5 py-3.5 rounded-xl border border-emerald-600/40 transition-colors text-sm cursor-pointer"
                   >
                     <Newspaper className="w-4 h-4 text-emerald-200" />
                     <span>Noticias y Eventos</span>
@@ -167,28 +359,42 @@ export default function Home() {
 
                   <a 
                     href="tel:+5402346424160"
-                    className="inline-flex items-center gap-2 bg-emerald-800/80 hover:bg-emerald-800 text-white font-semibold px-5 py-3.5 rounded-xl border border-emerald-600/40 transition-colors text-sm"
+                    className="inline-flex items-center gap-2 bg-emerald-800/80 hover:bg-emerald-800 text-white font-semibold px-5 py-3.5 rounded-xl border border-emerald-600/40 transition-colors text-sm cursor-pointer"
                   >
                     <span>Tel: (02346) 424160</span>
                   </a>
                 </div>
               </div>
 
-              {/* Columna Derecha: Emblema / Logo Institucional UNLu */}
-              <div className="hidden lg:flex lg:col-span-4 justify-center">
-                <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-3xl text-center flex flex-col items-center shadow-2xl w-full max-w-xs hover:border-[#f9c540]/40 transition-all">
-                  <div className="w-24 h-24 rounded-2xl bg-white p-3 shadow-lg flex items-center justify-center mb-4 border-2 border-[#f9c540]/30">
-                    <img src="/escudo.svg" alt="Escudo Oficial UNLu" className="w-full h-full object-contain" />
+              {/* Columna Derecha: Fotografía Institucional Entrada CRCH */}
+              <div className="lg:col-span-5 flex justify-center">
+                <div className="relative group w-full max-w-md">
+                  <div className="absolute -inset-1.5 bg-gradient-to-tr from-[#008541]/30 via-emerald-500/20 to-[#f9c540]/20 rounded-3xl blur-md group-hover:blur-lg transition-all opacity-70"></div>
+                  <div className="relative bg-emerald-950/40 backdrop-blur-md rounded-3xl p-2.5 sm:p-3 border border-emerald-400/20 shadow-2xl overflow-hidden">
+                    <div className="overflow-hidden rounded-2xl aspect-[4/3] bg-emerald-950 relative shadow-inner">
+                      <img 
+                        src="/fotos/Entrada.jpeg" 
+                        alt="Entrada al Centro Regional Chivilcoy - UNLu" 
+                        className="w-full h-full object-cover brightness-[0.88] contrast-[0.95] saturate-[0.85] group-hover:scale-105 group-hover:brightness-95 group-hover:saturate-100 transition-all duration-700 ease-out"
+                      />
+                      {/* Capa de tinte verde institucional UNLu */}
+                      <div className="absolute inset-0 bg-[#005a2b]/40 mix-blend-multiply pointer-events-none transition-opacity duration-700 group-hover:opacity-75"></div>
+                      
+                      {/* Gradiente de sombra inferior para legibilidad */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#00381b]/95 via-[#005a2b]/35 to-transparent pointer-events-none"></div>
+                      
+                      <div className="absolute bottom-3 left-3 right-3 text-white">
+                        <div className="inline-flex items-center gap-2 bg-emerald-950/85 backdrop-blur-md px-2.5 py-1 rounded-lg border border-emerald-500/40 text-[11px] font-bold text-[#f9c540] mb-1 shadow-xs">
+                          <img src="/escudo.svg" alt="" className="w-3.5 h-3.5 bg-white rounded-full p-0.5" />
+                          <span>Sede Centro Regional Chivilcoy</span>
+                        </div>
+                        <p className="text-xs text-emerald-100/90 font-medium flex items-center gap-1.5">
+                          <MapPin className="w-3.5 h-3.5 text-[#f9c540]" />
+                          <span>Calle 110 (Grito de Alcorta) Nº 110</span>
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <img 
-                    src="/UNLU.svg" 
-                    alt="UNLu" 
-                    className="h-8 w-auto mb-3"
-                    style={{ filter: "brightness(0) invert(1)" }}
-                  />
-                  <div className="h-0.5 w-12 bg-[#f9c540] my-2"></div>
-                  <span className="text-[11px] font-bold tracking-widest text-[#f9c540] uppercase">Centro Regional Chivilcoy</span>
-                  <span className="text-[11px] text-emerald-100/80 leading-snug mt-1">Educación Superior Pública y Gratuita</span>
                 </div>
               </div>
 
@@ -473,120 +679,98 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 font-serif">Voces de Nuestra Comunidad</h2>
               <div className="h-1 w-20 bg-gradient-to-r from-[#008541] via-[#f9c540] to-[#c0392b] rounded-full mx-auto my-4"></div>
 
-              {/* Selector de Pestañas */}
-              <div className="inline-flex p-1.5 bg-slate-100/90 rounded-2xl border border-slate-200 shadow-inner mt-2">
+              {/* Selector de Pestañas (4 Claustros / Sectores) */}
+              <div className="inline-flex flex-wrap justify-center p-1.5 bg-slate-100/90 rounded-2xl border border-slate-200 shadow-inner mt-2 gap-1">
                 <button
                   type="button"
                   onClick={() => setTestimonialTab('estudiantes')}
-                  className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                     testimonialTab === 'estudiantes'
                       ? 'bg-[#008541] text-white shadow-md'
-                      : 'text-slate-600 hover:text-slate-900'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
                   }`}
                 >
                   <GraduationCap className="w-4 h-4" />
-                  <span>Estudiantes y Graduados</span>
+                  <span>Estudiantes</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTestimonialTab('graduados')}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                    testimonialTab === 'graduados'
+                      ? 'bg-[#008541] text-white shadow-md'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                  }`}
+                >
+                  <Award className="w-4 h-4" />
+                  <span>Graduados</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setTestimonialTab('docentes')}
-                  className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                     testimonialTab === 'docentes'
                       ? 'bg-[#008541] text-white shadow-md'
-                      : 'text-slate-600 hover:text-slate-900'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
                   }`}
                 >
                   <Users className="w-4 h-4" />
                   <span>Cuerpo Docente</span>
                 </button>
+                <button
+                  type="button"
+                  onClick={() => setTestimonialTab('nodocentes')}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                    testimonialTab === 'nodocentes'
+                      ? 'bg-[#008541] text-white shadow-md'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                  }`}
+                >
+                  <Building2 className="w-4 h-4" />
+                  <span>Nodocentes</span>
+                </button>
               </div>
             </div>
 
-            {testimonialTab === 'estudiantes' && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in duration-200">
-                <div className="bg-slate-50/80 p-7 rounded-2xl border border-slate-200 flex flex-col justify-between">
-                  <p className="text-slate-700 italic text-xs sm:text-sm leading-relaxed mb-4">
-                    "Pude recibirme de Contador Público sin tener que mudarme a Capital. Las instalaciones, la cercanía con los profesores y el nivel académico son excelentes."
-                  </p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-slate-200">
-                    <div className="h-10 w-10 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold">M</div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-sm font-serif">Martín</h4>
-                      <p className="text-xs text-slate-500">Graduado Contador Público</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in duration-200">
+              {testimoniosList
+                .filter((item) => item.categoria === testimonialTab)
+                .map((item, idx) => (
+                  <div key={item.id || idx} className="bg-slate-50/80 p-7 rounded-2xl border border-slate-200 flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <p className="text-slate-700 italic text-xs sm:text-sm leading-relaxed mb-4">
+                      "{item.frase}"
+                    </p>
+                    <div className="flex items-center gap-3 pt-4 border-t border-slate-200">
+                      {item.foto ? (
+                        <img 
+                          src={item.foto} 
+                          alt={item.nombre} 
+                          className={`h-11 w-11 rounded-full object-cover ring-2 shadow-xs shrink-0 ${
+                            item.categoria === 'estudiantes' 
+                              ? 'ring-[#008541]/40' 
+                              : item.categoria === 'graduados'
+                              ? 'ring-[#f9c540]/70'
+                              : item.categoria === 'docentes'
+                              ? 'ring-purple-600/40'
+                              : 'ring-blue-600/40'
+                          }`}
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80';
+                          }}
+                        />
+                      ) : (
+                        <div className="h-11 w-11 rounded-full bg-[#008541] text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+                          {item.nombre ? item.nombre.charAt(0).toUpperCase() : '?'}
+                        </div>
+                      )}
+                      <div>
+                        <h4 className="font-bold text-slate-900 text-sm font-serif">{item.nombre}</h4>
+                        <p className="text-xs text-slate-500">{item.rol}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-
-                <div className="bg-slate-50/80 p-7 rounded-2xl border border-slate-200 flex flex-col justify-between">
-                  <p className="text-slate-700 italic text-xs sm:text-sm leading-relaxed mb-4">
-                    "Estudio la Licenciatura en Sistemas. La flexibilidad horaria y las aulas informáticas equipadas me permitieron cursar y trabajar sin problemas."
-                  </p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-slate-200">
-                    <div className="h-10 w-10 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold">C</div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-sm font-serif">Carolina</h4>
-                      <p className="text-xs text-slate-500">Estudiante de Lic. en Sistemas</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-slate-50/80 p-7 rounded-2xl border border-slate-200 flex flex-col justify-between">
-                  <p className="text-slate-700 italic text-xs sm:text-sm leading-relaxed mb-4">
-                    "Poder estudiar Ciencia de Datos en mi ciudad natal es una oportunidad inmensa. Es una carrera con futuro y gratuita."
-                  </p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-slate-200">
-                    <div className="h-10 w-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">T</div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-sm font-serif">Tomás</h4>
-                      <p className="text-xs text-slate-500">Estudiante de Ciencia de Datos</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {testimonialTab === 'docentes' && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in duration-200">
-                <div className="bg-slate-50/80 p-7 rounded-2xl border border-slate-200 flex flex-col justify-between">
-                  <p className="text-slate-700 italic text-xs sm:text-sm leading-relaxed mb-4">
-                    "La cercanía con los alumnos en Chivilcoy permite un seguimiento pedagógico y humano personalizado desde el primer día."
-                  </p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-slate-200">
-                    <div className="h-10 w-10 rounded-full bg-[#008541] text-white flex items-center justify-center font-bold">S</div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-sm font-serif">Equipo Docente de Sistemas</h4>
-                      <p className="text-xs text-slate-500">Dpto. Ciencias Básicas</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-slate-50/80 p-7 rounded-2xl border border-slate-200 flex flex-col justify-between">
-                  <p className="text-slate-700 italic text-xs sm:text-sm leading-relaxed mb-4">
-                    "Formar profesionales en Ciencias Económicas que luego vuelcan sus saberes en PyMEs e instituciones de la región es nuestro orgullo."
-                  </p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-slate-200">
-                    <div className="h-10 w-10 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold">E</div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-sm font-serif">Docentes de Cs. Económicas</h4>
-                      <p className="text-xs text-slate-500">Dpto. Ciencias Sociales</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-slate-50/80 p-7 rounded-2xl border border-slate-200 flex flex-col justify-between">
-                  <p className="text-slate-700 italic text-xs sm:text-sm leading-relaxed mb-4">
-                    "La vocación de servicio y el contacto directo con la comunidad forjan profesionales con profunda solvencia técnica y ética."
-                  </p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-slate-200">
-                    <div className="h-10 w-10 rounded-full bg-purple-700 text-white flex items-center justify-center font-bold">S</div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-sm font-serif">Docentes de Salud y Sociales</h4>
-                      <p className="text-xs text-slate-500">Prácticas y Extensión</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+                ))}
+            </div>
           </div>
         </section>
 
@@ -614,59 +798,46 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-7 border border-slate-700 shadow-md relative overflow-hidden group">
-                  <div className="absolute right-0 bottom-0 opacity-10 translate-x-4 translate-y-4">
-                    <img src="/escudo.svg" alt="" className="w-36 h-36 invert" />
+                {(autoridadesData.rectorado || []).map((item) => (
+                  <div key={item.id} className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-7 border border-slate-700 shadow-md relative overflow-hidden group">
+                    <div className="absolute right-0 bottom-0 opacity-10 translate-x-4 translate-y-4">
+                      <img src="/escudo.svg" alt="" className="w-36 h-36 invert" />
+                    </div>
+                    <span className="text-[11px] font-bold text-[#f9c540] uppercase tracking-widest block mb-1">
+                      {item.cargo}
+                    </span>
+                    <h4 className="text-2xl font-bold font-serif mb-1 text-white">
+                      {item.nombre}
+                    </h4>
+                    <p className="text-xs text-slate-300 mb-4">{item.institucion || 'Universidad Nacional de Luján'}</p>
+                    <div className="pt-3 border-t border-slate-700/80 flex flex-wrap items-center justify-between gap-2 text-xs">
+                      {item.email ? (
+                        <a 
+                          href={`mailto:${item.email}`} 
+                          className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-mono transition-colors"
+                        >
+                          <Mail className="w-3.5 h-3.5" />
+                          <span>{item.email}</span>
+                        </a>
+                      ) : (
+                        <span className="text-slate-500 font-mono text-[11px]">Sin email público</span>
+                      )}
+                      {item.enlace ? (
+                        <a 
+                          href={item.enlace} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-slate-400 hover:text-white inline-flex items-center gap-1 text-[11px]"
+                        >
+                          <span>{item.enlace.replace('https://', '')}</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      ) : (
+                        <span className="text-slate-400 text-[11px]">{item.ubicacion || 'Sede Central Luján'}</span>
+                      )}
+                    </div>
                   </div>
-                  <span className="text-[11px] font-bold text-[#f9c540] uppercase tracking-widest block mb-1">
-                    Rector de la UNLu
-                  </span>
-                  <h4 className="text-2xl font-bold font-serif mb-1 text-white">
-                    Lic. Walter Fabián Panessi
-                  </h4>
-                  <p className="text-xs text-slate-300 mb-4">Universidad Nacional de Luján</p>
-                  <div className="pt-3 border-t border-slate-700/80 flex flex-wrap items-center justify-between gap-2 text-xs">
-                    <a 
-                      href="mailto:rector@mail.unlu.edu.ar" 
-                      className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-mono transition-colors"
-                    >
-                      <Mail className="w-3.5 h-3.5" />
-                      <span>rector@mail.unlu.edu.ar</span>
-                    </a>
-                    <a 
-                      href="https://rectorado.unlu.edu.ar" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="text-slate-400 hover:text-white inline-flex items-center gap-1 text-[11px]"
-                    >
-                      <span>rectorado.unlu.edu.ar</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-7 border border-slate-700 shadow-md relative overflow-hidden group">
-                  <div className="absolute right-0 bottom-0 opacity-10 translate-x-4 translate-y-4">
-                    <img src="/escudo.svg" alt="" className="w-36 h-36 invert" />
-                  </div>
-                  <span className="text-[11px] font-bold text-[#f9c540] uppercase tracking-widest block mb-1">
-                    Vicerrector de la UNLu
-                  </span>
-                  <h4 className="text-2xl font-bold font-serif mb-1 text-white">
-                    Lic. Miguel Ángel Núñez
-                  </h4>
-                  <p className="text-xs text-slate-300 mb-4">Universidad Nacional de Luján</p>
-                  <div className="pt-3 border-t border-slate-700/80 flex flex-wrap items-center justify-between gap-2 text-xs">
-                    <a 
-                      href="mailto:vcrector@mail.unlu.edu.ar" 
-                      className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-mono transition-colors"
-                    >
-                      <Mail className="w-3.5 h-3.5" />
-                      <span>vcrector@mail.unlu.edu.ar</span>
-                    </a>
-                    <span className="text-slate-400 text-[11px]">Sede Central Luján</span>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
@@ -678,36 +849,30 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-[#008541] transition-all">
-                  <span className="text-[11px] font-bold text-[#008541] uppercase tracking-wider block mb-1">
-                    Director del Centro Regional
-                  </span>
-                  <h4 className="text-xl font-bold text-slate-900 font-serif mb-1">
-                    Lic. Jorge Guelffi
-                  </h4>
-                  <p className="text-xs text-slate-500 mb-4">Conducción y Gestión Académico-Institucional Sede Chivilcoy</p>
-                  <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
-                    <a href="mailto:direccioncrch@unlu.edu.ar" className="inline-flex items-center gap-1.5 text-[#008541] hover:underline font-medium">
-                      <Mail className="w-3.5 h-3.5" />
-                      <span>direccioncrch@unlu.edu.ar</span>
-                    </a>
-                    <span className="text-slate-400 font-mono text-[11px]">Int. 101</span>
+                {(autoridadesData.direccion || []).map((item) => (
+                  <div key={item.id} className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-[#008541] transition-all flex flex-col justify-between">
+                    <div>
+                      <span className="text-[11px] font-bold text-[#008541] uppercase tracking-wider block mb-1">
+                        {item.cargo}
+                      </span>
+                      <h4 className="text-xl font-bold text-slate-900 font-serif mb-1">
+                        {item.nombre}
+                      </h4>
+                      <p className="text-xs text-slate-500 mb-4">{item.descripcion}</p>
+                    </div>
+                    <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
+                      {item.email ? (
+                        <a href={`mailto:${item.email}`} className="inline-flex items-center gap-1.5 text-[#008541] hover:underline font-medium">
+                          <Mail className="w-3.5 h-3.5" />
+                          <span>{item.email}</span>
+                        </a>
+                      ) : (
+                        <span className="text-slate-600 font-medium">Administración y Despacho</span>
+                      )}
+                      <span className="text-slate-400 font-mono text-[11px]">{item.interno || 'Sede Chivilcoy'}</span>
+                    </div>
                   </div>
-                </div>
-
-                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-[#008541] transition-all">
-                  <span className="text-[11px] font-bold text-[#008541] uppercase tracking-wider block mb-1">
-                    Director Administrativo
-                  </span>
-                  <h4 className="text-xl font-bold text-slate-900 font-serif mb-1">
-                    Maximiliano Lucci
-                  </h4>
-                  <p className="text-xs text-slate-500 mb-4">Administración General, Recursos y Despacho Operativo</p>
-                  <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
-                    <span className="text-slate-600 font-medium">Administración y Despacho</span>
-                    <span className="text-slate-400 font-mono text-[11px]">Sede Chivilcoy</span>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
@@ -719,53 +884,35 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 shadow-xs">
-                  <h5 className="font-bold text-slate-900 text-sm font-serif mb-2 pb-2 border-b border-slate-200">
-                    Servicios Académicos
-                  </h5>
-                  <ul className="space-y-1.5 text-xs text-slate-600">
-                    <li><strong className="text-slate-800">Jefe:</strong> C.P.N. María Luján Cialdo</li>
-                    <li><strong className="text-slate-800">Atención:</strong> Lic. Ariadna Canepa</li>
-                    <li><strong className="text-slate-800">Internos:</strong> 3301 / 3302</li>
-                    <li><a href="mailto:academicach@unlu.edu.ar" className="text-[#008541] hover:underline break-all">academicach@unlu.edu.ar</a></li>
-                  </ul>
-                </div>
-
-                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 shadow-xs">
-                  <h5 className="font-bold text-slate-900 text-sm font-serif mb-2 pb-2 border-b border-slate-200">
-                    Dpto. Administrativo
-                  </h5>
-                  <ul className="space-y-1.5 text-xs text-slate-600">
-                    <li><strong className="text-slate-800">SUEP:</strong> Alberto Sergio Raele</li>
-                    <li><strong className="text-slate-800">Atención:</strong> Lorena Pissaco</li>
-                    <li><strong className="text-slate-800">Interno:</strong> 1787</li>
-                    <li className="text-slate-500 text-[11px]">Mesa de Entradas y Personal</li>
-                  </ul>
-                </div>
-
-                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 shadow-xs">
-                  <h5 className="font-bold text-slate-900 text-sm font-serif mb-2 pb-2 border-b border-slate-200">
-                    Bienestar y Deportes
-                  </h5>
-                  <ul className="space-y-1.5 text-xs text-slate-600">
-                    <li><strong className="text-slate-800">Becas:</strong> Juan E. Lattanzio</li>
-                    <li><strong className="text-slate-800">Deportes:</strong> Carlos Canepa</li>
-                    <li><strong className="text-slate-800">Interno:</strong> 3309</li>
-                    <li className="text-slate-500 text-[11px]">Pasantías y Actividad Física</li>
-                  </ul>
-                </div>
-
-                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 shadow-xs">
-                  <h5 className="font-bold text-slate-900 text-sm font-serif mb-2 pb-2 border-b border-slate-200">
-                    Biblioteca CRCH
-                  </h5>
-                  <ul className="space-y-1.5 text-xs text-slate-600">
-                    <li><strong className="text-slate-800">Horario:</strong> Lun. a Vie. 14 a 21 hs.</li>
-                    <li><strong className="text-slate-800">Interno:</strong> 3303</li>
-                    <li className="text-slate-500 text-[11px]">Préstamos y Sala Silenciosa</li>
-                    <li><a href="https://www.biblioteca.unlu.edu.ar/" target="_blank" rel="noopener noreferrer" className="text-[#008541] hover:underline">biblioteca.unlu.edu.ar ↗</a></li>
-                  </ul>
-                </div>
+                {(autoridadesData.areas || []).map((area) => (
+                  <div key={area.id} className="bg-slate-50 rounded-2xl p-5 border border-slate-200 shadow-xs flex flex-col justify-between">
+                    <div>
+                      <h5 className="font-bold text-slate-900 text-sm font-serif mb-2 pb-2 border-b border-slate-200">
+                        {area.nombre}
+                      </h5>
+                      <ul className="space-y-1.5 text-xs text-slate-600">
+                        {area.jefe && <li><strong className="text-slate-800">Responsable / Jefe:</strong> {area.jefe}</li>}
+                        {area.atencion && <li><strong className="text-slate-800">Atención:</strong> {area.atencion}</li>}
+                        {area.internos && <li><strong className="text-slate-800">Internos:</strong> {area.internos}</li>}
+                        {area.detalle && <li className="text-slate-500 text-[11px]">{area.detalle}</li>}
+                        {area.email && (
+                          <li>
+                            <a href={`mailto:${area.email}`} className="text-[#008541] hover:underline break-all">
+                              {area.email}
+                            </a>
+                          </li>
+                        )}
+                        {area.enlace && (
+                          <li>
+                            <a href={area.enlace} target="_blank" rel="noopener noreferrer" className="text-[#008541] hover:underline">
+                              {area.enlace.replace('https://www.', '').replace('https://', '')} ↗
+                            </a>
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
