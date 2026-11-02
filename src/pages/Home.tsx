@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { 
-  MapPin, ChevronRight, ArrowRight, ExternalLink,
+  MapPin, ChevronRight, ChevronLeft, ArrowRight, ExternalLink,
   Calendar, Newspaper, BookOpen, GraduationCap,
   Users, ListChecks, Quote, Mail, Landmark,
   Building2, ShieldCheck, Award
@@ -12,6 +12,9 @@ import Footer from '../components/Footer';
 export default function Home() {
   const [testimonialTab, setTestimonialTab] = useState<'estudiantes' | 'graduados' | 'docentes' | 'nodocentes'>('estudiantes');
   const [selectedNoticiaModal, setSelectedNoticiaModal] = useState<any | null>(null);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [isCarouselPaused, setIsCarouselPaused] = useState(false);
+  const [itemsVisible, setItemsVisible] = useState(3);
 
   const [noticiasList, setNoticiasList] = useState([
     {
@@ -108,6 +111,14 @@ export default function Home() {
       categoria: 'estudiantes',
       frase: 'El ambiente universitario en la sede es muy cálido. Los grupos de estudio y la cercanía con los profesores hacen una gran diferencia.',
       foto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80'
+    },
+    {
+      id: 'testimonio-est-4',
+      nombre: 'Josué',
+      rol: 'Estudiante · Lic. en Sistemas de Información',
+      categoria: 'estudiantes',
+      frase: 'Gracias al Centro Regional Chivilcoy pude recibirme de Analista Programador Universitario. Agradecido de poder estudiar lo que me gusta en mi propia ciudad.',
+      foto: '/fotos/Josue.jpeg'
     },
 
     // Graduados
@@ -280,7 +291,20 @@ export default function Home() {
           if (parsed.faq && parsed.faq.length > 0) setFaqList(parsed.faq);
           if (parsed.contacto?.internos && parsed.contacto.internos.length > 0) setInternosList(parsed.contacto.internos);
           if (parsed.noticias && parsed.noticias.length > 0) setNoticiasList(parsed.noticias);
-          if (parsed.testimonios && parsed.testimonios.length > 0) setTestimoniosList(parsed.testimonios);
+          if (parsed.testimonios && parsed.testimonios.length > 0) {
+            const hasJosue = parsed.testimonios.some((t: any) => t.id === 'testimonio-est-4' || t.nombre?.toLowerCase().includes('josu'));
+            if (!hasJosue) {
+              parsed.testimonios.push({
+                id: 'testimonio-est-4',
+                nombre: 'Josué',
+                rol: 'Estudiante · Lic. en Sistemas de Información',
+                categoria: 'estudiantes',
+                frase: 'Gracias al Centro Regional Chivilcoy pude recibirme de Analista Programador Universitario. Agradecido de poder estudiar lo que me gusta en mi propia ciudad.',
+                foto: '/fotos/Josue.jpeg'
+              });
+            }
+            setTestimoniosList(parsed.testimonios);
+          }
           if (parsed.autoridades && typeof parsed.autoridades === 'object' && !Array.isArray(parsed.autoridades) && parsed.autoridades.rectorado) {
             setAutoridadesData(parsed.autoridades);
           }
@@ -294,6 +318,41 @@ export default function Home() {
     window.addEventListener('storage', loadDynamicContent);
     return () => window.removeEventListener('storage', loadDynamicContent);
   }, []);
+
+  // Responsive items visibles para el carrusel
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setItemsVisible(1);
+      } else if (window.innerWidth < 1024) {
+        setItemsVisible(2);
+      } else {
+        setItemsVisible(3);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const currentCategoryTestimonios = testimoniosList.filter((item) => item.categoria === testimonialTab);
+  const maxCarouselIndex = Math.max(0, currentCategoryTestimonios.length - itemsVisible);
+
+  // Reiniciar índice al cambiar de pestaña o redimensionar
+  useEffect(() => {
+    setCarouselIndex(0);
+  }, [testimonialTab, itemsVisible]);
+
+  // Carrusel automático cada 4.5 segundos (se pausa si el usuario posa el mouse)
+  useEffect(() => {
+    if (currentCategoryTestimonios.length <= 3 || isCarouselPaused || maxCarouselIndex <= 0) return;
+
+    const interval = setInterval(() => {
+      setCarouselIndex((prev) => (prev >= maxCarouselIndex ? 0 : prev + 1));
+    }, 4500);
+
+    return () => clearInterval(interval);
+  }, [currentCategoryTestimonios.length, isCarouselPaused, maxCarouselIndex]);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased flex flex-col justify-between">
@@ -732,10 +791,9 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in duration-200">
-              {testimoniosList
-                .filter((item) => item.categoria === testimonialTab)
-                .map((item, idx) => (
+            {currentCategoryTestimonios.length <= 3 ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in duration-200">
+                {currentCategoryTestimonios.map((item, idx) => (
                   <div key={item.id || idx} className="bg-slate-50/80 p-7 rounded-2xl border border-slate-200 flex flex-col justify-between hover:shadow-md transition-shadow">
                     <p className="text-slate-700 italic text-xs sm:text-sm leading-relaxed mb-4">
                       "{item.frase}"
@@ -770,7 +828,105 @@ export default function Home() {
                     </div>
                   </div>
                 ))}
-            </div>
+              </div>
+            ) : (
+              <div 
+                className="relative px-2 sm:px-6"
+                onMouseEnter={() => setIsCarouselPaused(true)}
+                onMouseLeave={() => setIsCarouselPaused(false)}
+              >
+                {/* Botón Anterior */}
+                <button
+                  type="button"
+                  onClick={() => setCarouselIndex((prev) => (prev <= 0 ? maxCarouselIndex : prev - 1))}
+                  aria-label="Testimonio anterior"
+                  className="absolute -left-2 sm:left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-700 hover:text-[#008541] hover:border-[#008541] hover:scale-105 shadow-md flex items-center justify-center transition-all cursor-pointer"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+
+                {/* Botón Siguiente */}
+                <button
+                  type="button"
+                  onClick={() => setCarouselIndex((prev) => (prev >= maxCarouselIndex ? 0 : prev + 1))}
+                  aria-label="Siguiente testimonio"
+                  className="absolute -right-2 sm:right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-700 hover:text-[#008541] hover:border-[#008541] hover:scale-105 shadow-md flex items-center justify-center transition-all cursor-pointer"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+
+                {/* Ventana de visualización / Carrusel */}
+                <div className="overflow-hidden py-2 px-1">
+                  <div 
+                    className="flex transition-transform duration-500 ease-out"
+                    style={{
+                      transform: `translateX(-${carouselIndex * (100 / itemsVisible)}%)`
+                    }}
+                  >
+                    {currentCategoryTestimonios.map((item, idx) => (
+                      <div 
+                        key={item.id || idx} 
+                        style={{ width: `${100 / itemsVisible}%` }}
+                        className="shrink-0 px-3 flex flex-col"
+                      >
+                        <div className="bg-slate-50/80 p-7 rounded-2xl border border-slate-200 flex flex-col justify-between hover:shadow-md transition-shadow h-full">
+                          <p className="text-slate-700 italic text-xs sm:text-sm leading-relaxed mb-4">
+                            "{item.frase}"
+                          </p>
+                          <div className="flex items-center gap-3 pt-4 border-t border-slate-200">
+                            {item.foto ? (
+                              <img 
+                                src={item.foto} 
+                                alt={item.nombre} 
+                                className={`h-11 w-11 rounded-full object-cover ring-2 shadow-xs shrink-0 ${
+                                  item.categoria === 'estudiantes' 
+                                    ? 'ring-[#008541]/40' 
+                                    : item.categoria === 'graduados'
+                                    ? 'ring-[#f9c540]/70'
+                                    : item.categoria === 'docentes'
+                                    ? 'ring-purple-600/40'
+                                    : 'ring-blue-600/40'
+                                }`}
+                                onError={(e) => {
+                                  (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80';
+                                }}
+                              />
+                            ) : (
+                              <div className="h-11 w-11 rounded-full bg-[#008541] text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+                                {item.nombre ? item.nombre.charAt(0).toUpperCase() : '?'}
+                              </div>
+                            )}
+                            <div>
+                              <h4 className="font-bold text-slate-900 text-sm font-serif">{item.nombre}</h4>
+                              <p className="text-xs text-slate-500">{item.rol}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Indicadores / Puntos */}
+                {maxCarouselIndex > 0 && (
+                  <div className="flex items-center justify-center gap-2 mt-6">
+                    {Array.from({ length: maxCarouselIndex + 1 }).map((_, dotIdx) => (
+                      <button
+                        key={dotIdx}
+                        type="button"
+                        onClick={() => setCarouselIndex(dotIdx)}
+                        aria-label={`Ir al testimonio ${dotIdx + 1}`}
+                        className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                          carouselIndex === dotIdx 
+                            ? 'w-7 bg-[#008541]' 
+                            : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </section>
 

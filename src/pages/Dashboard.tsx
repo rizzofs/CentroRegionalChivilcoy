@@ -167,6 +167,14 @@ const DEFAULT_DYNAMIC_DATA = {
       frase: 'El ambiente universitario en la sede es muy cálido. Los grupos de estudio y la cercanía con los profesores hacen una gran diferencia.',
       foto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80'
     },
+    {
+      id: 'testimonio-est-4',
+      nombre: 'Josué',
+      rol: 'Estudiante · Lic. en Sistemas de Información',
+      categoria: 'estudiantes' as const,
+      frase: 'Gracias al Centro Regional Chivilcoy pude recibirme de Analista Programador Universitario. Agradecido de poder estudiar lo que me gusta en mi propia ciudad.',
+      foto: '/fotos/Josue.jpeg'
+    },
 
     // Graduados
     {
@@ -527,7 +535,24 @@ export default function Dashboard() {
           ...DEFAULT_DYNAMIC_DATA,
           ...parsed,
           noticias: parsed.noticias && parsed.noticias.length > 0 ? parsed.noticias : DEFAULT_DYNAMIC_DATA.noticias,
-          testimonios: parsed.testimonios && parsed.testimonios.length > 0 ? parsed.testimonios : DEFAULT_DYNAMIC_DATA.testimonios,
+          testimonios: (() => {
+            if (!parsed.testimonios || parsed.testimonios.length === 0) return DEFAULT_DYNAMIC_DATA.testimonios;
+            const hasJosue = parsed.testimonios.some((t: any) => t.id === 'testimonio-est-4' || t.nombre?.toLowerCase().includes('josu'));
+            if (!hasJosue) {
+              return [
+                ...parsed.testimonios,
+                {
+                  id: 'testimonio-est-4',
+                  nombre: 'Josué',
+                  rol: 'Estudiante · Lic. en Sistemas de Información',
+                  categoria: 'estudiantes' as const,
+                  frase: 'Gracias al Centro Regional Chivilcoy pude recibirme de Analista Programador Universitario. Agradecido de poder estudiar lo que me gusta en mi propia ciudad.',
+                  foto: '/fotos/Josue.jpeg'
+                }
+              ];
+            }
+            return parsed.testimonios;
+          })(),
           autoridades: parsed.autoridades && parsed.autoridades.rectorado ? parsed.autoridades : DEFAULT_DYNAMIC_DATA.autoridades,
           carreras: parsed.carreras && parsed.carreras.length > 0 && typeof parsed.carreras[0]?.descripcion === 'string'
             ? parsed.carreras
