@@ -106,11 +106,11 @@ export default function Home() {
     },
     {
       id: 'testimonio-est-3',
-      nombre: 'Agustina',
-      rol: 'Estudiante · Lic. en Administración',
+      nombre: 'Federico',
+      rol: 'Estudiante · Lic. en Sistemas de Información',
       categoria: 'estudiantes',
-      frase: 'El ambiente universitario en la sede es muy cálido. Los grupos de estudio y la cercanía con los profesores hacen una gran diferencia.',
-      foto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80'
+      frase: 'Aprender no tiene fecha de vencimiento. Agradezco enormemente al Centro Regional Chivilcoy por abrirme las puertas y darme el espacio para cumplir esta meta personal.',
+      foto: '/fotos/Fede.jpg'
     },
     {
       id: 'testimonio-est-4',
@@ -292,6 +292,19 @@ export default function Home() {
           if (parsed.contacto?.internos && parsed.contacto.internos.length > 0) setInternosList(parsed.contacto.internos);
           if (parsed.noticias && parsed.noticias.length > 0) setNoticiasList(parsed.noticias);
           if (parsed.testimonios && parsed.testimonios.length > 0) {
+            parsed.testimonios = parsed.testimonios.map((t: any) => {
+              if (t.id === 'testimonio-est-3' || t.nombre === 'Agustina') {
+                return {
+                  id: 'testimonio-est-3',
+                  nombre: 'Federico',
+                  rol: 'Estudiante · Lic. en Sistemas de Información',
+                  categoria: 'estudiantes',
+                  frase: 'Aprender no tiene fecha de vencimiento. Agradezco enormemente al Centro Regional Chivilcoy por abrirme las puertas y darme el espacio para cumplir esta meta personal.',
+                  foto: '/fotos/Fede.jpg'
+                };
+              }
+              return t;
+            });
             const hasJosue = parsed.testimonios.some((t: any) => t.id === 'testimonio-est-4' || t.nombre?.toLowerCase().includes('josu'));
             if (!hasJosue) {
               parsed.testimonios.push({

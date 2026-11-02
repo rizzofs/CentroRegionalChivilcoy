@@ -161,11 +161,11 @@ const DEFAULT_DYNAMIC_DATA = {
     },
     {
       id: 'testimonio-est-3',
-      nombre: 'Agustina',
-      rol: 'Estudiante · Lic. en Administración',
+      nombre: 'Federico',
+      rol: 'Estudiante · Lic. en Sistemas de Información',
       categoria: 'estudiantes' as const,
-      frase: 'El ambiente universitario en la sede es muy cálido. Los grupos de estudio y la cercanía con los profesores hacen una gran diferencia.',
-      foto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80'
+      frase: 'Aprender no tiene fecha de vencimiento. Agradezco enormemente al Centro Regional Chivilcoy por abrirme las puertas y darme el espacio para cumplir esta meta personal.',
+      foto: '/fotos/Fede.jpg'
     },
     {
       id: 'testimonio-est-4',
@@ -537,10 +537,23 @@ export default function Dashboard() {
           noticias: parsed.noticias && parsed.noticias.length > 0 ? parsed.noticias : DEFAULT_DYNAMIC_DATA.noticias,
           testimonios: (() => {
             if (!parsed.testimonios || parsed.testimonios.length === 0) return DEFAULT_DYNAMIC_DATA.testimonios;
-            const hasJosue = parsed.testimonios.some((t: any) => t.id === 'testimonio-est-4' || t.nombre?.toLowerCase().includes('josu'));
+            let list = parsed.testimonios.map((t: any) => {
+              if (t.id === 'testimonio-est-3' || t.nombre === 'Agustina') {
+                return {
+                  id: 'testimonio-est-3',
+                  nombre: 'Federico',
+                  rol: 'Estudiante · Lic. en Sistemas de Información',
+                  categoria: 'estudiantes' as const,
+                  frase: 'Aprender no tiene fecha de vencimiento. Agradezco enormemente al Centro Regional Chivilcoy por abrirme las puertas y darme el espacio para cumplir esta meta personal.',
+                  foto: '/fotos/Fede.jpg'
+                };
+              }
+              return t;
+            });
+            const hasJosue = list.some((t: any) => t.id === 'testimonio-est-4' || t.nombre?.toLowerCase().includes('josu'));
             if (!hasJosue) {
-              return [
-                ...parsed.testimonios,
+              list = [
+                ...list,
                 {
                   id: 'testimonio-est-4',
                   nombre: 'Josué',
@@ -551,7 +564,7 @@ export default function Dashboard() {
                 }
               ];
             }
-            return parsed.testimonios;
+            return list;
           })(),
           autoridades: parsed.autoridades && parsed.autoridades.rectorado ? parsed.autoridades : DEFAULT_DYNAMIC_DATA.autoridades,
           carreras: parsed.carreras && parsed.carreras.length > 0 && typeof parsed.carreras[0]?.descripcion === 'string'
