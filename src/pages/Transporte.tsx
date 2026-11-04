@@ -182,7 +182,7 @@ export default function Transporte() {
                       </p>
                       <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5 mb-3">
                         <p>• <strong>Teléfono:</strong> +54 (02346) 42-9888</p>
-                        <p>• <strong>Empresas:</strong> Chevallier, Plusmar, Pullman Belgrano, TALP</p>
+                        <p>• <strong>Empresas:</strong> Chevallier, Plusmar, Pullman Belgrano</p>
                         <p>• <strong>Servicios:</strong> Boleterías y parada de taxis 24 hs</p>
                       </div>
                     </div>
@@ -253,14 +253,14 @@ export default function Transporte() {
                       </div>
                       <div>
                         <h3 className="text-base font-bold text-slate-900 font-serif">La Plata y AMBA</h3>
-                        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">TALP (El Costero)</span>
+                        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Plusmar</span>
                       </div>
                     </div>
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
                       Vinculación interuniversitaria con la capital provincial y el conurbano bonaerense.
                     </p>
                     <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-2">
-                      <p>• <strong>Empresa TALP:</strong> Línea 338 / Media Distancia conecta La Plata, Cañuelas, Navarro y Chivilcoy.</p>
+                      <p>• <strong>Empresa Plusmar:</strong> Servicio de media distancia que conecta La Plata, Cañuelas, Navarro y Chivilcoy.</p>
                       <p>• <strong>Conexión Sede Central Luján:</strong> Servicios y combinación fluida de transporte.</p>
                     </div>
                   </div>
