@@ -373,18 +373,24 @@ export default function Home() {
         <Navbar />
 
         {/* Hero Principal Verde UNLu */}
-        <section className="bg-gradient-to-br from-[#008541] via-[#006834] to-[#005a2b] text-white pt-12 sm:pt-20 pb-16 sm:pb-24 overflow-hidden relative border-b-4 border-[#f9c540]">
-          <div className="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
-            <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full border-[40px] border-white/20"></div>
-            <div className="absolute bottom-0 -left-10 w-64 h-64 rounded-full border-[30px] border-white/20"></div>
-            <img src="/escudo.svg" alt="" className="absolute right-10 bottom-0 w-96 h-96 invert opacity-15" />
+        <section className="bg-gradient-to-br from-[#008541] via-[#006834] to-[#005a2b] text-white pt-16 sm:pt-28 pb-20 sm:pb-32 overflow-hidden relative border-b-4 border-[#f9c540]">
+          {/* Fotografía institucional del Centro Regional como fondo semitransparente */}
+          <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+            <img
+              src="/fotos/Centro%201.jpeg"
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover object-[center_35%] opacity-45 saturate-[0.85]"
+            />
+            {/* Capa de tinte verde institucional UNLu para legibilidad del texto */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#00381b]/90 via-[#005a2b]/70 to-[#006834]/35"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#00381b]/60 via-transparent to-transparent"></div>
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               
-              {/* Contenido Principal Izquierda */}
-              <div className="lg:col-span-7">
+              {/* Contenido Principal */}
+              <div className="lg:col-span-8">
                 <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 mb-6 shadow-xs">
                   <img
                     src="/escudo.svg"
@@ -436,37 +442,15 @@ export default function Home() {
                     <span>Tel: (02346) 424160</span>
                   </a>
                 </div>
-              </div>
 
-              {/* Columna Derecha: Fotografía Institucional Entrada CRCH */}
-              <div className="lg:col-span-5 flex justify-center">
-                <div className="relative group w-full max-w-md">
-                  <div className="absolute -inset-1.5 bg-gradient-to-tr from-[#008541]/30 via-emerald-500/20 to-[#f9c540]/20 rounded-3xl blur-md group-hover:blur-lg transition-all opacity-70"></div>
-                  <div className="relative bg-emerald-950/40 backdrop-blur-md rounded-3xl p-2.5 sm:p-3 border border-emerald-400/20 shadow-2xl overflow-hidden">
-                    <div className="overflow-hidden rounded-2xl aspect-[4/3] bg-emerald-950 relative shadow-inner">
-                      <img 
-                        src="/fotos/Entrada.jpeg" 
-                        alt="Entrada al Centro Regional Chivilcoy - UNLu" 
-                        className="w-full h-full object-cover brightness-[0.88] contrast-[0.95] saturate-[0.85] group-hover:scale-105 group-hover:brightness-95 group-hover:saturate-100 transition-all duration-700 ease-out"
-                      />
-                      {/* Capa de tinte verde institucional UNLu */}
-                      <div className="absolute inset-0 bg-[#005a2b]/40 mix-blend-multiply pointer-events-none transition-opacity duration-700 group-hover:opacity-75"></div>
-                      
-                      {/* Gradiente de sombra inferior para legibilidad */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#00381b]/95 via-[#005a2b]/35 to-transparent pointer-events-none"></div>
-                      
-                      <div className="absolute bottom-3 left-3 right-3 text-white">
-                        <div className="inline-flex items-center gap-2 bg-emerald-950/85 backdrop-blur-md px-2.5 py-1 rounded-lg border border-emerald-500/40 text-[11px] font-bold text-[#f9c540] mb-1 shadow-xs">
-                          <img src="/escudo.svg" alt="" className="w-3.5 h-3.5 bg-white rounded-full p-0.5" />
-                          <span>Sede Centro Regional Chivilcoy</span>
-                        </div>
-                        <p className="text-xs text-emerald-100/90 font-medium flex items-center gap-1.5">
-                          <MapPin className="w-3.5 h-3.5 text-[#f9c540]" />
-                          <span>Calle 110 (Grito de Alcorta) Nº 110</span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                {/* Etiqueta de ubicación de la sede */}
+                <div className="mt-8 inline-flex items-center gap-2 bg-emerald-950/60 backdrop-blur-md px-3.5 py-2 rounded-xl border border-emerald-400/25 text-xs text-emerald-100/90 font-medium shadow-xs">
+                  <MapPin className="w-4 h-4 text-[#f9c540] shrink-0" />
+                  <span>
+                    <strong className="text-[#f9c540] font-bold">Sede Centro Regional Chivilcoy</strong>
+                    <span className="mx-1.5 text-emerald-300/60">·</span>
+                    Calle 110 (Grito de Alcorta) Nº 110
+                  </span>
                 </div>
               </div>
 
